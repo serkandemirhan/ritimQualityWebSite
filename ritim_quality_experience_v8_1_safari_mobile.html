@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Ritim Quality — Experience V7</title>
+<meta name="description" content="Ritim Quality — üretim kalite yönetimi, SPC, izlenebilirlik ve kontrol planları. Cloud veya On-Premise."/>
+<meta name="theme-color" content="#010616"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Ritim Quality — Quality has a rhythm"/>
+<meta property="og:description" content="Kontrol planından ölçüme, SPC’den izlenebilirliğe. Kaliteyi üretimin yaşayan bir parçası haline getirin."/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Ritim Quality — Quality has a rhythm"/>
+<meta name="twitter:description" content="Üretim kalite yönetimi, SPC ve izlenebilirlik. Cloud veya On-Premise."/>
+<!-- Add canonical URL and og:image after the final public domain and social preview image are confirmed. -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"Ritim Quality",
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"Web",
+  "description":"Üretim kalite yönetimi, SPC, izlenebilirlik ve kontrol planları için Cloud veya On-Premise çözüm.",
+  "offers":{
+    "@type":"Offer",
+    "availability":"https://schema.org/InStock"
+  },
+  "publisher":{
+    "@type":"Organization",
+    "name":"Ritim"
+  }
+}
+</script>
+
+<style>
+:root{
+  --bg:#010616; --panel:#081426; --panel2:#0d1a31; --text:#f8fbff; --muted:#9aa8bc;
+  --muted2:#7b8da5; --line:#1a2b44; --line2:#28405f; --accent:#ff3b4e; --accentSoft:#ff8d98;
+  --good:#76dfa7; --warn:#ffd166; --blue:#82a7ff; --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  margin:0;color:var(--text);overflow-x:hidden;
+  background:radial-gradient(circle at 50% -10%,rgba(60,84,180,.11),transparent 28%),var(--bg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  mix-blend-mode:soft-light;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+.wrap{width:min(var(--max),calc(100% - 56px));margin:auto}
+.progress{position:fixed;left:0;top:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),#ff9ea8);z-index:400;box-shadow:0 0 18px rgba(255,59,78,.75)}
+.cursorGlow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(76,102,255,.065),transparent 68%);filter:blur(3px)}
+
+.nav{position:fixed;z-index:300;left:0;right:0;top:0;height:76px;background:linear-gradient(180deg,rgba(1,6,22,.94),rgba(1,6,22,.48),transparent);backdrop-filter:blur(14px)}
+.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:11px;align-items:center;font-weight:800}
+.logo{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,#121d35,#091122);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo:before{content:"R";font-weight:900}
+.logo:after{content:"";position:absolute;left:4px;right:4px;bottom:8px;height:2px;background:var(--accent);transform:skewX(-25deg);box-shadow:0 0 14px rgba(255,59,78,.8)}
+.navlinks{display:flex;gap:25px;align-items:center;color:#c5cedc;font-size:14px}
+.navlinks a{transition:.2s}.navlinks a:hover{color:#fff}
+.navcta{padding:10px 15px;border-radius:999px;background:#f6f8fb;color:#06101e;font-weight:850}
+.mobileMenuBtn{display:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#081426;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
+.mobileMenuBtn span{width:18px;height:1.5px;background:#f4f7fb;transition:.25s}
+.mobileMenuBtn[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.mobileMenuBtn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.mobileMenuBtn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobileMenu{display:none;position:fixed;top:76px;left:18px;right:18px;z-index:295;border:1px solid #1d2d47;border-radius:18px;background:rgba(5,12,24,.97);backdrop-filter:blur(16px);padding:12px;box-shadow:0 22px 60px rgba(0,0,0,.35)}
+.mobileMenu.open{display:grid}
+.mobileMenu a{padding:14px 12px;border-radius:12px;color:#d4dcea}
+.mobileMenu a:hover,.mobileMenu a:focus-visible{background:#0b172a}
+a:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:4px;box-shadow:0 0 0 4px rgba(255,59,78,.28)}
+
+.kicker{font-size:11px;letter-spacing:.21em;text-transform:uppercase;color:#8797ad;margin-bottom:18px}
+h1,h2,h3,p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.14);font-weight:800;transition:.24s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28)}
+.btn.primary{background:var(--accent);border-color:var(--accent);box-shadow:0 14px 40px rgba(255,59,78,.17)}
+.btn.primary:after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:.55s}
+.btn.primary:hover:after{transform:translateX(120%)}
+
+.hero{height:118vh;min-height:860px;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:76px}
+.heroCore{position:relative;z-index:5;max-width:1120px}
+.hero h1{font-size:clamp(58px,8.4vw,126px);line-height:.89;letter-spacing:-.065em}
+.hero h1 .soft{color:#8190a5}
+.hero .lead{max-width:780px;color:#aeb9cb;font-size:clamp(18px,2vw,24px);line-height:1.55;margin-top:26px}
+.heroActions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.heroTag{position:absolute;right:4vw;top:22vh;z-index:6;border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:10px 14px;color:#9cabc0;font-size:13px}
+
+.signalSculpture{position:absolute;right:-2vw;top:17vh;width:min(49vw,720px);height:490px;z-index:2;pointer-events:none;opacity:.99;transform-style:preserve-3d}
+.signalSculpture svg{width:100%;height:100%;overflow:visible}
+.signalSculpture .wave{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.signalSculpture .w1{stroke:rgba(255,59,78,.85);stroke-width:2.7;filter:drop-shadow(0 0 10px rgba(255,59,78,.35))}
+.signalSculpture .w2{stroke:rgba(127,164,255,.28);stroke-width:1.2}
+.signalSculpture .w3{stroke:rgba(255,255,255,.12);stroke-width:1}
+.signalSculpture .scan{stroke:rgba(255,255,255,.08);stroke-dasharray:4 8}
+.signalSculpture .dot{fill:var(--accent);filter:drop-shadow(0 0 12px rgba(255,59,78,.8));animation:dotPulse 1.8s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{r:5;opacity:.9}50%{r:8;opacity:1}}
+.heroPulse{position:absolute;left:0;right:0;bottom:7vh;height:180px;z-index:3}
+.heroPulse svg{width:100%;height:100%}
+.heroPulse path{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}
+@keyframes heroDraw{to{stroke-dashoffset:0}}
+.scrollHint{position:absolute;left:50%;bottom:2.3vh;transform:translateX(-50%);font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:#8798af;z-index:8}
+.scrollHint:after{content:"";display:block;width:1px;height:35px;margin:9px auto 0;background:linear-gradient(var(--accent),transparent)}
+
+.story{height:900vh;position:relative}
+.sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:radial-gradient(circle at 68% 43%,rgba(51,77,155,.10),transparent 31%),linear-gradient(180deg,#010616,#02091a 70%,#010616)}
+.stage{width:min(var(--max),calc(100% - 56px));height:100%;margin:auto;position:relative}
+.ambientLine{position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);opacity:.35}
+
+.chapter{position:absolute;left:0;top:50%;width:38%;transform:translateY(-50%) translateY(30px);opacity:0;filter:blur(14px);z-index:20;transition:opacity .34s,filter .34s,transform .42s cubic-bezier(.2,.7,.2,1)}
+.chapter.active{opacity:1;filter:blur(0);transform:translateY(-50%) translateY(0)}
+.chapter .num{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#788aa1;margin-bottom:15px}
+.chapter h2{font-size:clamp(44px,5vw,73px);line-height:.97;letter-spacing:-.055em}
+.chapter p{font-size:18px;line-height:1.62;color:#9aa9bd;margin-top:22px;max-width:510px}
+.chapter p strong{color:#fff;font-weight:760}
+.chapter .micro{margin-top:18px;font-size:11px;color:#8797ad;letter-spacing:.08em}
+.mobileChapter{display:none}
+.desktopRail{display:flex}
+.mobileRail{display:none}
+
+.scene{position:absolute;right:0;top:50%;width:57%;height:69vh;min-height:570px;transform:translateY(-50%);perspective:1500px;z-index:10}
+.device{
+  position:absolute;inset:0;border-radius:32px;border:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg,rgba(13,25,47,.98),rgba(6,13,27,.98));
+  box-shadow:0 50px 130px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.03);
+  overflow:hidden;
+  isolation:isolate;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.deviceGlow{position:absolute;inset:auto 10% -15% 10%;height:30%;background:radial-gradient(ellipse,rgba(75,98,255,.17),transparent 70%);filter:blur(20px);pointer-events:none}
+.browserbar{height:56px;display:flex;align-items:center;padding:0 18px;border-bottom:1px solid #17243a;gap:7px;background:rgba(4,10,22,.52)}
+.browserDot{width:8px;height:8px;border-radius:50%;background:#3d495c}
+.browserTitle{margin-left:10px;font-size:12px;color:#74859d}
+.browserStatus{margin-left:auto;display:flex;gap:7px;align-items:center;font-size:10px;color:#75869e;letter-spacing:.05em}
+.statusDot{width:6px;height:6px;border-radius:50%;background:var(--good);box-shadow:0 0 10px rgba(118,223,167,.6)}
+.canvas{
+  position:absolute;left:0;right:0;top:56px;bottom:0;overflow:hidden;
+  border-radius:0 0 inherit inherit;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.deviceReflection,
+.pulseThread,
+.deviceGlow{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+.pulseThread{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:.82}
+.pulseThread svg{width:100%;height:100%}
+#threadPath{filter:drop-shadow(0 0 8px rgba(255,59,78,.32))}
+.threadCursor{fill:var(--accent);filter:drop-shadow(0 0 8px rgba(255,59,78,.8))}
+.pulseGlowBand{position:absolute;left:15%;right:15%;top:44%;height:120px;background:radial-gradient(ellipse,rgba(255,59,78,.06),transparent 70%);opacity:0;pointer-events:none;transition:opacity .2s}
+
+.paper{position:absolute;inset:30px;background:#f5f1e8;color:#17212e;border-radius:18px;padding:34px;box-shadow:0 25px 65px rgba(0,0,0,.32);transform:rotate(-2.3deg) scale(.93);transform-origin:center}
+.paper h3{margin:0 0 22px;font-size:17px;letter-spacing:.04em}
+.paperLine{padding:16px 0;border-bottom:1px solid #c7c0b5;font-family:ui-monospace,monospace}
+.paperVal{color:#5d6570;font-style:italic;font-weight:700}
+.paperStamp{position:absolute;right:30px;bottom:30px;border:2px solid #bd4852;color:#bd4852;padding:7px 10px;border-radius:4px;transform:rotate(-7deg);font-weight:900;opacity:.78}
+
+.app{position:absolute;inset:18px;opacity:0;transform:scale(.96)}
+.appHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.appHeader b{font-size:16px}.appHeader span{font-size:11px;color:#8190a6}
+.planGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.panel{background:#07101f;border:1px solid #17263e;border-radius:18px;padding:18px}
+.row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #152238}
+.row:last-child{border-bottom:0}.label{font-size:10px;color:#7789a3;letter-spacing:.05em}.value{font-size:14px;font-weight:760;margin-top:4px}
+.pill{font-size:10px;padding:7px 9px;border-radius:999px;background:#12243d;color:#d0daea}
+.planSide{display:flex;flex-direction:column;gap:14px}
+.score{display:flex;align-items:end;justify-content:space-between}
+.score b{font-size:36px;letter-spacing:-.05em}.score span{font-size:11px;color:#7c8da6}
+.miniChart{height:150px;margin-top:12px;border-left:1px solid #24334b;border-bottom:1px solid #24334b}
+.miniChart svg{width:100%;height:100%}
+
+.measureStage{position:absolute;inset:0;opacity:0;background:#020713}
+.measureLayer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;transform:scale(.94)}
+.measureNo{font-size:clamp(100px,12vw,188px);font-weight:900;letter-spacing:-.098em;line-height:.78;color:var(--accent);text-shadow:0 0 42px rgba(255,59,78,.08);transform-origin:center}
+.specBand{margin-top:20px;position:relative;width:70%;height:48px;border-radius:12px;background:#07101f;border:1px solid #1a2942;overflow:hidden;opacity:0;transform:translateY(8px)}
+.specBand:before{content:"";position:absolute;left:18%;right:18%;top:50%;height:3px;background:linear-gradient(90deg,var(--warn),#9bd2a8,var(--warn));transform:translateY(-50%);opacity:.9}
+.specBand .limit{position:absolute;top:7px;font-size:9px;color:#74869d}
+.specBand .l1{left:13%}.specBand .l2{right:12%}
+.specPointer{position:absolute;left:78%;top:8px;bottom:8px;width:2px;background:var(--accent);box-shadow:0 0 12px rgba(255,59,78,.7)}
+.measureSpec{margin-top:14px;color:#b8c4d5;font-size:14px;opacity:0}
+.contextGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:86%;margin-top:24px}
+.context{background:#081326;border:1px solid #1a2942;border-radius:14px;padding:13px;transition:.2s;opacity:0;transform:translateY(10px)}
+.context:hover{transform:translateY(-3px)!important;border-color:#2c4267}
+.context span{display:block;font-size:9px;color:#6e819d;margin-bottom:5px;letter-spacing:.06em}.context b{font-size:13px}
+
+.morphBridge{position:absolute;inset:0;pointer-events:none;z-index:60;opacity:0}
+.morphNumber{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:clamp(100px,12vw,188px);font-weight:900;letter-spacing:-.098em;line-height:.78;color:var(--accent);transform-origin:center}
+.morphDot{position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%) scale(.2);box-shadow:0 0 18px rgba(255,59,78,.75);opacity:0}
+.morphParticles{position:absolute;inset:0}
+.morphParticle{position:absolute;left:50%;top:50%;font-family:ui-monospace,monospace;font-size:11px;color:#9fb0c5;opacity:0;transform:translate(-50%,-50%) scale(.8)}
+
+.analysisLayer{position:absolute;inset:24px;opacity:0;transform:translateY(18px) scale(.98)}
+.analysisTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.analysisTop b{font-size:18px}.analysisTop span{font-size:11px;color:#75869f}
+.numberStream{height:48px;overflow:hidden;border:1px solid #172842;background:#07101f;border-radius:12px;display:flex;align-items:center;padding:0 12px;margin-bottom:12px;color:#72849e;font-family:ui-monospace,monospace;font-size:11px;white-space:nowrap}
+.numberStream .streamInner{display:inline-block;transform:translateX(0)}
+.bigChart{height:240px;border-left:1px solid #273752;border-bottom:1px solid #273752;position:relative;overflow:visible}
+.bigChart svg{width:100%;height:100%;overflow:visible}
+#processLine{stroke-dasharray:900;stroke-dashoffset:900}
+.chartDot{filter:drop-shadow(0 0 5px rgba(255,255,255,.55))}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.kpi{padding:14px;border-radius:14px;background:#07101f;border:1px solid #192840;opacity:0;transform:translateY(8px)}
+.kpi span{font-size:9px;color:#74869f;display:block;letter-spacing:.05em}.kpi b{font-size:27px;display:block;margin-top:4px}
+
+.traceLayer{position:absolute;inset:0;opacity:0}
+.traceCanvas{position:absolute;inset:22px}
+.traceCard{position:absolute;background:#081326;border:1px solid #1e3150;border-radius:16px;padding:14px 16px;box-shadow:0 12px 32px rgba(0,0,0,.22);min-width:130px;transition:.22s}
+.traceCard:hover{transform:translateY(-3px);border-color:#34527d}
+.traceCard span{display:block;font-size:8px;color:#72849d;letter-spacing:.08em;margin-bottom:5px}.traceCard b{font-size:13px}
+.traceCore{left:50%;top:50%;transform:translate(-50%,-50%);border-color:rgba(255,59,78,.75);min-width:165px}
+.tc1{left:39%;top:7%}.tc2{right:2%;top:39%}.tc3{right:13%;bottom:3%}.tc4{left:14%;bottom:5%}.tc5{left:0;top:39%}.tc6{left:12%;top:12%}
+.traceLine{position:absolute;left:50%;top:50%;width:1px;height:190px;background:linear-gradient(var(--accent),rgba(255,59,78,.03));transform-origin:top center;opacity:.38}
+.tl1{transform:rotate(0deg)}.tl2{transform:rotate(58deg)}.tl3{transform:rotate(118deg)}.tl4{transform:rotate(180deg)}.tl5{transform:rotate(238deg)}.tl6{transform:rotate(302deg)}
+.traceHalo{position:absolute;left:50%;top:50%;width:250px;height:250px;border:1px solid rgba(255,59,78,.12);border-radius:50%;transform:translate(-50%,-50%);animation:halo 3s ease-in-out infinite}
+@keyframes halo{0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.35}50%{transform:translate(-50%,-50%) scale(1.08);opacity:.8}}
+
+.deployLayer{position:absolute;inset:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px;opacity:0;transform:scale(.98)}
+.deployCard{border:1px solid #1b2b44;background:linear-gradient(180deg,#091426,#07101f);border-radius:22px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.deployCard:before{content:"";position:absolute;inset:-30% -20% auto auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(89,112,255,.1),transparent 70%)}
+.deployIcon{font-size:34px}.deployCard h3{font-size:31px;margin:8px 0 10px;letter-spacing:-.03em}.deployCard p{font-size:14px;color:#94a3b8;line-height:1.52}
+.deployFlow{font-size:10px;color:#7587a1;border-top:1px solid #17243b;padding-top:16px;margin-top:24px}
+.deployList{display:grid;gap:8px;margin-top:18px}
+.deployList div{font-size:11px;color:#adb8c8;display:flex;gap:8px;align-items:center}
+.deployList div:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+
+.stepRail{position:absolute;right:-6px;top:50%;transform:translateY(-50%);flex-direction:column;gap:9px;z-index:50}
+.stepRail i{width:5px;height:5px;border-radius:50%;background:#344159;transition:.28s}
+.stepRail i.on{background:var(--accent);box-shadow:0 0 14px rgba(255,59,78,.8);transform:scale(1.8)}
+
+.quiet{min-height:105vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.quiet .bigQuote{font-size:clamp(58px,8vw,116px);line-height:.91;letter-spacing:-.065em;max-width:1140px}
+.quiet .bigQuote .red{color:var(--accent)}
+.quiet .smallText{margin-top:28px;color:#96a4b8;font-size:18px;max-width:680px;line-height:1.6}
+.quietOrb{position:absolute;width:650px;height:650px;border-radius:50%;right:-120px;top:18%;background:radial-gradient(circle,rgba(255,59,78,.08),rgba(31,53,126,.05) 38%,transparent 68%);filter:blur(5px)}
+
+.worlds,.useCase,.enterprise{padding:120px 0}
+.sectionHead{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:52px}
+.sectionHead h2{font-size:clamp(44px,5vw,76px);line-height:.98;letter-spacing:-.055em;max-width:760px}
+.sectionHead p{max-width:420px;color:#97a5b9;line-height:1.6;font-size:16px}
+.worldGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.world{min-height:520px;border:1px solid #1a2a43;background:linear-gradient(180deg,#071121,#050c18);border-radius:26px;padding:26px;position:relative;overflow:hidden;transition:.28s}
+.world:hover{transform:translateY(-6px);border-color:#2a4167}
+.world:after{content:"";position:absolute;right:-70px;bottom:-70px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(78,102,255,.10),transparent 70%)}
+.worldNo{font-size:10px;color:#708199;letter-spacing:.16em}
+.world h3{font-size:38px;letter-spacing:-.04em;margin-top:28px}
+.world p{font-size:14px;color:#94a3b8;line-height:1.6;margin-top:14px;max-width:320px}
+.worldItems{display:grid;gap:10px;margin-top:30px}
+.worldItem{border:1px solid #17273e;background:#081326;border-radius:14px;padding:14px 15px;display:flex;align-items:center;justify-content:space-between}
+.worldItem span{font-size:12px;color:#c9d3e2}.worldItem b{font-size:10px;color:#71839d;font-weight:600}
+.worldPulse{position:absolute;left:24px;right:24px;bottom:26px;height:90px}
+.worldPulse svg{width:100%;height:100%}
+
+.caseTrack{border:1px solid #1a2a43;border-radius:26px;background:linear-gradient(180deg,#07101e,#050b15);padding:28px;overflow:hidden}
+.caseTitle{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:26px}
+.caseTitle h3{font-size:28px}.caseTitle span{font-size:11px;color:#77899f}
+.caseSteps{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;position:relative}
+.caseSteps:before{content:"";position:absolute;left:5%;right:5%;top:34px;height:1px;background:linear-gradient(90deg,#253a5b,var(--accent),#253a5b);opacity:.6}
+.caseStep{position:relative;z-index:2}
+.caseStep .bubble{width:68px;height:68px;border-radius:50%;background:#091426;border:1px solid #263a5b;display:grid;place-items:center;margin-bottom:16px;font-weight:850}
+.caseStep.alert .bubble{border-color:var(--accent);color:var(--accent);box-shadow:0 0 30px rgba(255,59,78,.08)}
+.caseStep span{font-size:9px;color:#74869e;letter-spacing:.07em;display:block;margin-bottom:5px}.caseStep b{font-size:12px}
+
+.enterpriseGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.trustPanel{border:1px solid #1a2a43;background:linear-gradient(180deg,#07101f,#050b16);border-radius:24px;padding:28px}
+.trustPanel h3{font-size:28px;letter-spacing:-.03em}
+.trustPanel p{margin-top:12px;color:#94a2b7;line-height:1.6}
+.trustList{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+.trustItem{border:1px solid #17263d;border-radius:14px;padding:14px}
+.trustItem span{font-size:9px;color:#73859e;display:block;margin-bottom:5px}.trustItem b{font-size:13px}
+.architecture{height:100%;min-height:360px;display:flex;align-items:center;justify-content:center}
+.archSvg{width:100%;height:100%;min-height:360px}
+.archSvg text{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#d8e0ec;font-size:13px}
+.archSvg .nodeRect{fill:#091426;stroke:#28405f;stroke-width:1.2}
+.archSvg .coreRect{fill:#0b1627;stroke:#ff3b4e;stroke-width:1.4}
+.archSvg .link{stroke:#28405f;stroke-width:1.1;opacity:.85}
+.archSvg .pulseLink{stroke:#ff3b4e;stroke-width:1.4;opacity:.55;stroke-dasharray:5 7}
+
+.end{min-height:112vh;display:flex;align-items:center;text-align:center;position:relative;overflow:hidden}
+.end .wrap{max-width:1020px}
+.end h2{font-size:clamp(56px,7.6vw,106px);line-height:.92;letter-spacing:-.06em}
+.end p{max-width:700px;margin:24px auto 0;color:#99a7ba;font-size:20px;line-height:1.55}
+.endActions{display:flex;justify-content:center;gap:12px;margin-top:32px;flex-wrap:wrap}
+.finalPulse{position:absolute;left:0;right:0;bottom:5vh;height:170px}
+.finalPulse svg{width:100%;height:100%}
+
+
+.skipLink{
+  position:fixed;left:16px;top:10px;z-index:1000;
+  background:#fff;color:#06101e;padding:10px 14px;border-radius:10px;
+  transform:translateY(-140%);transition:transform .2s;font-weight:800
+}
+.skipLink:focus{transform:translateY(0)}
+
+.perfSection{
+  content-visibility:auto;
+  contain-intrinsic-size:900px;
+}
+
+.motionActive{
+  will-change:transform,opacity;
+}
+
+@media(pointer:coarse){
+  .cursorGlow{display:none}
+}
+
+
+/* ---------- V8 visual layer ---------- */
+:root{
+  --mx:0px;
+  --my:0px;
+}
+
+/* Short cinematic signal preloader */
+.preloader{
+  position:fixed;inset:0;z-index:2000;background:#01030a;
+  display:grid;place-items:center;transition:opacity .36s ease,visibility .36s ease;
+}
+.preloader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.preloaderInner{width:min(520px,72vw);text-align:center}
+.preloaderSignal{width:100%;height:110px}
+.preloaderSignal path{
+  fill:none;stroke:#ff3b4e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:900;stroke-dashoffset:900;
+  animation:preloadDraw .7s cubic-bezier(.2,.75,.2,1) forwards;
+  filter:drop-shadow(0 0 12px rgba(255,59,78,.5));
+}
+.preloaderWord{
+  margin-top:14px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#7f90a8;
+  opacity:0;animation:preloadWord .3s ease .38s forwards;
+}
+@keyframes preloadDraw{to{stroke-dashoffset:0}}
+@keyframes preloadWord{to{opacity:1}}
+
+/* Kinetic text reveal */
+.revealMask{display:block;overflow:hidden;padding-bottom:.04em}
+.revealLine{
+  display:block;transform:translateY(112%);opacity:.01;
+  transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .4s ease;
+}
+.is-revealed .revealLine{transform:translateY(0);opacity:1}
+.is-revealed .revealMask:nth-child(2) .revealLine{transition-delay:.12s}
+.is-revealed .revealMask:nth-child(3) .revealLine{transition-delay:.24s}
+
+/* Human message vs machine-data typography */
+.dataType,
+.measureNo,.morphNumber,.numberStream,.kpi b,.traceCard b,.caseStep .bubble,
+.browserTitle,.browserStatus,.paperLine,.value,.pill,.deployFlow,.worldItem b,.trustItem span{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Magnetic elements: JS only updates CSS vars; rendering remains compositor-friendly */
+.magnetic{
+  --mag-x:0px;--mag-y:0px;
+  transform:translate3d(var(--mag-x),var(--mag-y),0);
+  transition:transform .18s cubic-bezier(.2,.75,.2,1),color .2s,border-color .2s,background-color .2s;
+}
+.btn.magnetic:hover{
+  transform:translate3d(var(--mag-x),calc(var(--mag-y) - 2px),0);
+}
+.navlinks a.magnetic:hover{
+  transform:translate3d(var(--mag-x),var(--mag-y),0);
+}
+
+/* Contextual cursor appears only over experiential areas */
+.contextCursor{
+  position:fixed;left:0;top:0;width:76px;height:76px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(4,10,22,.34);backdrop-filter:blur(9px);
+  display:grid;place-items:center;z-index:1800;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.7);
+  opacity:0;transition:opacity .18s ease,transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.contextCursor.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.contextCursor.active{
+  width:62px;height:62px;border-color:rgba(255,59,78,.68);background:rgba(255,59,78,.10)
+}
+.contextCursor span{
+  font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#dce4ef;
+}
+@media(pointer:fine){
+  .hero,.story{cursor:none}
+}
+
+/* Subtle glass reflection - no WebGL cost */
+.deviceReflection{
+  position:absolute;inset:-35% -55%;
+  background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.035) 45%,rgba(255,255,255,.11) 49%,rgba(255,255,255,.025) 53%,transparent 63%);
+  transform:translate3d(-22%,0,0) rotate(2deg);
+  pointer-events:none;z-index:80;mix-blend-mode:screen;opacity:.62;
+}
+.story.is-active .deviceReflection{will-change:transform}
+
+/* Small hover response for product worlds without becoming gimmicky */
+.world{
+  --world-x:0px;--world-y:0px;
+}
+.world:hover{
+  transform:translate3d(var(--world-x),calc(var(--world-y) - 6px),0);
+}
+
+/* Disable expensive decorative interactions on touch and reduced motion */
+@media(pointer:coarse){
+  .contextCursor{display:none}
+  .magnetic{transform:none!important}
+}
+
+
+.device{
+  contain:paint;
+}
+
+/* Safari / iOS clipping guard */
+@supports (-webkit-touch-callout: none){
+  .device{
+    -webkit-mask-image:-webkit-radial-gradient(white,black);
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-size:100% 100%;
+  }
+  .canvas{
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+  }
+}
+
+/* Mobile compositing / motion budget */
+@media(max-width:820px){
+  .device{
+    border-radius:24px;
+    box-shadow:0 28px 72px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.025);
+  }
+  .deviceReflection{
+    opacity:.38;
+  }
+  .deviceGlow{
+    filter:blur(14px);
+    opacity:.72;
+  }
+  .pulseThread{
+    opacity:.72;
+  }
+  .cursorGlow{
+    display:none;
+  }
+}
+
+/* Touch devices: keep the cinematic story, drop pointer-only polish */
+@media(pointer:coarse){
+  .contextCursor{display:none!important}
+  .deviceReflection{opacity:.28}
+  .signalSculpture{pointer-events:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .preloader{display:none!important}
+  .revealLine{transform:none!important;opacity:1!important;transition:none!important}
+  .contextCursor{display:none!important}
+  .magnetic{transform:none!important}
+  .deviceReflection{display:none!important}
+}
+
+@media(max-width:1000px){
+  .signalSculpture{opacity:.42;right:-18vw}
+  .worldGrid{grid-template-columns:1fr}
+  .caseSteps{grid-template-columns:repeat(3,1fr);row-gap:28px}
+  .caseSteps:before{display:none}
+  .enterpriseGrid{grid-template-columns:1fr}
+}
+@media(max-width:820px){
+  .navlinks{display:none}
+  .mobileMenuBtn{display:flex}
+  .hero{min-height:800px;height:105vh}
+  .heroTag{display:none}
+  .signalSculpture{width:95vw;right:-34vw;top:29vh;opacity:.25}
+  .hero h1{font-size:58px}
+  .story{height:360vh}
+  .desktopChapter,.desktopRail{display:none!important}
+  .mobileChapter{display:block;width:100%;top:16%;transform:translateY(0) translateY(20px);padding-right:24px}
+  .mobileChapter.active{transform:translateY(0)}
+  .mobileChapter h2{font-size:42px}
+  .mobileChapter p{font-size:16px}
+  .mobileRail{display:flex}
+  .scene{width:100%;top:60.5%;height:44vh;min-height:390px}
+  .planGrid{grid-template-columns:1fr}.planSide{display:none}
+  .contextGrid{width:92%;grid-template-columns:repeat(2,1fr)}
+  .measureNo,.morphNumber{font-size:94px}
+  .specBand{width:84%}
+  .deployLayer{grid-template-columns:1fr}.deployCard:last-child{display:none}
+  .worlds,.useCase,.enterprise{padding:90px 0}
+  .sectionHead{display:block}.sectionHead p{margin-top:18px}
+  .caseSteps{grid-template-columns:repeat(2,1fr)}
+  .trustList{grid-template-columns:1fr}
+  .architecture{min-height:320px}
+  .archSvg{min-height:300px}
+}
+
+
+.device{
+  contain:paint;
+}
+
+/* Safari / iOS clipping guard */
+@supports (-webkit-touch-callout: none){
+  .device{
+    -webkit-mask-image:-webkit-radial-gradient(white,black);
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-size:100% 100%;
+  }
+  .canvas{
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+  }
+}
+
+/* Mobile compositing / motion budget */
+@media(max-width:820px){
+  .device{
+    border-radius:24px;
+    box-shadow:0 28px 72px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.025);
+  }
+  .deviceReflection{
+    opacity:.38;
+  }
+  .deviceGlow{
+    filter:blur(14px);
+    opacity:.72;
+  }
+  .pulseThread{
+    opacity:.72;
+  }
+  .cursorGlow{
+    display:none;
+  }
+}
+
+/* Touch devices: keep the cinematic story, drop pointer-only polish */
+@media(pointer:coarse){
+  .contextCursor{display:none!important}
+  .deviceReflection{opacity:.28}
+  .signalSculpture{pointer-events:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloaderInner">
+    <svg class="preloaderSignal" viewBox="0 0 520 110" preserveAspectRatio="none">
+      <path d="M0 60 L120 60 L145 60 L165 25 L188 88 L214 46 L240 60 L345 60 L368 60 L390 31 L414 84 L442 60 L520 60"/>
+    </svg>
+    <div class="preloaderWord">Ritim Quality</div>
+  </div>
+</div>
+<div class="contextCursor" id="contextCursor" aria-hidden="true"><span id="contextCursorLabel">Scroll</span></div>
+<a class="skipLink" href="#mainContent">İçeriğe geç</a>
+<div class="progress" id="progress"></div>
+<div class="cursorGlow" id="cursorGlow"></div>
+
+<header class="nav">
+  <div class="wrap navin">
+    <div class="brand"><div class="logo"></div>Ritim Quality</div>
+    <nav class="navlinks" aria-label="Ana navigasyon">
+      <a class="magnetic" href="#story">Ürün</a>
+      <a class="magnetic" href="#worlds">Özellikler</a>
+      <a class="magnetic" href="#enterprise">Enterprise</a>
+      <a class="navcta magnetic" href="#contact">Demo Talep Et</a>
+    </nav>
+    <button class="mobileMenuBtn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobileMenu" id="mobileMenu" aria-label="Mobil navigasyon" aria-hidden="true">
+  <a href="#story">Ürün</a>
+  <a href="#worlds">Özellikler</a>
+  <a href="#enterprise">Enterprise</a>
+  <a href="#contact">Demo Talep Et</a>
+</nav>
+
+<main id="mainContent">
+<section class="hero">
+  <div class="signalSculpture" id="signalSculpture">
+    <svg viewBox="0 0 760 480">
+      <line class="scan" x1="50" y1="110" x2="700" y2="110"/>
+      <line class="scan" x1="50" y1="240" x2="700" y2="240"/>
+      <line class="scan" x1="50" y1="370" x2="700" y2="370"/>
+      <path class="wave w3" d="M50 245 C120 110,160 370,230 235 S340 105,420 245 S545 390,700 235"/>
+      <path class="wave w2" d="M50 240 C125 155,175 325,240 242 S340 145,420 240 S555 320,700 238"/>
+      <path class="wave w1" d="M50 240 L140 240 L165 240 L190 190 L218 300 L248 218 L280 240 L430 240 L456 240 L480 198 L507 292 L540 240 L700 240"/>
+      <circle class="dot" cx="507" cy="292" r="5"/>
+    </svg>
+  </div>
+
+  <div class="wrap heroCore">
+    <div class="kicker">RITIM QUALITY MANAGEMENT PLATFORM</div>
+    <h1 class="revealText" data-reveal>
+      <span class="revealMask"><span class="revealLine">Quality has a rhythm.</span></span>
+      <span class="revealMask"><span class="revealLine soft">Make it visible.</span></span>
+    </h1>
+    <p class="lead">Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.</p>
+    <div class="heroActions">
+      <a class="btn primary magnetic" href="#story">Deneyimi Başlat</a>
+      <a class="btn magnetic" href="#worlds">Ürünü İncele</a>
+    </div>
+  </div>
+
+  <div class="heroTag">Cloud / On‑Premise</div>
+  <div class="heroPulse">
+    <svg viewBox="0 0 1600 180" preserveAspectRatio="none">
+      <path d="M0 100 L240 100 L290 100 L330 38 L375 164 L420 70 L465 100 L760 100 L805 100 L850 54 L895 150 L940 100 L1195 100 L1245 100 L1290 32 L1340 168 L1390 100 L1600 100"
+      fill="none" stroke="#ff3b4e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="scrollHint">scroll to enter</div>
+</section>
+
+<section class="story" id="story">
+  <div class="sticky">
+    <div class="stage">
+      <div class="ambientLine"></div>
+
+      <article class="chapter desktopChapter">
+        <div class="num">01 — DIGITIZE</div>
+        <h2>Kağıdı değil,<br>veriyi yönetin.</h2>
+        <p>Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.</p>
+        <div class="micro">PAPER → DIGITAL</div>
+      </article>
+      <article class="chapter desktopChapter">
+        <div class="num">02 — PLAN</div>
+        <h2>Doğru kontrol.<br>Doğru anda.</h2>
+        <p>Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.</p>
+        <div class="micro">PLAN → EXECUTE</div>
+      </article>
+      <article class="chapter desktopChapter">
+        <div class="num">03 — MEASURE</div>
+        <h2>Bir ölçüm<br>sadece sayı değildir.</h2>
+        <p><strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.</p>
+        <div class="micro">DATA → CONTEXT</div>
+      </article>
+      <article class="chapter desktopChapter">
+        <div class="num">04 — ANALYZE</div>
+        <h2>25.14, bir veri<br>noktasına dönüşür.</h2>
+        <p>Sayı küçülür, ilk chart noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.</p>
+        <div class="micro">CONTEXT → KNOWLEDGE</div>
+      </article>
+      <article class="chapter desktopChapter">
+        <div class="num">05 — TRACE</div>
+        <h2>Her ürünün<br>dijital kalite izi.</h2>
+        <p>Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.</p>
+        <div class="micro">KNOWLEDGE → TRACE</div>
+      </article>
+      <article class="chapter desktopChapter">
+        <div class="num">06 — DEPLOY</div>
+        <h2>Aynı Ritim Quality.<br>Sizin altyapınız.</h2>
+        <p><strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.</p>
+        <div class="micro">ONE PRODUCT → TWO DEPLOYMENT MODELS</div>
+      </article>
+
+      <article class="chapter mobileChapter">
+        <div class="num">01 — MEASURE</div>
+        <h2>Ölçümü görün.<br>Hemen yakalayın.</h2>
+        <p>Mobil deneyim burada doğrudan kalite sinyalinin merkezinden başlar.</p>
+        <div class="micro">MEASURE</div>
+      </article>
+      <article class="chapter mobileChapter">
+        <div class="num">02 — DETECT</div>
+        <h2>25.14, toleransın<br>dışında kaldı.</h2>
+        <p>Sayıdan hemen sonra limitler ve bağlam görünür hale gelir.</p>
+        <div class="micro">DETECT</div>
+      </article>
+      <article class="chapter mobileChapter">
+        <div class="num">03 — UNDERSTAND</div>
+        <h2>Bir sayıdan<br>proses davranışına.</h2>
+        <p>25.14 noktaya dönüşür; diğer örneklerle birlikte grafik oluşur.</p>
+        <div class="micro">UNDERSTAND</div>
+      </article>
+      <article class="chapter mobileChapter">
+        <div class="num">04 — TRACE</div>
+        <h2>Kararın arkasındaki<br>bağlamı görün.</h2>
+        <p>Lot, ürün, makine ve operatör tek kalite ağında birleşir.</p>
+        <div class="micro">TRACE</div>
+      </article>
+
+      <div class="scene" id="scene">
+        <div class="device" id="device">
+          <div class="deviceGlow"></div>
+          <div class="deviceReflection" id="deviceReflection"></div>
+          <div class="browserbar">
+            <i class="browserDot"></i><i class="browserDot"></i><i class="browserDot"></i>
+            <span class="browserTitle">quality.ritim.app / inspection</span>
+            <span class="browserStatus"><i class="statusDot"></i> LIVE</span>
+          </div>
+
+          <div class="canvas">
+            <div class="pulseGlowBand" id="pulseGlowBand"></div>
+            <div class="pulseThread">
+              <svg viewBox="0 0 700 560" preserveAspectRatio="none">
+                <path id="threadPath" d="M0 300 L120 300 L150 300 L176 255 L205 350 L235 285 L270 300 L430 300 L458 300 L485 260 L515 342 L548 300 L700 300"
+                  fill="none" stroke="#ff3b4e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="threadCursor" class="threadCursor" cx="176" cy="255" r="4"/>
+              </svg>
+            </div>
+
+            <div class="paper" id="paper">
+              <h3>QUALITY INSPECTION FORM</h3>
+              <div class="paperLine">PART: AX‑450 Valve Body</div>
+              <div class="paperLine">Dimension A: <span class="paperVal">25.14</span></div>
+              <div class="paperLine">Dimension B: ____________</div>
+              <div class="paperLine">Surface: OK / NOK</div>
+              <div class="paperLine">Operator: OP‑0142</div>
+              <div class="paperLine">Date / Time: _____________</div>
+              <div class="paperStamp">MANUAL</div>
+            </div>
+
+            <div class="app" id="app">
+              <div class="appHeader">
+                <b>Control Plan · AX‑450</b>
+                <span>Revision 07 · Active</span>
+              </div>
+              <div class="planGrid">
+                <div class="panel">
+                  <div class="row"><div><div class="label">CHARACTERISTIC</div><div class="value">Outer Diameter</div></div><span class="pill">Numeric</span></div>
+                  <div class="row"><div><div class="label">TARGET</div><div class="value">25.00 mm</div></div><span class="pill">± 0.10</span></div>
+                  <div class="row"><div><div class="label">VISUAL CHECK</div><div class="value">Surface Condition</div></div><span class="pill">OK / NOK</span></div>
+                  <div class="row"><div><div class="label">SAMPLING</div><div class="value">5 pcs / Batch</div></div><span class="pill">Active</span></div>
+                </div>
+                <div class="planSide">
+                  <div class="panel"><div class="score"><div><div class="label">PLAN COMPLETION</div><b>96%</b></div><span>live</span></div></div>
+                  <div class="panel">
+                    <div class="label">LIVE SAMPLE STABILITY</div>
+                    <div class="miniChart">
+                      <svg viewBox="0 0 300 150" preserveAspectRatio="none">
+                        <polyline points="0,92 35,80 70,86 105,68 140,73 175,57 210,66 245,54 300,60" fill="none" stroke="#e4ecf8" stroke-width="3"/>
+                        <line x1="0" y1="36" x2="300" y2="36" stroke="#ffd166" stroke-width="1" stroke-dasharray="5 5"/>
+                        <line x1="0" y1="118" x2="300" y2="118" stroke="#ffd166" stroke-width="1" stroke-dasharray="5 5"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="measureStage" id="measureStage"></div>
+            <div class="measureLayer" id="measureLayer">
+              <div class="measureNo" id="measureNo">25.14</div>
+              <div class="specBand" id="specBand">
+                <span class="limit l1">24.90</span><span class="limit l2">25.10</span>
+                <div class="specPointer"></div>
+              </div>
+              <div class="measureSpec" id="measureSpec">SPECIFICATION 24.90 — 25.10 mm · <b>OUT OF SPEC</b></div>
+              <div class="contextGrid">
+                <div class="context"><span>MACHINE</span><b>CNC‑04</b></div>
+                <div class="context"><span>WORK ORDER</span><b>WO‑20261</b></div>
+                <div class="context"><span>PRODUCT</span><b>AX‑450</b></div>
+                <div class="context"><span>OPERATOR</span><b>OP‑0142</b></div>
+                <div class="context"><span>LOT</span><b>L260916</b></div>
+                <div class="context"><span>TIME</span><b>10:42:08</b></div>
+              </div>
+            </div>
+
+            <div class="morphBridge" id="morphBridge">
+              <div class="morphNumber" id="morphNumber">25.14</div>
+              <div class="morphDot" id="morphDot"></div>
+              <div class="morphParticles">
+                <span class="morphParticle" data-x="-210" data-y="-110">25.02</span>
+                <span class="morphParticle" data-x="-150" data-y="-70">25.06</span>
+                <span class="morphParticle" data-x="-90" data-y="-20">24.99</span>
+                <span class="morphParticle" data-x="-20" data-y="20">25.01</span>
+                <span class="morphParticle" data-x="60" data-y="-30">25.03</span>
+                <span class="morphParticle" data-x="120" data-y="40">25.07</span>
+                <span class="morphParticle" data-x="190" data-y="-65">24.98</span>
+              </div>
+            </div>
+
+            <div class="analysisLayer" id="analysisLayer">
+              <div class="analysisTop"><b>Process Capability</b><span>Outer Diameter · Last 248 samples</span></div>
+              <div class="numberStream"><div class="streamInner" id="streamInner">25.02 · 25.06 · 24.99 · 25.14 · 25.01 · 25.03 · 25.07 · 24.98 · 25.04 · 25.00 · 25.05 · 25.02 · 24.97 · 25.01 · 25.06 · 25.03</div></div>
+              <div class="bigChart">
+                <svg viewBox="0 0 600 240" preserveAspectRatio="none">
+                  <line x1="0" y1="52" x2="600" y2="52" stroke="#ffd166" stroke-width="1" stroke-dasharray="6 6"/>
+                  <line x1="0" y1="188" x2="600" y2="188" stroke="#ffd166" stroke-width="1" stroke-dasharray="6 6"/>
+                  <polyline id="processLine" points="0,145 50,125 100,140 150,115 200,134 250,110 300,123 350,97 400,116 450,89 500,102 550,94 600,80"
+                  fill="none" stroke="#eef4fb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle class="chartDot" cx="600" cy="80" r="5" fill="#ff3b4e"/>
+                </svg>
+              </div>
+              <div class="kpis">
+                <div class="kpi"><span>CP</span><b>1.52</b></div>
+                <div class="kpi"><span>CPK</span><b>1.41</b></div>
+                <div class="kpi"><span>SAMPLES</span><b>248</b></div>
+              </div>
+            </div>
+
+            <div class="traceLayer" id="traceLayer">
+              <div class="traceCanvas">
+                <div class="traceHalo"></div>
+                <div class="traceLine tl1"></div><div class="traceLine tl2"></div><div class="traceLine tl3"></div><div class="traceLine tl4"></div><div class="traceLine tl5"></div><div class="traceLine tl6"></div>
+                <div class="traceCard traceCore"><span>LOT / BATCH</span><b>L260916‑A</b></div>
+                <div class="traceCard tc1"><span>PRODUCT</span><b>AX‑450</b></div>
+                <div class="traceCard tc2"><span>WORK ORDER</span><b>WO‑20261</b></div>
+                <div class="traceCard tc3"><span>MEASUREMENT</span><b>25.14 mm</b></div>
+                <div class="traceCard tc4"><span>IMAGE</span><b>Surface_0142.jpg</b></div>
+                <div class="traceCard tc5"><span>MACHINE</span><b>CNC‑04</b></div>
+                <div class="traceCard tc6"><span>OPERATOR</span><b>OP‑0142</b></div>
+              </div>
+            </div>
+
+            <div class="deployLayer" id="deployLayer">
+              <div class="deployCard">
+                <div>
+                  <div class="deployIcon">☁️</div>
+                  <h3>Cloud</h3>
+                  <p>Hızlı devreye alın. Çoklu lokasyonları tek merkezden yönetin ve kolay ölçekleyin.</p>
+                  <div class="deployList"><div>Fast rollout</div><div>Managed updates</div><div>Multi‑site visibility</div></div>
+                </div>
+                <div class="deployFlow">Ritim Cloud → Factory A → Factory B → Factory C</div>
+              </div>
+              <div class="deployCard">
+                <div>
+                  <div class="deployIcon">🏭</div>
+                  <h3>On‑Premise</h3>
+                  <p>Fabrika ağı içinde çalışın. Veriyi ve altyapıyı kurum politikalarınıza göre yönetin.</p>
+                  <div class="deployList"><div>Local data</div><div>Internal network</div><div>Customer‑controlled infrastructure</div></div>
+                </div>
+                <div class="deployFlow">Factory Network → Ritim Quality → Local Database</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepRail desktopRail" id="desktopRail"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="stepRail mobileRail" id="mobileRail"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="quiet">
+  <div class="quietOrb"></div>
+  <div class="wrap">
+    <div class="kicker">A QUIET MOMENT</div>
+    <div class="bigQuote revealText" data-reveal>
+      <span class="revealMask"><span class="revealLine">One bad number.</span></span>
+      <span class="revealMask"><span class="revealLine red">The whole story behind it.</span></span>
+    </div>
+    <p class="smallText">Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.</p>
+  </div>
+</section>
+
+<section class="worlds perfSection" id="worlds">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div><div class="kicker">THREE PRODUCT WORLDS</div><h2>Ritim Quality’yi üç basit fikirle anlatın.</h2></div>
+      <p>Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.</p>
+    </div>
+    <div class="worldGrid">
+      <article class="world">
+        <div class="worldNo">01</div><h3>Capture</h3>
+        <p>Kalite planını üretimin içine taşıyın ve doğru veriyi doğru anda toplayın.</p>
+        <div class="worldItems">
+          <div class="worldItem"><span>Control Plans</span><b>REVISION</b></div>
+          <div class="worldItem"><span>Measurements</span><b>NUMERIC</b></div>
+          <div class="worldItem"><span>Visual Checks</span><b>OK / NOK</b></div>
+          <div class="worldItem"><span>Media Evidence</span><b>PHOTO</b></div>
+        </div>
+        <div class="worldPulse"><svg viewBox="0 0 400 90" preserveAspectRatio="none"><path d="M0 50 L92 50 L112 50 L130 25 L150 72 L172 40 L195 50 L400 50" fill="none" stroke="#ff3b4e" stroke-width="2.6"/></svg></div>
+      </article>
+      <article class="world">
+        <div class="worldNo">02</div><h3>Understand</h3>
+        <p>Ham ölçümleri proses davranışına ve karar sinyaline dönüştürün.</p>
+        <div class="worldItems">
+          <div class="worldItem"><span>SPC</span><b>TREND</b></div>
+          <div class="worldItem"><span>Cp / Cpk</span><b>CAPABILITY</b></div>
+          <div class="worldItem"><span>Reporting</span><b>INSIGHT</b></div>
+          <div class="worldItem"><span>Quality History</span><b>CONTEXT</b></div>
+        </div>
+        <div class="worldPulse"><svg viewBox="0 0 400 90" preserveAspectRatio="none"><polyline points="0,62 48,54 95,60 142,44 190,51 240,34 290,42 340,27 400,32" fill="none" stroke="#eaf1fb" stroke-width="2.8"/></svg></div>
+      </article>
+      <article class="world">
+        <div class="worldNo">03</div><h3>Connect</h3>
+        <p>Kalite verisini ürün, lot, makine, iş emri ve kurumsal sistemlerle bağlayın.</p>
+        <div class="worldItems">
+          <div class="worldItem"><span>Traceability</span><b>LOT / SERIAL</b></div>
+          <div class="worldItem"><span>API</span><b>CONNECT</b></div>
+          <div class="worldItem"><span>ERP / MES</span><b>INTEGRATE</b></div>
+          <div class="worldItem"><span>Role‑Based Access</span><b>GOVERN</b></div>
+        </div>
+        <div class="worldPulse"><svg viewBox="0 0 400 90" preserveAspectRatio="none"><circle cx="70" cy="45" r="7" fill="#ff3b4e"/><circle cx="200" cy="28" r="7" fill="#7fa4ff"/><circle cx="325" cy="58" r="7" fill="#76dfa7"/><line x1="77" y1="44" x2="193" y2="29" stroke="#304a72" stroke-width="1.5"/><line x1="207" y1="30" x2="318" y2="56" stroke="#304a72" stroke-width="1.5"/></svg></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="useCase perfSection">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div><div class="kicker">ONE REAL PROCESS</div><h2>Tek bir kalite olayının sistemde nasıl yaşadığını görün.</h2></div>
+      <p>Bu senaryo ürünün bütün parçalarını tek akışta birleştiriyor: plan, üretim, ölçüm, bağlam, analiz ve izlenebilirlik.</p>
+    </div>
+    <div class="caseTrack">
+      <div class="caseTitle"><h3>AX‑450 / WO‑20261</h3><span>Example flow</span></div>
+      <div class="caseSteps">
+        <div class="caseStep"><div class="bubble">01</div><span>PLAN</span><b>Control plan loaded</b></div>
+        <div class="caseStep"><div class="bubble">02</div><span>MACHINE</span><b>CNC‑04 starts WO</b></div>
+        <div class="caseStep alert"><div class="bubble">25.14</div><span>MEASURE</span><b>Out of spec detected</b></div>
+        <div class="caseStep"><div class="bubble">04</div><span>CONTEXT</span><b>Lot + operator linked</b></div>
+        <div class="caseStep"><div class="bubble">05</div><span>ANALYZE</span><b>Trend reviewed</b></div>
+        <div class="caseStep"><div class="bubble">06</div><span>TRACE</span><b>Quality history preserved</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="enterprise perfSection" id="enterprise">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div><div class="kicker">ENTERPRISE READY</div><h2>Üretim ortamına uygun güven ve kontrol.</h2></div>
+      <p>Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.</p>
+    </div>
+    <div class="enterpriseGrid">
+      <div class="trustPanel">
+        <h3>Operasyonel gereksinimleri görünür kılın.</h3>
+        <p>Teknik ekibin satış görüşmesinde aradığı kritik başlıkları açıkça gösterin.</p>
+        <div class="trustList">
+          <div class="trustItem"><span>ACCESS</span><b>Role‑based access</b></div>
+          <div class="trustItem"><span>HISTORY</span><b>Audit trail ready</b></div>
+          <div class="trustItem"><span>DATA</span><b>Customer data ownership</b></div>
+          <div class="trustItem"><span>INTEGRATION</span><b>API / MES / ERP connectivity</b></div>
+          <div class="trustItem"><span>DEPLOYMENT</span><b>Cloud or On‑Premise</b></div>
+          <div class="trustItem"><span>OPERATIONS</span><b>Backup & recovery strategy</b></div>
+        </div>
+      </div>
+      <div class="trustPanel architecture" aria-label="Ritim Quality integration architecture">
+        <svg class="archSvg" viewBox="0 0 620 380" role="img" aria-labelledby="archTitle archDesc">
+          <title id="archTitle">Ritim Quality entegrasyon mimarisi</title>
+          <desc id="archDesc">Ritim Quality merkezde, ERP MES, Quality Lab, Shop Floor ve Reporting BI sistemlerine bağlıdır.</desc>
+          <line class="link" x1="310" y1="190" x2="150" y2="92"/>
+          <line class="link" x1="310" y1="190" x2="470" y2="92"/>
+          <line class="link" x1="310" y1="190" x2="150" y2="288"/>
+          <line class="link" x1="310" y1="190" x2="470" y2="288"/>
+          <line class="pulseLink" x1="310" y1="190" x2="470" y2="288"/>
+          <rect class="nodeRect" x="85" y="55" rx="14" ry="14" width="130" height="68"/><text x="150" y="95" text-anchor="middle">ERP / MES</text>
+          <rect class="nodeRect" x="405" y="55" rx="14" ry="14" width="130" height="68"/><text x="470" y="95" text-anchor="middle">Quality Lab</text>
+          <rect class="coreRect" x="235" y="150" rx="16" ry="16" width="150" height="80"/><text x="310" y="196" text-anchor="middle">Ritim Quality</text>
+          <rect class="nodeRect" x="85" y="255" rx="14" ry="14" width="130" height="68"/><text x="150" y="295" text-anchor="middle">Shop Floor</text>
+          <rect class="nodeRect" x="405" y="255" rx="14" ry="14" width="130" height="68"/><text x="470" y="295" text-anchor="middle">Reporting / BI</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="contact">
+  <div class="wrap">
+    <div class="kicker">RITIM QUALITY</div>
+    <h2 class="revealText" data-reveal>
+      <span class="revealMask"><span class="revealLine">Quality doesn’t stop.</span></span>
+      <span class="revealMask"><span class="revealLine">Neither should your visibility.</span></span>
+    </h2>
+    <p>Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.</p>
+    <div class="endActions">
+      <a class="btn primary magnetic" href="#">30 dakikalık demo talep et</a>
+      <a class="btn magnetic" href="#">Deployment seçeneklerini konuşalım</a>
+    </div>
+  </div>
+  <div class="finalPulse">
+    <svg viewBox="0 0 1600 170" preserveAspectRatio="none">
+      <path d="M0 92 L260 92 L310 92 L350 65 L390 119 L430 92 L730 92 L775 92 L815 66 L855 118 L895 92 L1195 92 L1240 92 L1280 66 L1320 118 L1360 92 L1600 92"
+      fill="none" stroke="#ff3b4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+</main>
+
+<script>
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const seg=(p,a,b)=>clamp((p-a)/(b-a));
+const fadeWindow=(p,a,b,c,d)=>{if(p<a||p>d)return 0;if(p<b)return seg(p,a,b);if(p<=c)return 1;return 1-seg(p,c,d);}
+const mix=(a,b,t)=>a+(b-a)*t;
+const mixPts=(a,b,t)=>a.map((p,i)=>[mix(p[0],b[i][0],t),mix(p[1],b[i][1],t)]);
+const ptsToPath=pts=>'M'+pts.map(p=>p[0]+' '+p[1]).join(' L');
+
+const progress=document.getElementById('progress');
+const cursorGlow=document.getElementById('cursorGlow');
+const sculpture=document.getElementById('signalSculpture');
+const story=document.getElementById('story');
+const scene=document.getElementById('scene');
+const device=document.getElementById('device');
+const pulseGlowBand=document.getElementById('pulseGlowBand');
+const paper=document.getElementById('paper');
+const app=document.getElementById('app');
+const measureStage=document.getElementById('measureStage');
+const measure=document.getElementById('measureLayer');
+const measureNo=document.getElementById('measureNo');
+const specBand=document.getElementById('specBand');
+const measureSpec=document.getElementById('measureSpec');
+const contexts=[...document.querySelectorAll('.context')];
+const morphBridge=document.getElementById('morphBridge');
+const morphNumber=document.getElementById('morphNumber');
+const morphDot=document.getElementById('morphDot');
+const particles=[...document.querySelectorAll('.morphParticle')];
+const analysis=document.getElementById('analysisLayer');
+const streamInner=document.getElementById('streamInner');
+const processLine=document.getElementById('processLine');
+const kpis=[...document.querySelectorAll('.kpi')];
+const trace=document.getElementById('traceLayer');
+const deploy=document.getElementById('deployLayer');
+const thread=document.getElementById('threadPath');
+const threadCursor=document.getElementById('threadCursor');
+const menuBtn=document.getElementById('mobileMenuBtn');
+const mobileMenu=document.getElementById('mobileMenu');
+const preloader=document.getElementById('preloader');
+const contextCursor=document.getElementById('contextCursor');
+const contextCursorLabel=document.getElementById('contextCursorLabel');
+const deviceReflection=document.getElementById('deviceReflection');
+const revealEls=[...document.querySelectorAll('[data-reveal]')];
+const magneticEls=[...document.querySelectorAll('.magnetic')];
+
+const desktopChapters=[...document.querySelectorAll('.desktopChapter')];
+const mobileChapters=[...document.querySelectorAll('.mobileChapter')];
+const desktopDots=[...document.querySelectorAll('#desktopRail i')];
+const mobileDots=[...document.querySelectorAll('#mobileRail i')];
+
+let storyStart=0, storyTravel=1, ticking=false, storyActive=false, mobileMode=window.matchMedia('(max-width: 820px)').matches;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const finePointer = window.matchMedia('(pointer: fine)');
+let pointerDirty=false, pointerX=innerWidth/2, pointerY=innerHeight/2;
+let contextMode=''; let contextVisible=false; let magneticTarget=null; let magneticDirty=false;
+let resizeObserver;
+let mouseNX=0, mouseNY=0;
+let lastScroll=window.scrollY || 0, lastTs=performance.now(), velocity=0;
+
+const pulseA=[[0,300],[120,300],[150,300],[176,255],[205,350],[235,285],[270,300],[430,300],[458,300],[485,260],[515,342],[548,300],[700,300]];
+const pulseB=[[0,325],[120,325],[150,325],[176,325],[205,325],[235,325],[270,325],[430,325],[458,325],[485,325],[515,276],[548,325],[700,325]];
+const pulseC=[[0,360],[58,333],[117,352],[175,320],[233,345],[292,314],[350,330],[408,296],[467,322],[525,284],[583,304],[642,294],[700,278]];
+const pulseD=[[0,300],[120,300],[150,300],[176,285],[205,315],[235,295],[270,300],[430,300],[458,300],[485,286],[515,313],[548,300],[700,300]];
+
+
+function setupPreloader(){
+  if(reducedMotion.matches){
+    preloader.remove();
+    return;
+  }
+  const seen=sessionStorage.getItem('ritim-quality-intro-seen')==='1';
+  if(seen){
+    preloader.remove();
+    return;
+  }
+  sessionStorage.setItem('ritim-quality-intro-seen','1');
+  document.documentElement.style.overflow='hidden';
+  setTimeout(()=>{
+    preloader.classList.add('is-hidden');
+    document.documentElement.style.overflow='';
+    setTimeout(()=>preloader.remove(),420);
+  },820);
+}
+
+function setupReveals(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-revealed');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.28});
+  revealEls.forEach(el=>io.observe(el));
+}
+
+function setContextCursor(mode,visible){
+  contextMode=mode;
+  contextVisible=visible;
+  if(!finePointer.matches || reducedMotion.matches) return;
+  contextCursorLabel.textContent=mode||'Scroll';
+  contextCursor.classList.toggle('visible',visible);
+}
+
+function updateMagnetic(){
+  if(!finePointer.matches || reducedMotion.matches || !magneticTarget) return;
+  const r=magneticTarget.getBoundingClientRect();
+  const cx=r.left+r.width/2;
+  const cy=r.top+r.height/2;
+  const dx=pointerX-cx, dy=pointerY-cy;
+  const dist=Math.hypot(dx,dy);
+  const radius=Math.max(90,Math.max(r.width,r.height)*1.5);
+  if(dist<radius){
+    const strength=(1-dist/radius);
+    magneticTarget.style.setProperty('--mag-x',(dx*0.10*strength).toFixed(2)+'px');
+    magneticTarget.style.setProperty('--mag-y',(dy*0.10*strength).toFixed(2)+'px');
+    contextCursor.classList.add('active');
+  }else{
+    magneticTarget.style.setProperty('--mag-x','0px');
+    magneticTarget.style.setProperty('--mag-y','0px');
+    contextCursor.classList.remove('active');
+  }
+}
+
+function resetMagnetic(el){
+  if(!el) return;
+  el.style.setProperty('--mag-x','0px');
+  el.style.setProperty('--mag-y','0px');
+  contextCursor.classList.remove('active');
+}
+
+function cacheLayout(){
+  mobileMode=window.matchMedia('(max-width: 820px)').matches;
+  const pageY=window.scrollY || document.documentElement.scrollTop;
+  const rect=story.getBoundingClientRect();
+  storyStart=pageY+rect.top;
+  storyTravel=Math.max(1,story.offsetHeight-innerHeight);
+}
+
+function currentPhase(p){
+  if(mobileMode){
+    return Math.min(3, Math.floor(p*4));
+  }
+  return Math.min(5, Math.floor(p*6));
+}
+
+
+function setMotionLayers(activeEls){
+  const all=[device,paper,app,measure,morphBridge,analysis,trace,deploy];
+  const activeSet=new Set(activeEls.filter(Boolean));
+  all.forEach(el=>el.classList.toggle('motionActive',activeSet.has(el)));
+}
+
+function updatePointerVisuals(){
+  if(!finePointer.matches || reducedMotion.matches || !pointerDirty) return;
+  pointerDirty=false;
+
+  cursorGlow.style.left=pointerX+'px';
+  cursorGlow.style.top=pointerY+'px';
+
+  contextCursor.style.left=pointerX+'px';
+  contextCursor.style.top=pointerY+'px';
+
+  mouseNX=pointerX/innerWidth-.5;
+  mouseNY=pointerY/innerHeight-.5;
+  sculpture.style.transform=`translate(${mouseNX*20}px,${mouseNY*14}px) rotateY(${mouseNX*4}deg) rotateX(${-mouseNY*3}deg)`;
+
+  const reflectionX=-22 + mouseNX*24;
+  const reflectionY=mouseNY*8;
+  deviceReflection.style.transform=`translate3d(${reflectionX}%,${reflectionY}%,0) rotate(${2+mouseNX*2}deg)`;
+
+  updateMagnetic();
+}
+
+function applyReducedMotionState(){
+  if(!reducedMotion.matches) return false;
+
+  progress.style.width=((window.scrollY||0)/Math.max(1,document.documentElement.scrollHeight-innerHeight)*100)+'%';
+  paper.style.opacity='0';
+  app.style.opacity='1';
+  app.style.transform='none';
+  measure.style.opacity='0';
+  morphBridge.style.opacity='0';
+  analysis.style.opacity='1';
+  analysis.style.transform='none';
+  processLine.style.strokeDashoffset='0';
+  kpis.forEach(el=>{el.style.opacity='1';el.style.transform='none';});
+  trace.style.opacity='0';
+  deploy.style.opacity='0';
+  thread.setAttribute('d',ptsToPath(pulseD));
+  threadCursor.setAttribute('cx','515');
+  threadCursor.setAttribute('cy','313');
+  device.style.transform='none';
+  device.style.boxShadow='0 50px 130px rgba(0,0,0,.48)';
+  setMotionLayers([]);
+  return true;
+}
+
+function render(){
+  ticking=false;
+  updatePointerVisuals();
+  if(applyReducedMotionState()) return;
+  const now=performance.now();
+  const scrollTop=window.scrollY || document.documentElement.scrollTop;
+  const maxDoc=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+  progress.style.width=(scrollTop/maxDoc*100)+'%';
+
+  const dt=Math.max(16, now-lastTs);
+  const rawVel=(scrollTop-lastScroll)/dt;     // px per ms
+  velocity = velocity*0.82 + rawVel*0.18;    // smooth
+  lastScroll=scrollTop; lastTs=now;
+  const vAbs=clamp(Math.abs(velocity)*16,0,1);
+  const vDir=Math.sign(velocity||0);
+
+  const p=clamp((scrollTop-storyStart)/storyTravel);
+  storyActive=scrollTop >= storyStart-innerHeight && scrollTop <= storyStart+story.offsetHeight;
+  story.classList.toggle('is-active',storyActive);
+
+  const phase=currentPhase(p);
+  if(mobileMode){
+    mobileChapters.forEach((c,i)=>c.classList.toggle('active',i===phase));
+    mobileDots.forEach((d,i)=>d.classList.toggle('on',i===phase));
+  }else{
+    desktopChapters.forEach((c,i)=>c.classList.toggle('active',i===phase));
+    desktopDots.forEach((d,i)=>d.classList.toggle('on',i===phase));
+  }
+
+  // Phase windows
+  const fPaper = mobileMode ? 0 : fadeWindow(p,0,.01,.09,.145);
+  const fApp   = mobileMode ? fadeWindow(p,0,.02,.10,.18) : fadeWindow(p,.10,.16,.245,.31);
+  const fMeas  = mobileMode ? fadeWindow(p,.13,.20,.36,.43) : fadeWindow(p,.255,.315,.405,.46);
+  const fMorph = mobileMode ? fadeWindow(p,.38,.44,.56,.63) : fadeWindow(p,.405,.435,.49,.535);
+  const fAnal  = mobileMode ? fadeWindow(p,.42,.49,.66,.74) : fadeWindow(p,.47,.535,.61,.67);
+  const fTrace = mobileMode ? fadeWindow(p,.67,.74,.94,1)   : fadeWindow(p,.615,.68,.77,.835);
+  const fDep   = mobileMode ? 0 : fadeWindow(p,.79,.85,.995,1);
+
+  const activeLayers=[device];
+  if(fPaper>.05) activeLayers.push(paper);
+  if(fApp>.05) activeLayers.push(app);
+  if(fMeas>.05) activeLayers.push(measure);
+  if(fMorph>.05) activeLayers.push(morphBridge);
+  if(fAnal>.05) activeLayers.push(analysis);
+  if(fTrace>.05) activeLayers.push(trace);
+  if(fDep>.05) activeLayers.push(deploy);
+  setMotionLayers(activeLayers);
+
+  paper.style.opacity=fPaper;
+  paper.style.transform=`rotate(${(-2.3+2.3*seg(p,.07,.15)).toFixed(2)}deg) scale(${(0.93+0.07*seg(p,.05,.15)).toFixed(3)}) translateY(${(-14*seg(p,.09,.15)).toFixed(1)}px)`;
+
+  app.style.opacity=fApp;
+  app.style.transform=`scale(${(0.96+0.04*fApp).toFixed(3)}) translateY(${(10*(1-fApp)).toFixed(1)}px)`;
+
+  const blackout = mobileMode ? seg(p,.17,.24)*(1-seg(p,.39,.43)) : seg(p,.27,.31)*(1-seg(p,.435,.46));
+  measureStage.style.opacity=String(blackout*.94);
+  measure.style.opacity=fMeas;
+  measure.style.transform=`scale(${(.90+.10*fMeas).toFixed(3)})`;
+
+  const numIntro = mobileMode ? seg(p,.18,.25) : seg(p,.285,.33);
+  measureNo.style.transform=`scale(${(.82+.18*numIntro).toFixed(3)})`;
+  const bandIntro = mobileMode ? seg(p,.22,.29) : seg(p,.315,.355);
+  specBand.style.opacity=bandIntro;
+  specBand.style.transform=`translateY(${(8*(1-bandIntro)).toFixed(1)}px)`;
+  measureSpec.style.opacity = mobileMode ? seg(p,.24,.31) : seg(p,.33,.365);
+
+  contexts.forEach((el,i)=>{
+    const local = mobileMode ? seg(p,.26+i*.01,.34+i*.01) : seg(p,.345+i*.006,.385+i*.006);
+    el.style.opacity=local;
+    el.style.transform=`translateY(${(10*(1-local)).toFixed(1)}px)`;
+  });
+
+  // Morph: 25.14 becomes a red chart point.
+  morphBridge.style.opacity=fMorph;
+  const mp = mobileMode ? seg(p,.43,.57) : seg(p,.42,.51);
+  const targetX = -165;  // move toward chart area
+  const targetY = 76;
+  const numScale = 1 - .94*mp;
+  morphNumber.style.transform=`translate(calc(-50% + ${targetX*mp}px), calc(-50% + ${targetY*mp}px)) scale(${numScale.toFixed(3)}) rotate(${(-2*mp).toFixed(2)}deg)`;
+  morphNumber.style.opacity=1-seg(mp,.78,1);
+  morphDot.style.opacity=seg(mp,.55,.9);
+  morphDot.style.transform=`translate(calc(-50% + ${targetX}px), calc(-50% + ${targetY}px)) scale(${(0.2+0.8*seg(mp,.55,.9)).toFixed(3)})`;
+
+  particles.forEach((el,i)=>{
+    const baseStart = mobileMode ? .46 : .435;
+    const baseEnd   = mobileMode ? .54 : .495;
+    const local=seg(p,baseStart+i*.008,baseEnd+i*.008);
+    const x=Number(el.dataset.x)*local;
+    const y=Number(el.dataset.y)*local;
+    el.style.opacity=local*(1-seg(p,baseEnd,.63));
+    el.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${(.8+.2*local).toFixed(3)})`;
+  });
+
+  analysis.style.opacity=fAnal;
+  analysis.style.transform=`translateY(${(18*(1-fAnal)).toFixed(1)}px) scale(${(.98+.02*fAnal).toFixed(3)})`;
+  const streamP = mobileMode ? seg(p,.50,.57) : seg(p,.49,.54);
+  streamInner.style.transform=`translateX(${-220*streamP}px)`;
+  const lineP = mobileMode ? seg(p,.54,.65) : seg(p,.515,.595);
+  processLine.style.strokeDashoffset=String(900*(1-lineP));
+  kpis.forEach((el,i)=>{
+    const start = mobileMode ? .60 : .555;
+    const end   = mobileMode ? .69 : .60;
+    const local=seg(p,start+i*.012,end+i*.012);
+    el.style.opacity=local;
+    el.style.transform=`translateY(${(8*(1-local)).toFixed(1)}px)`;
+  });
+
+  trace.style.opacity=fTrace;
+  trace.style.transform=`scale(${(.95+.05*fTrace).toFixed(3)})`;
+  deploy.style.opacity=fDep;
+  deploy.style.transform=`scale(${(.98+.02*fDep).toFixed(3)})`;
+
+  // One pulse object morphs: ecg -> tolerance band -> chart -> calm signal.
+  let pulsePts=pulseA;
+  if(mobileMode){
+    if(p<.20) pulsePts=pulseA;
+    else if(p<.38) pulsePts=mixPts(pulseA,pulseB,seg(p,.20,.30));
+    else if(p<.68) pulsePts=mixPts(pulseB,pulseC,seg(p,.46,.60));
+    else pulsePts=mixPts(pulseC,pulseD,seg(p,.72,.90));
+  }else{
+    if(p<.26) pulsePts=pulseA;
+    else if(p<.43) pulsePts=mixPts(pulseA,pulseB,seg(p,.26,.33));
+    else if(p<.66) pulsePts=mixPts(pulseB,pulseC,seg(p,.49,.60));
+    else pulsePts=mixPts(pulseC,pulseD,seg(p,.72,.82));
+  }
+  // Add a tiny velocity-driven energy to the pulse
+  const energeticPts=pulsePts.map((pt,i)=>{
+    if(i===3||i===4||i===9||i===10){
+      return [pt[0], pt[1] + (i%2===0?-1:1) * vAbs * 10 * vDir];
+    }
+    return pt;
+  });
+  thread.setAttribute('d', ptsToPath(energeticPts));
+
+  const cursorFollow = energeticPts[Math.min(10, Math.max(0, Math.round(2 + p*(energeticPts.length-3))))];
+  threadCursor.setAttribute('cx', cursorFollow[0].toFixed(1));
+  threadCursor.setAttribute('cy', cursorFollow[1].toFixed(1));
+  threadCursor.setAttribute('r', (4 + vAbs*1.4).toFixed(2));
+
+  pulseGlowBand.style.opacity = String(0.15 + Math.max(seg(p,.26,.40), seg(p,.44,.60))*0.4);
+
+  const tilt=-5+5*seg(p,0,.22);
+  const scaleD=.94+.06*seg(p,0,.22)+.018*seg(p,.82,.95);
+  const lift=-8*seg(p,.15,.5)+8*seg(p,.78,.95);
+  const momentum = vDir * vAbs * 8;
+  device.style.transform=`rotateY(${(tilt + mouseNX*1.5).toFixed(2)}deg) rotateX(${(-vDir*vAbs*1.6).toFixed(2)}deg) translateY(${(lift+momentum).toFixed(2)}px) scale(${scaleD})`;
+  device.style.borderRadius=`${32-10*seg(p,.8,.95)}px`;
+  const glow=.25+.75*Math.max(fMeas,fMorph,fAnal,fTrace)+vAbs*.15;
+  device.style.boxShadow=`0 50px 130px rgba(0,0,0,.48),0 0 ${60*glow}px rgba(61,88,180,${0.06*glow})`;
+
+  if(storyActive) scene.style.marginRight=`${mouseNX*5}px`;
+}
+
+function requestRender(){if(!ticking){ticking=true;requestAnimationFrame(render);}}
+
+if(finePointer.matches){
+  addEventListener('pointermove',e=>{
+    pointerX=e.clientX;
+    pointerY=e.clientY;
+    pointerDirty=true;
+    requestRender();
+  },{passive:true});
+}
+
+
+if(finePointer.matches && !reducedMotion.matches){
+  const heroEl=document.querySelector('.hero');
+  const storyEl=document.querySelector('.story');
+
+  heroEl.addEventListener('mouseenter',()=>setContextCursor('Explore',true));
+  heroEl.addEventListener('mouseleave',()=>setContextCursor('',false));
+  storyEl.addEventListener('mouseenter',()=>setContextCursor('Scroll',true));
+  storyEl.addEventListener('mouseleave',()=>setContextCursor('',false));
+
+  magneticEls.forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      magneticTarget=el;
+      contextCursorLabel.textContent='Open';
+      contextCursor.classList.add('active');
+      contextCursor.classList.add('visible');
+    });
+    el.addEventListener('mouseleave',()=>{
+      resetMagnetic(el);
+      magneticTarget=null;
+      contextCursorLabel.textContent=contextMode||'Scroll';
+      contextCursor.classList.toggle('visible',contextVisible);
+    });
+  });
+}
+
+menuBtn.addEventListener('click',()=>{
+  const open=menuBtn.getAttribute('aria-expanded')==='true';
+  const nextOpen=!open;
+  menuBtn.setAttribute('aria-expanded',String(nextOpen));
+  menuBtn.setAttribute('aria-label',nextOpen?'Menüyü kapat':'Menüyü aç');
+  mobileMenu.classList.toggle('open',nextOpen);
+  mobileMenu.setAttribute('aria-hidden',String(!nextOpen));
+  if(nextOpen){
+    const firstLink=mobileMenu.querySelector('a');
+    if(firstLink) firstLink.focus();
+  }
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  mobileMenu.classList.remove('open');
+  mobileMenu.setAttribute('aria-hidden','true');
+  menuBtn.setAttribute('aria-expanded','false');
+  menuBtn.setAttribute('aria-label','Menüyü aç');
+}));
+
+addEventListener('keydown',e=>{
+  if(e.key==='Escape' && mobileMenu.classList.contains('open')){
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden','true');
+    menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.setAttribute('aria-label','Menüyü aç');
+    menuBtn.focus();
+  }
+});
+
+
+if('ResizeObserver' in window){
+  resizeObserver=new ResizeObserver(()=>{
+    cacheLayout();
+    requestRender();
+  });
+  resizeObserver.observe(story);
+  resizeObserver.observe(document.body);
+}
+
+addEventListener('orientationchange',()=>{
+  setTimeout(()=>{
+    cacheLayout();
+    requestRender();
+  },120);
+},{passive:true});
+
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>{
+    cacheLayout();
+    requestRender();
+  });
+}
+
+reducedMotion.addEventListener?.('change',()=>{
+  cacheLayout();
+  requestRender();
+});
+
+addEventListener('scroll',requestRender,{passive:true});
+addEventListener('resize',()=>{pointerDirty=true;cacheLayout();requestRender()},{passive:true});
+addEventListener('load',()=>{cacheLayout();requestRender()});
+setupPreloader();
+setupReveals();
+cacheLayout();
+requestRender();
+</script>
+</body>
+</html>
