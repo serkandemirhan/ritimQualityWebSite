@@ -472,6 +472,412 @@ h1,h2,h3,p{margin:0}
 }
 
 
+
+
+/* =========================
+   V11 FINAL POLISH
+   ========================= */
+@media(max-width:820px){
+
+  /* 1) High-fidelity Ritim UI shell, ready to swap with real screenshots/components */
+  .ritimMobileShell{
+    width:100%;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    background:
+      linear-gradient(180deg,rgba(10,21,39,.98),rgba(5,11,22,.98));
+    box-shadow:
+      0 24px 70px rgba(0,0,0,.38),
+      inset 0 1px rgba(255,255,255,.025);
+    overflow:hidden;
+  }
+  .ritimTopbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 14px;border-bottom:1px solid #17263e;background:#07101f;
+  }
+  .ritimTopbar .left{
+    display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800
+  }
+  .ritimTopbar .logoDot{
+    width:8px;height:8px;border-radius:50%;background:#ff3b4e;
+    box-shadow:0 0 12px rgba(255,59,78,.65)
+  }
+  .ritimTopbar .right{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:9px;color:#74869e
+  }
+  .ritimScreenBody{padding:16px}
+  .ritimScreenGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .ritimScreenCard{
+    border:1px solid #17263e;border-radius:13px;background:#081326;padding:12px
+  }
+  .ritimScreenCard.full{grid-column:1/-1}
+  .ritimScreenCard span{
+    display:block;font-size:8px;color:#6f819a;letter-spacing:.07em;margin-bottom:5px
+  }
+  .ritimScreenCard b{
+    font-size:12px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace
+  }
+  .ritimSampleBar{
+    display:flex;gap:5px;margin-top:14px
+  }
+  .ritimSampleBar i{
+    flex:1;height:5px;border-radius:999px;background:#24344e
+  }
+  .ritimSampleBar i.done{background:#76dfa7}
+  .ritimSampleBar i.alert{background:#ff3b4e}
+  .ritimActionRow{
+    display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px
+  }
+  .ritimAction{
+    padding:12px;border-radius:12px;border:1px solid #203451;background:#0a1729;
+    text-align:center;font-size:11px;font-weight:800
+  }
+  .ritimAction.primary{background:#ff3b4e;border-color:#ff3b4e}
+
+  /* 2) True morph: 25.14 lands exactly on chart point */
+  .mobileMorphOverlay{
+    position:absolute;inset:0;pointer-events:none;z-index:8;
+  }
+  .mobileMorphToken{
+    position:absolute;
+    left:18px;top:62px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:46px;font-weight:900;color:#ff3b4e;letter-spacing:-.05em;
+    transform-origin:center;
+    opacity:1;
+  }
+  .mobileMorphLanding{
+    position:absolute;
+    right:5px;
+    top:238px;
+    width:12px;height:12px;border-radius:50%;
+    background:#ff3b4e;box-shadow:0 0 16px rgba(255,59,78,.75);
+    transform:scale(0);
+  }
+  .mobileAct.is-visible .mobileMorphToken{
+    animation:morphTokenToPoint 1.05s cubic-bezier(.16,1,.3,1) .12s forwards;
+  }
+  .mobileAct.is-visible .mobileMorphLanding{
+    animation:morphDotIn .2s ease .95s forwards;
+  }
+  @keyframes morphTokenToPoint{
+    0%{left:18px;top:62px;font-size:46px;opacity:1;transform:scale(1)}
+    78%{opacity:1}
+    100%{left:calc(100% - 18px);top:244px;font-size:10px;opacity:0;transform:translate(-100%,-50%) scale(.2)}
+  }
+  @keyframes morphDotIn{to{transform:scale(1)}}
+
+  /* 3) One continuous mobile pulse across acts */
+  .mobilePulseRail{
+    position:absolute;left:20px;right:20px;top:0;bottom:0;pointer-events:none;z-index:1
+  }
+  .mobilePulseRail svg{
+    position:sticky;top:76px;width:100%;height:calc(100svh - 96px);overflow:visible
+  }
+  .mobilePulseRail path{
+    fill:none;stroke:#ff3b4e;stroke-width:1.6;
+    stroke-linecap:round;stroke-linejoin:round;
+    opacity:.18;filter:drop-shadow(0 0 7px rgba(255,59,78,.25))
+  }
+  .mobilePulseRail circle{
+    fill:#ff3b4e;filter:drop-shadow(0 0 8px rgba(255,59,78,.65))
+  }
+
+  /* 4) CTA appears only after enough value has been shown */
+  .mobileStickyCta{display:block}
+  .mobileStickyCta.locked{opacity:0!important;pointer-events:none!important;transform:translateY(18px)!important}
+
+  /* 5) swipe affordance */
+  .mobileSwipe{
+    padding-right:42px;
+  }
+  .mobileWorldCard{
+    flex-basis:82%;
+  }
+  .mobileWorldCardPeek{
+    position:absolute;right:12px;top:50%;transform:translateY(-50%);
+    width:32px;height:62px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.1);
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+    display:grid;place-items:center;color:#8596ad;font-size:18px;pointer-events:none
+  }
+  .mobileWorlds{position:relative}
+
+  /* 6) interactive trace details */
+  .mobileTraceItem{cursor:pointer}
+  .mobileTraceItem[aria-expanded="true"]{
+    border-color:rgba(255,59,78,.48);
+    background:linear-gradient(180deg,rgba(255,59,78,.06),#081326);
+  }
+  .mobileTraceDetail{
+    display:grid;grid-template-rows:0fr;
+    transition:grid-template-rows .28s cubic-bezier(.2,.75,.2,1);
+  }
+  .mobileTraceDetail > div{overflow:hidden}
+  .mobileTraceItem[aria-expanded="true"] .mobileTraceDetail{grid-template-rows:1fr}
+  .mobileTraceDetailInner{
+    margin-top:10px;padding-top:10px;border-top:1px solid #1b2b43;
+    display:grid;grid-template-columns:1fr 1fr;gap:8px
+  }
+  .mobileTraceDetailInner div{
+    font-size:9px;color:#8fa0b5
+  }
+  .mobileTraceDetailInner b{
+    display:block;color:#d8e0ec;font-size:10px;margin-top:2px
+  }
+}
+
+/* =========================
+   V10 MOBILE CINEMATIC ENHANCEMENTS
+   ========================= */
+@media(max-width:820px){
+
+  .mobileExperience{
+    background:
+      radial-gradient(circle at 50% 4%,rgba(54,81,180,.14),transparent 24%),
+      radial-gradient(circle at 18% 42%,rgba(255,59,78,.055),transparent 26%),
+      #010616;
+  }
+
+  .mobileAct:before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,transparent,rgba(255,255,255,.015),transparent),
+      radial-gradient(circle at 50% 40%,rgba(62,89,175,.055),transparent 48%);
+    pointer-events:none;
+  }
+
+  .mobileActInner{position:relative;z-index:2}
+
+  .mobileActSignal{
+    height:72px;
+    margin:18px 0 4px;
+    opacity:.75;
+  }
+  .mobileActSignal svg{width:100%;height:100%}
+  .mobileActSignal path{
+    fill:none;stroke:#ff3b4e;stroke-width:2.4;
+    stroke-linecap:round;stroke-linejoin:round;
+    filter:drop-shadow(0 0 8px rgba(255,59,78,.28));
+  }
+
+  .mobileStage{
+    box-shadow:
+      0 28px 72px rgba(0,0,0,.44),
+      0 0 42px rgba(60,84,170,.055),
+      inset 0 1px rgba(255,255,255,.025);
+  }
+
+  .mobileStageHeader{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .mobileStageBrand{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;color:#aeb9c9;
+  }
+  .mobileStageBrand i{
+    width:7px;height:7px;border-radius:50%;
+    background:#76dfa7;
+    box-shadow:0 0 9px rgba(118,223,167,.52);
+  }
+  .mobileStageMeta{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:9px;color:#71839c;
+  }
+
+  .mobileMeasureStage{
+    padding:20px 18px 22px;
+    min-height:430px;
+    background:
+      radial-gradient(circle at 50% 45%,rgba(255,59,78,.035),transparent 34%),
+      linear-gradient(180deg,#091426,#050b15);
+  }
+  .mobileMeasureValueWrap{
+    width:100%;
+    padding:26px 10px 22px;
+    border:1px solid #16263e;
+    border-radius:18px;
+    background:#06101f;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .mobileMeasureValueWrap:after{
+    content:"";
+    position:absolute;left:8%;right:8%;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,#ff3b4e,transparent);
+    opacity:.5;
+  }
+  .mobileMeasureValue{color:#fff}
+  .mobileMeasureUnit{
+    margin-top:7px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:12px;color:#70839d;
+  }
+  .mobileInputGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    width:100%;
+    margin-top:18px;
+  }
+  .mobileInputShell{margin-top:0}
+  .mobileInputShell.full{grid-column:1/-1}
+
+  .mobileDetectStage{
+    min-height:470px;
+    background:
+      radial-gradient(circle at 50% 34%,rgba(255,59,78,.085),transparent 32%),
+      linear-gradient(180deg,#050914,#030710);
+  }
+  .mobileDetectStage:before{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 28%,rgba(255,59,78,.065),transparent 28%);
+    pointer-events:none;
+  }
+  .mobileDetectValue{
+    position:relative;
+    z-index:2;
+    text-shadow:0 0 28px rgba(255,59,78,.11);
+  }
+  .mobileDetectPulse{
+    width:100%;height:64px;margin:12px 0 2px;
+  }
+  .mobileDetectPulse svg{width:100%;height:100%}
+  .mobileDetectPulse path{
+    fill:none;stroke:#ff3b4e;stroke-width:2.4;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  .mobileUnderstandStage{
+    min-height:500px;
+    background:
+      radial-gradient(circle at 70% 22%,rgba(71,100,210,.07),transparent 28%),
+      linear-gradient(180deg,#081222,#050b15);
+  }
+  .mobileMorphBand{
+    height:68px;
+    position:relative;
+    margin-top:12px;
+    overflow:visible;
+  }
+  .mobileMorphValue{
+    position:absolute;
+    left:0;top:50%;
+    transform:translateY(-50%);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:46px;font-weight:900;color:#ff3b4e;
+    transition:
+      transform 1.05s cubic-bezier(.16,1,.3,1),
+      font-size 1.05s cubic-bezier(.16,1,.3,1),
+      left 1.05s cubic-bezier(.16,1,.3,1),
+      top 1.05s cubic-bezier(.16,1,.3,1),
+      opacity .4s ease;
+  }
+  .mobileAct.is-visible .mobileMorphValue{
+    left:calc(100% - 20px);
+    top:100%;
+    transform:translate(-100%,-50%) scale(.18);
+    opacity:0;
+  }
+  .mobileMorphDot{
+    position:absolute;
+    right:0;
+    bottom:-3px;
+    width:13px;height:13px;border-radius:50%;
+    background:#ff3b4e;
+    box-shadow:0 0 14px rgba(255,59,78,.75);
+    transform:scale(0);
+    transition:transform .28s ease .78s;
+  }
+  .mobileAct.is-visible .mobileMorphDot{transform:scale(1)}
+
+  .mobileSampleCloud{
+    position:absolute;inset:0;pointer-events:none;
+  }
+  .mobileSampleCloud span{
+    position:absolute;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:10px;color:#92a3b9;
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity .35s ease,transform .35s ease;
+  }
+  .mobileAct.is-visible .mobileSampleCloud span{opacity:.8;transform:translateY(0)}
+  .mobileSampleCloud span:nth-child(1){left:6%;top:6%;transition-delay:.10s}
+  .mobileSampleCloud span:nth-child(2){left:26%;top:26%;transition-delay:.18s}
+  .mobileSampleCloud span:nth-child(3){left:48%;top:2%;transition-delay:.26s}
+  .mobileSampleCloud span:nth-child(4){left:66%;top:30%;transition-delay:.34s}
+
+  .mobileTraceStage{
+    min-height:470px;
+    background:
+      radial-gradient(circle at 18% 30%,rgba(255,59,78,.055),transparent 25%),
+      linear-gradient(180deg,#081222,#050b15);
+  }
+  .mobileTraceLine:before{
+    width:2px;
+    background:linear-gradient(#ff3b4e 0 18%,#304968 42%,#304968 100%);
+    box-shadow:0 0 12px rgba(255,59,78,.08);
+  }
+  .mobileTraceItem{
+    opacity:.28;
+    transform:translateX(8px);
+    transition:opacity .42s ease,transform .42s ease,border-color .42s ease;
+  }
+  .mobileAct.is-visible .mobileTraceItem{opacity:1;transform:translateX(0)}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(1){transition-delay:.05s}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(2){transition-delay:.14s}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(3){transition-delay:.23s}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(4){transition-delay:.32s}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(5){transition-delay:.41s;border-color:rgba(255,59,78,.42)}
+  .mobileAct.is-visible .mobileTraceItem:nth-child(6){transition-delay:.50s}
+  .mobileTraceItem.highlight{
+    border-color:rgba(255,59,78,.46);
+    background:linear-gradient(180deg,rgba(255,59,78,.065),#081326);
+  }
+
+  .mobileWorldCard{
+    background:
+      radial-gradient(circle at 85% 90%,rgba(68,95,190,.08),transparent 26%),
+      linear-gradient(180deg,#071121,#050c18);
+    box-shadow:0 18px 46px rgba(0,0,0,.26);
+  }
+  .mobileWorldCardVisual{
+    margin-top:22px;
+    height:88px;
+    border:1px solid #17273e;
+    border-radius:14px;
+    background:#07101f;
+    overflow:hidden;
+    position:relative;
+  }
+  .mobileWorldCardVisual svg{width:100%;height:100%}
+
+  .mobileSwipeHint{
+    padding:0 20px;
+    color:#75869e;
+    font-size:10px;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    margin-top:-4px;
+    margin-bottom:14px;
+  }
+
+  .mobileStickyCta a{
+    backdrop-filter:blur(12px);
+  }
+}
+
 /* =========================
    V9 MOBILE-FIRST EXPERIENCE
    Desktop keeps V8.1. Mobile gets a separate narrative.
@@ -1507,6 +1913,12 @@ h1,h2,h3,p{margin:0}
 
 
 <section class="mobileExperience" id="mobileExperience">
+  <div class="mobilePulseRail" aria-hidden="true">
+    <svg viewBox="0 0 400 760" preserveAspectRatio="none">
+      <path id="mobilePulsePath" d="M10 380 L85 380 L105 380 L120 350 L140 415 L165 368 L190 380 L270 380 L292 380 L310 358 L327 407 L348 380 L390 380"/>
+      <circle id="mobilePulseCursor" cx="120" cy="350" r="4"/>
+    </svg>
+  </div>
   <div class="mobileStory">
 
     <section class="mobileAct" id="mMeasure">
@@ -1514,11 +1926,36 @@ h1,h2,h3,p{margin:0}
         <div class="mobileActNum">01 — MEASURE</div>
         <h2>Ölçümü gir.<br>Kaliteyi başlat.</h2>
         <p>Mobilde hikâyeyi doğrudan operatörün gördüğü değerle başlatıyoruz. Bir ekran, bir fikir.</p>
+        <div class="mobileActSignal" aria-hidden="true">
+          <svg viewBox="0 0 420 72" preserveAspectRatio="none">
+            <path d="M0 40 L80 40 L102 40 L118 21 L136 57 L158 33 L180 40 L300 40 L320 40 L338 25 L354 54 L372 40 L420 40"/>
+          </svg>
+        </div>
         <div class="mobileStage mobileMeasureStage">
-          <div class="mobileMeasureValue">25.14</div>
-          <div class="mobileMeasureLabel">Outer Diameter · mm</div>
-          <div class="mobileInputShell"><span>Characteristic</span><b>OD-01</b></div>
-          <div class="mobileInputShell"><span>Work Order</span><b>WO-20261</b></div>
+          <div class="ritimMobileShell" data-real-ui-slot="measurement">
+            <div class="ritimTopbar">
+              <div class="left"><i class="logoDot"></i> Ritim Quality</div>
+              <div class="right">LIVE · OP-0142</div>
+            </div>
+            <div class="ritimScreenBody">
+              <div class="mobileMeasureValueWrap">
+                <div class="mobileMeasureValue">25.14</div>
+                <div class="mobileMeasureUnit">mm · Outer Diameter</div>
+              </div>
+              <div class="ritimScreenGrid" style="margin-top:14px">
+                <div class="ritimScreenCard"><span>CHARACTERISTIC</span><b>OD-01</b></div>
+                <div class="ritimScreenCard"><span>TARGET</span><b>25.00 ± 0.10</b></div>
+                <div class="ritimScreenCard full"><span>WORK ORDER</span><b>WO-20261 · AX-450</b></div>
+              </div>
+              <div class="ritimSampleBar" aria-label="4 of 5 samples">
+                <i class="done"></i><i class="done"></i><i class="done"></i><i class="alert"></i><i></i>
+              </div>
+              <div class="ritimActionRow">
+                <div class="ritimAction">Retake</div>
+                <div class="ritimAction primary">Save Result</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1529,7 +1966,16 @@ h1,h2,h3,p{margin:0}
         <h2>25.14.<br><span style="color:#ff3b4e">Tolerans dışında.</span></h2>
         <p>Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.</p>
         <div class="mobileStage mobileDetectStage">
+          <div class="mobileStageHeader">
+            <div class="mobileStageBrand"><i style="background:#ff3b4e;box-shadow:0 0 9px rgba(255,59,78,.52)"></i> Quality Alert</div>
+            <div class="mobileStageMeta">10:42:08</div>
+          </div>
           <div class="mobileDetectValue">25.14</div>
+          <div class="mobileDetectPulse" aria-hidden="true">
+            <svg viewBox="0 0 420 64" preserveAspectRatio="none">
+              <path d="M0 36 L110 36 L132 36 L146 18 L164 54 L182 29 L200 36 L300 36 L322 36 L340 20 L358 53 L376 36 L420 36"/>
+            </svg>
+          </div>
           <div class="mobileTolerance">
             <div class="mobileTolerancePointer"></div>
           </div>
@@ -1551,8 +1997,11 @@ h1,h2,h3,p{margin:0}
         <h2>Bir sayıdan<br>proses davranışına.</h2>
         <p>25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.</p>
         <div class="mobileStage mobileUnderstandStage">
+          <div class="mobileMorphOverlay" aria-hidden="true">
+            <div class="mobileMorphToken">25.14</div>
+            <div class="mobileMorphLanding"></div>
+          </div>
           <div class="mobileChartTop"><b>Process Capability</b><span>Outer Diameter<br>Last 248 samples</span></div>
-          <div class="mobileChartValue">25.14 →</div>
           <div class="mobileChart">
             <svg viewBox="0 0 420 210" preserveAspectRatio="none">
               <line x1="0" y1="42" x2="420" y2="42" stroke="#ffd166" stroke-width="1" stroke-dasharray="5 5"/>
@@ -1577,12 +2026,18 @@ h1,h2,h3,p{margin:0}
         <p>Mobilde radial ağ yerine okunabilir bir kalite timeline’ı kullanıyoruz.</p>
         <div class="mobileStage mobileTraceStage">
           <div class="mobileTraceLine">
-            <div class="mobileTraceItem"><span>PRODUCT</span><b>AX-450 Valve Body</b></div>
-            <div class="mobileTraceItem"><span>WORK ORDER</span><b>WO-20261</b></div>
-            <div class="mobileTraceItem"><span>MACHINE</span><b>CNC-04</b></div>
-            <div class="mobileTraceItem"><span>LOT</span><b>L260916-A</b></div>
-            <div class="mobileTraceItem"><span>MEASUREMENT</span><b>25.14 mm · NOK</b></div>
-            <div class="mobileTraceItem"><span>OPERATOR</span><b>OP-0142</b></div>
+            <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>PRODUCT</span><b>AX-450 Valve Body</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Revision<b>07</b></div><div>Status<b>Active</b></div></div></div></div></div>
+            <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>WORK ORDER</span><b>WO-20261</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Operation<b>OP-20</b></div><div>Qty<b>120 pcs</b></div></div></div></div></div>
+            <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>MACHINE</span><b>CNC-04</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Program<b>P-AX450-12</b></div><div>State<b>RUN</b></div></div></div></div></div>
+            <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>LOT</span><b>L260916-A</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Batch<b>B-0916-04</b></div><div>Shift<b>Morning</b></div></div></div></div></div>
+            <div class="mobileTraceItem highlight" role="button" tabindex="0" aria-expanded="true"><span>MEASUREMENT</span><b>25.14 mm · NOK</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Spec<b>24.90–25.10</b></div><div>Time<b>10:42:08</b></div><div>Image<b>Surface_0142.jpg</b></div><div>Decision<b>Investigate</b></div></div></div></div></div>
+            <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>OPERATOR</span><b>OP-0142</b>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Station<b>QC-02</b></div><div>Method<b>Caliper</b></div></div></div></div></div>
           </div>
         </div>
       </div>
@@ -1597,15 +2052,22 @@ h1,h2,h3,p{margin:0}
   </section>
 
   <section class="mobileWorlds">
+    <div class="mobileWorldCardPeek" aria-hidden="true">›</div>
     <div class="mobileWorldsHead">
       <div class="mobileActNum">THREE PRODUCT WORLDS</div>
       <h2>Capture.<br>Understand.<br>Connect.</h2>
       <p>Mobilde uzun grid yerine yatay swipe ile üç temel ürün dünyası.</p>
     </div>
+    <div class="mobileSwipeHint">Swipe to explore →</div>
     <div class="mobileSwipe">
       <article class="mobileWorldCard">
         <small>01</small><h3>Capture</h3>
         <p>Doğru kontrolü doğru anda üretim noktasına taşıyın.</p>
+        <div class="mobileWorldCardVisual" aria-hidden="true">
+          <svg viewBox="0 0 360 88" preserveAspectRatio="none">
+            <path d="M0 48 L82 48 L101 48 L116 24 L133 68 L151 39 L173 48 L360 48" fill="none" stroke="#ff3b4e" stroke-width="2.4"/>
+          </svg>
+        </div>
         <div class="mobileWorldList">
           <div><span>Control Plans</span><b>REVISION</b></div>
           <div><span>Measurements</span><b>NUMERIC</b></div>
@@ -1616,6 +2078,11 @@ h1,h2,h3,p{margin:0}
       <article class="mobileWorldCard">
         <small>02</small><h3>Understand</h3>
         <p>Ham veriyi proses davranışına ve karar sinyaline dönüştürün.</p>
+        <div class="mobileWorldCardVisual" aria-hidden="true">
+          <svg viewBox="0 0 360 88" preserveAspectRatio="none">
+            <polyline points="0,63 42,54 84,59 126,43 168,49 210,34 252,41 294,27 336,32 360,29" fill="none" stroke="#edf3fa" stroke-width="2.6"/>
+          </svg>
+        </div>
         <div class="mobileWorldList">
           <div><span>SPC</span><b>TREND</b></div>
           <div><span>Cp / Cpk</span><b>CAPABILITY</b></div>
@@ -1626,6 +2093,12 @@ h1,h2,h3,p{margin:0}
       <article class="mobileWorldCard">
         <small>03</small><h3>Connect</h3>
         <p>Kalite verisini ürün, lot, makine ve kurumsal sistemlerle bağlayın.</p>
+        <div class="mobileWorldCardVisual" aria-hidden="true">
+          <svg viewBox="0 0 360 88" preserveAspectRatio="none">
+            <circle cx="58" cy="45" r="7" fill="#ff3b4e"/><circle cx="180" cy="26" r="7" fill="#82a7ff"/><circle cx="300" cy="57" r="7" fill="#76dfa7"/>
+            <line x1="65" y1="44" x2="173" y2="27" stroke="#304a72" stroke-width="1.5"/><line x1="187" y1="28" x2="293" y2="55" stroke="#304a72" stroke-width="1.5"/>
+          </svg>
+        </div>
         <div class="mobileWorldList">
           <div><span>Traceability</span><b>LOT / SERIAL</b></div>
           <div><span>API</span><b>CONNECT</b></div>
@@ -1724,7 +2197,16 @@ const contextCursorLabel=document.getElementById('contextCursorLabel');
 const deviceReflection=document.getElementById('deviceReflection');
 const revealEls=[...document.querySelectorAll('[data-reveal]')];
 const mobileActs=[...document.querySelectorAll('.mobileAct')];
+const mobileDetectValue=document.querySelector('.mobileDetectValue');
+const mobileTolerance=document.querySelector('.mobileTolerance');
+const mobileMorphValue=document.querySelector('.mobileMorphValue');
+const mobileTraceItems=[...document.querySelectorAll('.mobileTraceItem')];
+
 const mobileStickyCta=document.getElementById('mobileStickyCta');
+const mobilePulsePath=document.getElementById('mobilePulsePath');
+const mobilePulseCursor=document.getElementById('mobilePulseCursor');
+const mobileTraceInteractive=[...document.querySelectorAll('.mobileTraceItem[role="button"]')];
+
 const cloudTab=document.getElementById('cloudTab');
 const premTab=document.getElementById('premTab');
 const mobileDeployPanel=document.getElementById('mobileDeployPanel');
@@ -2077,23 +2559,113 @@ if(finePointer.matches && !reducedMotion.matches){
 
 function setupMobileExperience(){
   if(!window.matchMedia('(max-width: 820px)').matches) return;
+  const reduceMobileMotion = reducedMotion.matches;
 
   const actObserver=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
-      if(entry.isIntersecting) entry.target.classList.add('is-visible');
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+
+        if(!reduceMobileMotion && entry.target.id==='mDetect' && mobileDetectValue){
+          mobileDetectValue.animate(
+            [
+              {transform:'scale(.88)',opacity:.2},
+              {transform:'scale(1.06)',opacity:1,offset:.72},
+              {transform:'scale(1)',opacity:1}
+            ],
+            {duration:720,easing:'cubic-bezier(.16,1,.3,1)',fill:'both'}
+          );
+          mobileTolerance?.animate(
+            [{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],
+            {duration:520,delay:260,easing:'ease-out',fill:'both'}
+          );
+        }
+
+        if(!reduceMobileMotion && entry.target.id==='mTrace'){
+          mobileTraceItems.forEach((el,i)=>{
+            el.animate(
+              [
+                {opacity:.2,transform:'translateX(12px)'},
+                {opacity:1,transform:'translateX(0)'}
+              ],
+              {duration:420,delay:i*90,easing:'cubic-bezier(.2,.75,.2,1)',fill:'both'}
+            );
+          });
+        }
+      }
     });
   },{threshold:.42});
+
   mobileActs.forEach(act=>actObserver.observe(act));
 
   const mobileExperience=document.getElementById('mobileExperience');
   if(mobileExperience && mobileStickyCta){
     const ctaObserver=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
-        mobileStickyCta.classList.toggle('visible',entry.isIntersecting);
+        mobileStickyCta.classList.toggle('visible',entry.isIntersecting && !mobileStickyCta.classList.contains('locked'));
       });
     },{threshold:.12});
     ctaObserver.observe(mobileExperience);
   }
+
+
+  // CTA unlocks only after the user has reached UNDERSTAND.
+  if(mobileStickyCta) mobileStickyCta.classList.add('locked');
+  const understandSection=document.getElementById('mUnderstand');
+  if(understandSection && mobileStickyCta){
+    const valueObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          mobileStickyCta.classList.remove('locked');
+          valueObserver.disconnect();
+        }
+      });
+    },{threshold:.35});
+    valueObserver.observe(understandSection);
+  }
+
+  // One pulse continues through all mobile acts.
+  if(mobilePulsePath && mobilePulseCursor){
+    const updateMobilePulse=()=>{
+      const exp=document.getElementById('mobileExperience');
+      if(!exp) return;
+      const r=exp.getBoundingClientRect();
+      const travel=Math.max(1,exp.offsetHeight-innerHeight);
+      const p=clamp(-r.top/travel);
+      const y=380;
+      const amp=1-.56*p;
+      const pts=[
+        [10,y],[85,y],[105,y],[120,y-30*amp],[140,y+35*amp],[165,y-12*amp],[190,y],
+        [270,y],[292,y],[310,y-22*amp],[327,y+27*amp],[348,y],[390,y]
+      ];
+      mobilePulsePath.setAttribute('d',ptsToPath(pts));
+      const idx=Math.min(pts.length-1,Math.max(0,Math.floor(p*(pts.length-1))));
+      mobilePulseCursor.setAttribute('cx',pts[idx][0]);
+      mobilePulseCursor.setAttribute('cy',pts[idx][1]);
+    };
+    addEventListener('scroll',()=>{
+      if(!reduceMobileMotion) requestAnimationFrame(updateMobilePulse);
+    },{passive:true});
+    updateMobilePulse();
+  }
+
+  // Interactive trace detail: tap/click or keyboard Enter/Space.
+  mobileTraceInteractive.forEach(item=>{
+    const toggle=()=>{
+      const open=item.getAttribute('aria-expanded')==='true';
+      mobileTraceInteractive.forEach(other=>{
+        if(other!==item) other.setAttribute('aria-expanded','false');
+      });
+      item.setAttribute('aria-expanded',String(!open));
+    };
+    item.addEventListener('click',toggle);
+    item.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
 
   const deployData={
     cloud:{
