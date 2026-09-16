@@ -1416,6 +1416,54 @@ h1,h2,h3,p{margin:0}
   .endActions .btn{width:100%}
 }
 
+
+/* =========================
+   V12 MULTILINGUAL SYSTEM
+   ========================= */
+.langSwitch{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:4px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:rgba(7,16,31,.72);
+  backdrop-filter:blur(10px);
+}
+.langSwitch button{
+  min-width:34px;
+  padding:7px 9px;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:#8798ae;
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.langSwitch button:hover{color:#fff}
+.langSwitch button.active{
+  color:#06101e;
+  background:#f5f8fb;
+}
+.mobileLangWrap{
+  display:none;
+}
+@media(max-width:820px){
+  .langSwitch.desktopLang{display:none}
+  .mobileLangWrap{
+    display:block;
+    padding:6px 8px 10px;
+    border-top:1px solid #17243b;
+    margin-top:4px;
+  }
+  .mobileLangWrap .langSwitch{
+    width:max-content;
+  }
+}
+
 @media(max-width:1000px){
   .signalSculpture{opacity:.42;right:-18vw}
   .worldGrid{grid-template-columns:1fr}
@@ -1520,10 +1568,10 @@ h1,h2,h3,p{margin:0}
   <div class="wrap navin">
     <div class="brand"><div class="logo"></div>Ritim Quality</div>
     <nav class="navlinks" aria-label="Ana navigasyon">
-      <a class="magnetic" href="#story">Ürün</a>
-      <a class="magnetic" href="#worlds">Özellikler</a>
-      <a class="magnetic" href="#enterprise">Enterprise</a>
-      <a class="navcta magnetic" href="#contact">Demo Talep Et</a>
+      <a class="magnetic" href="#story"><span data-i18n="nav_product">Ürün</span></a>
+      <a class="magnetic" href="#worlds"><span data-i18n="nav_features">Özellikler</span></a>
+      <a class="magnetic" href="#enterprise"><span data-i18n="nav_enterprise">Enterprise</span></a>
+      <a class="navcta magnetic" href="#contact" data-i18n="nav_demo" data-i18n="nav_demo">Demo Talep Et</a>
     </nav>
     <button class="mobileMenuBtn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menüyü aç">
       <span></span><span></span><span></span>
@@ -1532,10 +1580,17 @@ h1,h2,h3,p{margin:0}
 </header>
 
 <nav class="mobileMenu" id="mobileMenu" aria-label="Mobil navigasyon" aria-hidden="true">
-  <a href="#story">Ürün</a>
-  <a href="#worlds">Özellikler</a>
-  <a href="#enterprise">Enterprise</a>
-  <a href="#contact">Demo Talep Et</a>
+  <a href="#story"><span data-i18n="nav_product">Ürün</span></a>
+  <a href="#worlds"><span data-i18n="nav_features">Özellikler</span></a>
+  <a href="#enterprise"><span data-i18n="nav_enterprise">Enterprise</span></a>
+  <a href="#contact" data-i18n="nav_demo" data-i18n="nav_demo">Demo Talep Et</a>
+  <div class="mobileLangWrap">
+    <div class="langSwitch" aria-label="Language selector">
+      <button type="button" data-lang="tr">TR</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="fr">FR</button>
+    </div>
+  </div>
 </nav>
 
 <main id="mainContent">
@@ -1553,15 +1608,15 @@ h1,h2,h3,p{margin:0}
   </div>
 
   <div class="wrap heroCore">
-    <div class="kicker">RITIM QUALITY MANAGEMENT PLATFORM</div>
+    <div class="kicker" data-i18n="hero_kicker">RITIM QUALITY MANAGEMENT PLATFORM</div>
     <h1 class="revealText" data-reveal>
-      <span class="revealMask"><span class="revealLine">Quality has a rhythm.</span></span>
-      <span class="revealMask"><span class="revealLine soft">Make it visible.</span></span>
+      <span class="revealMask"><span class="revealLine" data-i18n="hero_title_1">Quality has a rhythm.</span></span>
+      <span class="revealMask"><span class="revealLine soft" data-i18n="hero_title_2">Make it visible.</span></span>
     </h1>
-    <p class="lead">Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.</p>
+    <p class="lead" data-i18n="hero_lead">Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.</p>
     <div class="heroActions">
-      <a class="btn primary magnetic" href="#story">Deneyimi Başlat</a>
-      <a class="btn magnetic" href="#worlds">Ürünü İncele</a>
+      <a class="btn primary magnetic" href="#story"><span data-i18n="hero_start">Deneyimi Başlat</span></a>
+      <a class="btn magnetic" href="#worlds"><span data-i18n="hero_explore">Ürünü İncele</span></a>
     </div>
   </div>
 
@@ -1572,7 +1627,7 @@ h1,h2,h3,p{margin:0}
       fill="none" stroke="#ff3b4e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div class="scrollHint">scroll to enter</div>
+  <div class="scrollHint"><span data-i18n="hero_scroll">scroll to enter</span></div>
 </section>
 
 <section class="story" id="story">
@@ -1581,62 +1636,62 @@ h1,h2,h3,p{margin:0}
       <div class="ambientLine"></div>
 
       <article class="chapter desktopChapter">
-        <div class="num">01 — DIGITIZE</div>
-        <h2>Kağıdı değil,<br>veriyi yönetin.</h2>
-        <p>Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.</p>
+        <div class="num" data-i18n="desktop_1_num">01 — DIGITIZE</div>
+        <h2 data-i18n="desktop_1_title">Kağıdı değil,<br>veriyi yönetin.</h2>
+        <p data-i18n="desktop_1_body">Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.</p>
         <div class="micro">PAPER → DIGITAL</div>
       </article>
       <article class="chapter desktopChapter">
-        <div class="num">02 — PLAN</div>
-        <h2>Doğru kontrol.<br>Doğru anda.</h2>
-        <p>Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.</p>
+        <div class="num" data-i18n="desktop_2_num">02 — PLAN</div>
+        <h2 data-i18n="desktop_2_title">Doğru kontrol.<br>Doğru anda.</h2>
+        <p data-i18n="desktop_2_body">Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.</p>
         <div class="micro">PLAN → EXECUTE</div>
       </article>
       <article class="chapter desktopChapter">
-        <div class="num">03 — MEASURE</div>
-        <h2>Bir ölçüm<br>sadece sayı değildir.</h2>
-        <p><strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.</p>
+        <div class="num" data-i18n="desktop_3_num">03 — MEASURE</div>
+        <h2 data-i18n="desktop_3_title">Bir ölçüm<br>sadece sayı değildir.</h2>
+        <p data-i18n="desktop_3_body"><strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.</p>
         <div class="micro">DATA → CONTEXT</div>
       </article>
       <article class="chapter desktopChapter">
-        <div class="num">04 — ANALYZE</div>
-        <h2>25.14, bir veri<br>noktasına dönüşür.</h2>
-        <p>Sayı küçülür, ilk chart noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.</p>
+        <div class="num" data-i18n="desktop_4_num">04 — ANALYZE</div>
+        <h2 data-i18n="desktop_4_title">25.14, bir veri<br>noktasına dönüşür.</h2>
+        <p data-i18n="desktop_4_body">Sayı küçülür, ilk chart noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.</p>
         <div class="micro">CONTEXT → KNOWLEDGE</div>
       </article>
       <article class="chapter desktopChapter">
-        <div class="num">05 — TRACE</div>
-        <h2>Her ürünün<br>dijital kalite izi.</h2>
-        <p>Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.</p>
+        <div class="num" data-i18n="desktop_5_num">05 — TRACE</div>
+        <h2 data-i18n="desktop_5_title">Her ürünün<br>dijital kalite izi.</h2>
+        <p data-i18n="desktop_5_body">Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.</p>
         <div class="micro">KNOWLEDGE → TRACE</div>
       </article>
       <article class="chapter desktopChapter">
-        <div class="num">06 — DEPLOY</div>
-        <h2>Aynı Ritim Quality.<br>Sizin altyapınız.</h2>
-        <p><strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.</p>
+        <div class="num" data-i18n="desktop_6_num">06 — DEPLOY</div>
+        <h2 data-i18n="desktop_6_title">Aynı Ritim Quality.<br>Sizin altyapınız.</h2>
+        <p data-i18n="desktop_6_body"><strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.</p>
         <div class="micro">ONE PRODUCT → TWO DEPLOYMENT MODELS</div>
       </article>
 
       <article class="chapter mobileChapter">
-        <div class="num">01 — MEASURE</div>
+        <div class="num" data-i18n="m1_num">01 — MEASURE</div>
         <h2>Ölçümü görün.<br>Hemen yakalayın.</h2>
         <p>Mobil deneyim burada doğrudan kalite sinyalinin merkezinden başlar.</p>
         <div class="micro">MEASURE</div>
       </article>
       <article class="chapter mobileChapter">
-        <div class="num">02 — DETECT</div>
+        <div class="num" data-i18n="m2_num">02 — DETECT</div>
         <h2>25.14, toleransın<br>dışında kaldı.</h2>
         <p>Sayıdan hemen sonra limitler ve bağlam görünür hale gelir.</p>
         <div class="micro">DETECT</div>
       </article>
       <article class="chapter mobileChapter">
-        <div class="num">03 — UNDERSTAND</div>
-        <h2>Bir sayıdan<br>proses davranışına.</h2>
+        <div class="num" data-i18n="m3_num">03 — UNDERSTAND</div>
+        <h2 data-i18n="m3_title">Bir sayıdan<br>proses davranışına.</h2>
         <p>25.14 noktaya dönüşür; diğer örneklerle birlikte grafik oluşur.</p>
         <div class="micro">UNDERSTAND</div>
       </article>
       <article class="chapter mobileChapter">
-        <div class="num">04 — TRACE</div>
+        <div class="num" data-i18n="m4_num">04 — TRACE</div>
         <h2>Kararın arkasındaki<br>bağlamı görün.</h2>
         <p>Lot, ürün, makine ve operatör tek kalite ağında birleşir.</p>
         <div class="micro">TRACE</div>
@@ -1801,22 +1856,22 @@ h1,h2,h3,p{margin:0}
   <div class="wrap">
     <div class="kicker">A QUIET MOMENT</div>
     <div class="bigQuote revealText" data-reveal>
-      <span class="revealMask"><span class="revealLine">One bad number.</span></span>
-      <span class="revealMask"><span class="revealLine red">The whole story behind it.</span></span>
+      <span class="revealMask"><span class="revealLine" data-i18n="quiet_title_1">One bad number.</span></span>
+      <span class="revealMask"><span class="revealLine red" data-i18n="quiet_title_2">The whole story behind it.</span></span>
     </div>
-    <p class="smallText">Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.</p>
+    <p class="smallText" data-i18n="quiet_body">Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.</p>
   </div>
 </section>
 
 <section class="worlds perfSection" id="worlds">
   <div class="wrap">
     <div class="sectionHead">
-      <div><div class="kicker">THREE PRODUCT WORLDS</div><h2>Ritim Quality’yi üç basit fikirle anlatın.</h2></div>
-      <p>Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.</p>
+      <div><div class="kicker" data-i18n="mworlds_num">THREE PRODUCT WORLDS</div><h2 data-i18n="worlds_title">Ritim Quality’yi üç basit fikirle anlatın.</h2></div>
+      <p data-i18n="worlds_body">Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.</p>
     </div>
     <div class="worldGrid">
       <article class="world">
-        <div class="worldNo">01</div><h3>Capture</h3>
+        <div class="worldNo">01</div><h3 data-i18n="world_capture">Capture</h3>
         <p>Kalite planını üretimin içine taşıyın ve doğru veriyi doğru anda toplayın.</p>
         <div class="worldItems">
           <div class="worldItem"><span>Control Plans</span><b>REVISION</b></div>
@@ -1827,7 +1882,7 @@ h1,h2,h3,p{margin:0}
         <div class="worldPulse"><svg viewBox="0 0 400 90" preserveAspectRatio="none"><path d="M0 50 L92 50 L112 50 L130 25 L150 72 L172 40 L195 50 L400 50" fill="none" stroke="#ff3b4e" stroke-width="2.6"/></svg></div>
       </article>
       <article class="world">
-        <div class="worldNo">02</div><h3>Understand</h3>
+        <div class="worldNo">02</div><h3 data-i18n="world_understand">Understand</h3>
         <p>Ham ölçümleri proses davranışına ve karar sinyaline dönüştürün.</p>
         <div class="worldItems">
           <div class="worldItem"><span>SPC</span><b>TREND</b></div>
@@ -1838,7 +1893,7 @@ h1,h2,h3,p{margin:0}
         <div class="worldPulse"><svg viewBox="0 0 400 90" preserveAspectRatio="none"><polyline points="0,62 48,54 95,60 142,44 190,51 240,34 290,42 340,27 400,32" fill="none" stroke="#eaf1fb" stroke-width="2.8"/></svg></div>
       </article>
       <article class="world">
-        <div class="worldNo">03</div><h3>Connect</h3>
+        <div class="worldNo">03</div><h3 data-i18n="world_connect">Connect</h3>
         <p>Kalite verisini ürün, lot, makine, iş emri ve kurumsal sistemlerle bağlayın.</p>
         <div class="worldItems">
           <div class="worldItem"><span>Traceability</span><b>LOT / SERIAL</b></div>
@@ -1875,8 +1930,8 @@ h1,h2,h3,p{margin:0}
 <section class="enterprise perfSection" id="enterprise">
   <div class="wrap">
     <div class="sectionHead">
-      <div><div class="kicker">ENTERPRISE READY</div><h2>Üretim ortamına uygun güven ve kontrol.</h2></div>
-      <p>Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.</p>
+      <div><div class="kicker">ENTERPRISE READY</div><h2 data-i18n="enterprise_title">Üretim ortamına uygun güven ve kontrol.</h2></div>
+      <p data-i18n="enterprise_body">Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.</p>
     </div>
     <div class="enterpriseGrid">
       <div class="trustPanel">
@@ -1887,7 +1942,7 @@ h1,h2,h3,p{margin:0}
           <div class="trustItem"><span>HISTORY</span><b>Audit trail ready</b></div>
           <div class="trustItem"><span>DATA</span><b>Customer data ownership</b></div>
           <div class="trustItem"><span>INTEGRATION</span><b>API / MES / ERP connectivity</b></div>
-          <div class="trustItem"><span>DEPLOYMENT</span><b>Cloud or On‑Premise</b></div>
+          <div class="trustItem"><span data-i18n="mdeploy_num">DEPLOYMENT</span><b>Cloud or On‑Premise</b></div>
           <div class="trustItem"><span>OPERATIONS</span><b>Backup & recovery strategy</b></div>
         </div>
       </div>
@@ -1923,9 +1978,9 @@ h1,h2,h3,p{margin:0}
 
     <section class="mobileAct" id="mMeasure">
       <div class="mobileActInner">
-        <div class="mobileActNum">01 — MEASURE</div>
-        <h2>Ölçümü gir.<br>Kaliteyi başlat.</h2>
-        <p>Mobilde hikâyeyi doğrudan operatörün gördüğü değerle başlatıyoruz. Bir ekran, bir fikir.</p>
+        <div class="mobileActNum" data-i18n="m1_num">01 — MEASURE</div>
+        <h2 data-i18n="m1_title">Ölçümü gir.<br>Kaliteyi başlat.</h2>
+        <p data-i18n="m1_body">Mobilde hikâyeyi doğrudan operatörün gördüğü değerle başlatıyoruz. Bir ekran, bir fikir.</p>
         <div class="mobileActSignal" aria-hidden="true">
           <svg viewBox="0 0 420 72" preserveAspectRatio="none">
             <path d="M0 40 L80 40 L102 40 L118 21 L136 57 L158 33 L180 40 L300 40 L320 40 L338 25 L354 54 L372 40 L420 40"/>
@@ -1951,8 +2006,8 @@ h1,h2,h3,p{margin:0}
                 <i class="done"></i><i class="done"></i><i class="done"></i><i class="alert"></i><i></i>
               </div>
               <div class="ritimActionRow">
-                <div class="ritimAction">Retake</div>
-                <div class="ritimAction primary">Save Result</div>
+                <div class="ritimAction" data-i18n="retake">Retake</div>
+                <div class="ritimAction primary" data-i18n="save_result">Save Result</div>
               </div>
             </div>
           </div>
@@ -1962,9 +2017,9 @@ h1,h2,h3,p{margin:0}
 
     <section class="mobileAct" id="mDetect">
       <div class="mobileActInner">
-        <div class="mobileActNum">02 — DETECT</div>
-        <h2>25.14.<br><span style="color:#ff3b4e">Tolerans dışında.</span></h2>
-        <p>Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.</p>
+        <div class="mobileActNum" data-i18n="m2_num">02 — DETECT</div>
+        <h2 data-i18n="m2_title">25.14.<br><span style="color:#ff3b4e">Tolerans dışında.</span></h2>
+        <p data-i18n="m2_body">Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.</p>
         <div class="mobileStage mobileDetectStage">
           <div class="mobileStageHeader">
             <div class="mobileStageBrand"><i style="background:#ff3b4e;box-shadow:0 0 9px rgba(255,59,78,.52)"></i> Quality Alert</div>
@@ -1993,9 +2048,9 @@ h1,h2,h3,p{margin:0}
 
     <section class="mobileAct" id="mUnderstand">
       <div class="mobileActInner">
-        <div class="mobileActNum">03 — UNDERSTAND</div>
-        <h2>Bir sayıdan<br>proses davranışına.</h2>
-        <p>25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.</p>
+        <div class="mobileActNum" data-i18n="m3_num">03 — UNDERSTAND</div>
+        <h2 data-i18n="m3_title">Bir sayıdan<br>proses davranışına.</h2>
+        <p data-i18n="m3_body">25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.</p>
         <div class="mobileStage mobileUnderstandStage">
           <div class="mobileMorphOverlay" aria-hidden="true">
             <div class="mobileMorphToken">25.14</div>
@@ -2021,23 +2076,23 @@ h1,h2,h3,p{margin:0}
 
     <section class="mobileAct" id="mTrace">
       <div class="mobileActInner">
-        <div class="mobileActNum">04 — TRACE</div>
-        <h2>Kararın arkasındaki<br>tüm hikâye.</h2>
-        <p>Mobilde radial ağ yerine okunabilir bir kalite timeline’ı kullanıyoruz.</p>
+        <div class="mobileActNum" data-i18n="m4_num">04 — TRACE</div>
+        <h2 data-i18n="m4_title">Kararın arkasındaki<br>tüm hikâye.</h2>
+        <p data-i18n="m4_body">Mobilde radial ağ yerine okunabilir bir kalite timeline’ı kullanıyoruz.</p>
         <div class="mobileStage mobileTraceStage">
           <div class="mobileTraceLine">
             <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>PRODUCT</span><b>AX-450 Valve Body</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Revision<b>07</b></div><div>Status<b>Active</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_revision">Revision<b>07</b></div><div data-i18n="trace_status">Status<b>Active</b></div></div></div></div></div>
             <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>WORK ORDER</span><b>WO-20261</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Operation<b>OP-20</b></div><div>Qty<b>120 pcs</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_operation">Operation<b>OP-20</b></div><div data-i18n="trace_qty">Qty<b>120 pcs</b></div></div></div></div></div>
             <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>MACHINE</span><b>CNC-04</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Program<b>P-AX450-12</b></div><div>State<b>RUN</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_program">Program<b>P-AX450-12</b></div><div data-i18n="trace_state">State<b>RUN</b></div></div></div></div></div>
             <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>LOT</span><b>L260916-A</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Batch<b>B-0916-04</b></div><div>Shift<b>Morning</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_batch">Batch<b>B-0916-04</b></div><div data-i18n="trace_shift">Shift<b>Morning</b></div></div></div></div></div>
             <div class="mobileTraceItem highlight" role="button" tabindex="0" aria-expanded="true"><span>MEASUREMENT</span><b>25.14 mm · NOK</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Spec<b>24.90–25.10</b></div><div>Time<b>10:42:08</b></div><div>Image<b>Surface_0142.jpg</b></div><div>Decision<b>Investigate</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_spec">Spec<b>24.90–25.10</b></div><div data-i18n="trace_time">Time<b>10:42:08</b></div><div data-i18n="trace_image">Image<b>Surface_0142.jpg</b></div><div data-i18n="trace_decision">Decision<b data-i18n="trace_investigate">Investigate</b></div></div></div></div></div>
             <div class="mobileTraceItem" role="button" tabindex="0" aria-expanded="false"><span>OPERATOR</span><b>OP-0142</b>
-       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div>Station<b>QC-02</b></div><div>Method<b>Caliper</b></div></div></div></div></div>
+       <div class="mobileTraceDetail"><div><div class="mobileTraceDetailInner"><div data-i18n="trace_station">Station<b>QC-02</b></div><div data-i18n="trace_method">Method<b>Caliper</b></div></div></div></div></div>
           </div>
         </div>
       </div>
@@ -2046,22 +2101,22 @@ h1,h2,h3,p{margin:0}
   </div>
 
   <section class="mobileQuiet">
-    <div class="mobileActNum">THE QUALITY SIGNAL</div>
-    <h2>One bad number.<br><span class="red">The whole story behind it.</span></h2>
-    <p>Ritim Quality’nin mobil deneyimi burada sakinleşiyor ve ürünün ne yaptığını tek cümlede özetliyor.</p>
+    <div class="mobileActNum" data-i18n="mquiet_num">THE QUALITY SIGNAL</div>
+    <h2 data-i18n="quiet_title_1">One bad number.<br><span class="red" data-i18n="quiet_title_2">The whole story behind it.</span></h2>
+    <p data-i18n="mquiet_body">Ritim Quality’nin mobil deneyimi burada sakinleşiyor ve ürünün ne yaptığını tek cümlede özetliyor.</p>
   </section>
 
   <section class="mobileWorlds">
     <div class="mobileWorldCardPeek" aria-hidden="true">›</div>
     <div class="mobileWorldsHead">
-      <div class="mobileActNum">THREE PRODUCT WORLDS</div>
-      <h2>Capture.<br>Understand.<br>Connect.</h2>
-      <p>Mobilde uzun grid yerine yatay swipe ile üç temel ürün dünyası.</p>
+      <div class="mobileActNum" data-i18n="mworlds_num">THREE PRODUCT WORLDS</div>
+      <h2 data-i18n="mworlds_title">Capture.<br>Understand.<br>Connect.</h2>
+      <p data-i18n="mworlds_body">Mobilde uzun grid yerine yatay swipe ile üç temel ürün dünyası.</p>
     </div>
-    <div class="mobileSwipeHint">Swipe to explore →</div>
+    <div class="mobileSwipeHint" data-i18n="mworlds_swipe">Swipe to explore →</div>
     <div class="mobileSwipe">
       <article class="mobileWorldCard">
-        <small>01</small><h3>Capture</h3>
+        <small>01</small><h3 data-i18n="world_capture">Capture</h3>
         <p>Doğru kontrolü doğru anda üretim noktasına taşıyın.</p>
         <div class="mobileWorldCardVisual" aria-hidden="true">
           <svg viewBox="0 0 360 88" preserveAspectRatio="none">
@@ -2076,7 +2131,7 @@ h1,h2,h3,p{margin:0}
         </div>
       </article>
       <article class="mobileWorldCard">
-        <small>02</small><h3>Understand</h3>
+        <small>02</small><h3 data-i18n="world_understand">Understand</h3>
         <p>Ham veriyi proses davranışına ve karar sinyaline dönüştürün.</p>
         <div class="mobileWorldCardVisual" aria-hidden="true">
           <svg viewBox="0 0 360 88" preserveAspectRatio="none">
@@ -2091,7 +2146,7 @@ h1,h2,h3,p{margin:0}
         </div>
       </article>
       <article class="mobileWorldCard">
-        <small>03</small><h3>Connect</h3>
+        <small>03</small><h3 data-i18n="world_connect">Connect</h3>
         <p>Kalite verisini ürün, lot, makine ve kurumsal sistemlerle bağlayın.</p>
         <div class="mobileWorldCardVisual" aria-hidden="true">
           <svg viewBox="0 0 360 88" preserveAspectRatio="none">
@@ -2110,11 +2165,11 @@ h1,h2,h3,p{margin:0}
   </section>
 
   <section class="mobileDeploy">
-    <div class="mobileActNum">DEPLOYMENT</div>
-    <h2>One product.<br>Two deployment models.</h2>
+    <div class="mobileActNum" data-i18n="mdeploy_num">DEPLOYMENT</div>
+    <h2 data-i18n="mdeploy_title">One product.<br>Two deployment models.</h2>
     <div class="mobileDeployTabs" role="tablist" aria-label="Deployment seçenekleri">
-      <button class="active" id="cloudTab" role="tab" aria-selected="true">Cloud</button>
-      <button id="premTab" role="tab" aria-selected="false">On-Premise</button>
+      <button class="active" id="cloudTab" role="tab" aria-selected="true" data-i18n="deploy_cloud">Cloud</button>
+      <button id="premTab" role="tab" aria-selected="false" data-i18n="deploy_onprem">On-Premise</button>
     </div>
     <div class="mobileDeployPanel" id="mobileDeployPanel">
       <h3>Cloud</h3>
@@ -2129,20 +2184,20 @@ h1,h2,h3,p{margin:0}
 </section>
 
 <div class="mobileStickyCta" id="mobileStickyCta">
-  <a href="#contact">Demo Talep Et</a>
+  <a href="#contact" data-i18n="nav_demo">Demo Talep Et</a>
 </div>
 
 <section class="end" id="contact">
   <div class="wrap">
     <div class="kicker">RITIM QUALITY</div>
     <h2 class="revealText" data-reveal>
-      <span class="revealMask"><span class="revealLine">Quality doesn’t stop.</span></span>
-      <span class="revealMask"><span class="revealLine">Neither should your visibility.</span></span>
+      <span class="revealMask"><span class="revealLine" data-i18n="final_title_1">Quality doesn’t stop.</span></span>
+      <span class="revealMask"><span class="revealLine" data-i18n="final_title_2">Neither should your visibility.</span></span>
     </h2>
-    <p>Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.</p>
+    <p data-i18n="final_body">Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.</p>
     <div class="endActions">
-      <a class="btn primary magnetic" href="#">30 dakikalık demo talep et</a>
-      <a class="btn magnetic" href="#">Deployment seçeneklerini konuşalım</a>
+      <a class="btn primary magnetic" href="#" data-i18n="final_demo">30 dakikalık demo talep et</a>
+      <a class="btn magnetic" href="#" data-i18n="final_deploy">Deployment seçeneklerini konuşalım</a>
     </div>
   </div>
   <div class="finalPulse">
@@ -2232,6 +2287,44 @@ const pulseB=[[0,325],[120,325],[150,325],[176,325],[205,325],[235,325],[270,325
 const pulseC=[[0,360],[58,333],[117,352],[175,320],[233,345],[292,314],[350,330],[408,296],[467,322],[525,284],[583,304],[642,294],[700,278]];
 const pulseD=[[0,300],[120,300],[150,300],[176,285],[205,315],[235,295],[270,300],[430,300],[458,300],[485,286],[515,313],[548,300],[700,300]];
 
+
+
+const I18N={"tr": {"nav_product": "Ürün", "nav_features": "Özellikler", "nav_enterprise": "Enterprise", "nav_demo": "Demo Talep Et", "hero_kicker": "RITIM QUALITY MANAGEMENT PLATFORM", "hero_title_1": "Quality has a rhythm.", "hero_title_2": "Make it visible.", "hero_lead": "Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.", "hero_start": "Deneyimi Başlat", "hero_explore": "Ürünü İncele", "hero_scroll": "kaydır ve keşfet", "desktop_1_num": "01 — DİJİTALLEŞTİR", "desktop_1_title": "Kağıdı değil,<br>veriyi yönetin.", "desktop_1_body": "Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.", "desktop_2_num": "02 — PLANLA", "desktop_2_title": "Doğru kontrol.<br>Doğru anda.", "desktop_2_body": "Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.", "desktop_3_num": "03 — ÖLÇ", "desktop_3_title": "Bir ölçüm<br>sadece sayı değildir.", "desktop_3_body": "<strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.", "desktop_4_num": "04 — ANALİZ ET", "desktop_4_title": "25.14, bir veri<br>noktasına dönüşür.", "desktop_4_body": "Sayı küçülür, ilk grafik noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.", "desktop_5_num": "05 — İZLE", "desktop_5_title": "Her ürünün<br>dijital kalite izi.", "desktop_5_body": "Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.", "desktop_6_num": "06 — DEVREYE AL", "desktop_6_title": "Aynı Ritim Quality.<br>Sizin altyapınız.", "desktop_6_body": "<strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.", "quiet_title_1": "Tek bir kötü ölçüm.", "quiet_title_2": "Arkasındaki tüm hikâye.", "quiet_body": "Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.", "worlds_title": "Ritim Quality’yi üç basit fikirle anlatın.", "worlds_body": "Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.", "world_capture": "Yakalama", "world_understand": "Anlama", "world_connect": "Bağlama", "enterprise_title": "Üretim ortamına uygun güven ve kontrol.", "enterprise_body": "Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.", "final_title_1": "Kalite durmaz.", "final_title_2": "Görünürlüğünüz de durmamalı.", "final_body": "Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.", "final_demo": "30 dakikalık demo talep et", "final_deploy": "Deployment seçeneklerini konuşalım", "m1_num": "01 — ÖLÇ", "m1_title": "Ölçümü gir.<br>Kaliteyi başlat.", "m1_body": "Mobil deneyim doğrudan operatörün gördüğü değerle başlar. Bir ekran, bir fikir.", "m2_num": "02 — TESPİT ET", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Tolerans dışında.</span>", "m2_body": "Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.", "m3_num": "03 — ANLA", "m3_title": "Bir sayıdan<br>proses davranışına.", "m3_body": "25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.", "m4_num": "04 — İZLE", "m4_title": "Kararın arkasındaki<br>tüm hikâye.", "m4_body": "Ürün, iş emri, makine, lot, ölçüm ve operatör tek kalite hikâyesinde birleşir.", "mquiet_num": "KALİTE SİNYALİ", "mquiet_body": "Ritim Quality’nin mobil deneyimi burada sakinleşir ve ürünün değerini tek cümlede özetler.", "mworlds_num": "ÜÇ ÜRÜN DÜNYASI", "mworlds_title": "Yakala.<br>Anla.<br>Bağla.", "mworlds_body": "Mobilde uzun grid yerine yatay kaydırmayla üç temel ürün dünyası.", "mworlds_swipe": "Keşfetmek için kaydır →", "mdeploy_num": "DEVREYE ALMA", "mdeploy_title": "Tek ürün.<br>İki deployment modeli.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Tekrar Ölç", "save_result": "Sonucu Kaydet", "trace_revision": "Revizyon", "trace_status": "Durum", "trace_operation": "Operasyon", "trace_qty": "Miktar", "trace_program": "Program", "trace_state": "Durum", "trace_batch": "Batch", "trace_shift": "Vardiya", "trace_spec": "Spesifikasyon", "trace_time": "Zaman", "trace_image": "Görsel", "trace_decision": "Karar", "trace_station": "İstasyon", "trace_method": "Metot", "trace_investigate": "İncele"}, "en": {"nav_product": "Product", "nav_features": "Features", "nav_enterprise": "Enterprise", "nav_demo": "Request a Demo", "hero_kicker": "RITIM QUALITY MANAGEMENT PLATFORM", "hero_title_1": "Quality has a rhythm.", "hero_title_2": "Make it visible.", "hero_lead": "Turn quality into a living part of production—from control plans to measurement, from SPC to full traceability.", "hero_start": "Start the Experience", "hero_explore": "Explore the Product", "hero_scroll": "scroll to explore", "desktop_1_num": "01 — DIGITIZE", "desktop_1_title": "Manage data,<br>not paper.", "desktop_1_body": "The quality form does not disappear; <strong>it becomes a digital flow.</strong> Information from paper becomes a living part of the control plan.", "desktop_2_num": "02 — PLAN", "desktop_2_title": "The right check.<br>At the right time.", "desktop_2_body": "Revision-controlled plans, characteristics and sampling logic connect directly to production.", "desktop_3_num": "03 — MEASURE", "desktop_3_title": "A measurement<br>is more than a number.", "desktop_3_body": "<strong>25.14</strong> appears first on its own. Then specification and context reveal themselves, turning a number into a decision signal.", "desktop_4_num": "04 — ANALYZE", "desktop_4_title": "25.14 becomes<br>a data point.", "desktop_4_body": "The value shrinks into the first chart point. Other samples appear around it and the process behavior draws itself.", "desktop_5_num": "05 — TRACE", "desktop_5_title": "A digital quality trail<br>for every product.", "desktop_5_body": "Product, lot, work order, machine, operator and measurement results come together in one context.", "desktop_6_num": "06 — DEPLOY", "desktop_6_title": "One Ritim Quality.<br>Your infrastructure.", "desktop_6_body": "Scale quickly with <strong>Cloud</strong>. Keep infrastructure and data under your control with <strong>On-Premise</strong>.", "quiet_title_1": "One bad number.", "quiet_title_2": "The whole story behind it.", "quiet_body": "The motion slows down here. A measurement is no longer just a value—it has context, behavior and history.", "worlds_title": "Explain Ritim Quality with three simple ideas.", "worlds_body": "Instead of a long feature list, give customers three ideas they can remember: capture the data, understand the process, connect the system.", "world_capture": "Capture", "world_understand": "Understand", "world_connect": "Connect", "enterprise_title": "Security and control built for production.", "enterprise_body": "For On-Premise customers in particular, ownership, access and integration models are part of the buying decision.", "final_title_1": "Quality doesn’t stop.", "final_title_2": "Neither should your visibility.", "final_body": "Make quality a living, managed process across production—not just a result inspected at the end.", "final_demo": "Request a 30-minute demo", "final_deploy": "Discuss deployment options", "m1_num": "01 — MEASURE", "m1_title": "Enter the measurement.<br>Start the quality flow.", "m1_body": "The mobile experience starts directly with the value seen by the operator. One screen, one idea.", "m2_num": "02 — DETECT", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Out of tolerance.</span>", "m2_body": "First the number, then the limits and production context. We never force everything onto the screen at once.", "m3_num": "03 — UNDERSTAND", "m3_title": "From one number<br>to process behavior.", "m3_body": "25.14 is no longer alone. Other samples appear, the points connect and the process becomes visible.", "m4_num": "04 — TRACE", "m4_title": "See the full story<br>behind the decision.", "m4_body": "Product, work order, machine, lot, measurement and operator come together in one quality story.", "mquiet_num": "THE QUALITY SIGNAL", "mquiet_body": "The mobile experience slows down here and summarizes the value of Ritim Quality in one sentence.", "mworlds_num": "THREE PRODUCT WORLDS", "mworlds_title": "Capture.<br>Understand.<br>Connect.", "mworlds_body": "On mobile, three product worlds are explored through a horizontal swipe instead of a long grid.", "mworlds_swipe": "Swipe to explore →", "mdeploy_num": "DEPLOYMENT", "mdeploy_title": "One product.<br>Two deployment models.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Retake", "save_result": "Save Result", "trace_revision": "Revision", "trace_status": "Status", "trace_operation": "Operation", "trace_qty": "Qty", "trace_program": "Program", "trace_state": "State", "trace_batch": "Batch", "trace_shift": "Shift", "trace_spec": "Spec", "trace_time": "Time", "trace_image": "Image", "trace_decision": "Decision", "trace_station": "Station", "trace_method": "Method", "trace_investigate": "Investigate"}, "fr": {"nav_product": "Produit", "nav_features": "Fonctionnalités", "nav_enterprise": "Entreprise", "nav_demo": "Demander une démo", "hero_kicker": "PLATEFORME DE GESTION DE LA QUALITÉ RITIM", "hero_title_1": "La qualité a un rythme.", "hero_title_2": "Rendez-le visible.", "hero_lead": "Faites de la qualité une partie vivante de la production — du plan de contrôle à la mesure, du SPC à la traçabilité complète.", "hero_start": "Découvrir l’expérience", "hero_explore": "Explorer le produit", "hero_scroll": "faites défiler pour explorer", "desktop_1_num": "01 — NUMÉRISER", "desktop_1_title": "Gérez les données,<br>pas le papier.", "desktop_1_body": "Le formulaire qualité ne disparaît pas : <strong>il devient un flux numérique.</strong> L’information issue du papier devient une partie vivante du plan de contrôle.", "desktop_2_num": "02 — PLANIFIER", "desktop_2_title": "Le bon contrôle.<br>Au bon moment.", "desktop_2_body": "Plans contrôlés par révision, caractéristiques et logique d’échantillonnage sont directement reliés à la production.", "desktop_3_num": "03 — MESURER", "desktop_3_title": "Une mesure<br>est plus qu’un chiffre.", "desktop_3_body": "<strong>25.14</strong> apparaît d’abord seul. Puis la spécification et le contexte se révèlent, transformant un chiffre en signal de décision.", "desktop_4_num": "04 — ANALYSER", "desktop_4_title": "25.14 devient<br>un point de données.", "desktop_4_body": "La valeur se réduit pour devenir le premier point du graphique. Les autres échantillons apparaissent et le comportement du procédé se dessine.", "desktop_5_num": "05 — TRACER", "desktop_5_title": "Une trace qualité numérique<br>pour chaque produit.", "desktop_5_body": "Produit, lot, ordre de fabrication, machine, opérateur et résultats de mesure sont réunis dans un même contexte.", "desktop_6_num": "06 — DÉPLOYER", "desktop_6_title": "Un seul Ritim Quality.<br>Votre infrastructure.", "desktop_6_body": "Évoluez rapidement avec le <strong>Cloud</strong>. Gardez l’infrastructure et les données sous votre contrôle avec <strong>On-Premise</strong>.", "quiet_title_1": "Une mauvaise mesure.", "quiet_title_2": "Toute l’histoire derrière elle.", "quiet_body": "Le mouvement ralentit ici. Une mesure n’est plus seulement une valeur : elle possède un contexte, un comportement et un historique.", "worlds_title": "Présentez Ritim Quality en trois idées simples.", "worlds_body": "Au lieu d’une longue liste de fonctions, donnez trois idées mémorables : capturer les données, comprendre le procédé, connecter le système.", "world_capture": "Capturer", "world_understand": "Comprendre", "world_connect": "Connecter", "enterprise_title": "Sécurité et contrôle adaptés à la production.", "enterprise_body": "Pour les clients On-Premise, la propriété, les accès et le modèle d’intégration font partie intégrante de la décision d’achat.", "final_title_1": "La qualité ne s’arrête pas.", "final_title_2": "Votre visibilité non plus.", "final_body": "Faites de la qualité un processus vivant et piloté tout au long de la production, et non un simple résultat contrôlé à la fin.", "final_demo": "Demander une démo de 30 minutes", "final_deploy": "Discuter des options de déploiement", "m1_num": "01 — MESURER", "m1_title": "Saisissez la mesure.<br>Lancez le flux qualité.", "m1_body": "L’expérience mobile commence directement par la valeur vue par l’opérateur. Un écran, une idée.", "m2_num": "02 — DÉTECTER", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Hors tolérance.</span>", "m2_body": "D’abord le chiffre, puis les limites et le contexte de production. Nous n’affichons jamais tout en même temps.", "m3_num": "03 — COMPRENDRE", "m3_title": "D’un seul chiffre<br>au comportement du procédé.", "m3_body": "25.14 n’est plus isolé. Les autres échantillons apparaissent, les points se relient et le procédé devient visible.", "m4_num": "04 — TRACER", "m4_title": "Voyez toute l’histoire<br>derrière la décision.", "m4_body": "Produit, ordre de fabrication, machine, lot, mesure et opérateur sont réunis dans une même histoire qualité.", "mquiet_num": "LE SIGNAL QUALITÉ", "mquiet_body": "L’expérience mobile ralentit ici et résume la valeur de Ritim Quality en une seule phrase.", "mworlds_num": "TROIS UNIVERS PRODUIT", "mworlds_title": "Capturer.<br>Comprendre.<br>Connecter.", "mworlds_body": "Sur mobile, trois univers produit se découvrent par balayage horizontal plutôt que dans une longue grille.", "mworlds_swipe": "Balayez pour explorer →", "mdeploy_num": "DÉPLOIEMENT", "mdeploy_title": "Un produit.<br>Deux modèles de déploiement.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Reprendre", "save_result": "Enregistrer", "trace_revision": "Révision", "trace_status": "Statut", "trace_operation": "Opération", "trace_qty": "Qté", "trace_program": "Programme", "trace_state": "État", "trace_batch": "Lot", "trace_shift": "Équipe", "trace_spec": "Spécification", "trace_time": "Heure", "trace_image": "Image", "trace_decision": "Décision", "trace_station": "Poste", "trace_method": "Méthode", "trace_investigate": "Analyser"}};
+function detectInitialLanguage(){
+  const saved=localStorage.getItem('ritim-quality-lang');
+  if(saved && I18N[saved]) return saved;
+  const navLang=(navigator.language||'en').toLowerCase();
+  if(navLang.startsWith('tr')) return 'tr';
+  if(navLang.startsWith('fr')) return 'fr';
+  return 'en';
+}
+function applyLanguage(lang){
+  if(!I18N[lang]) lang='en';
+  document.documentElement.lang=lang;
+  localStorage.setItem('ritim-quality-lang',lang);
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.dataset.i18n;
+    const value=I18N[lang][key];
+    if(value!==undefined) el.innerHTML=value;
+  });
+
+  document.querySelectorAll('.langSwitch button').forEach(btn=>{
+    const active=btn.dataset.lang===lang;
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-pressed',String(active));
+  });
+
+  // Dynamic deployment panel follows current language.
+  window.__ritimLang=lang;
+  if(typeof window.__renderCurrentDeploy==='function') window.__renderCurrentDeploy();
+}
+function setupLanguageSwitcher(){
+  document.querySelectorAll('.langSwitch button').forEach(btn=>{
+    btn.addEventListener('click',()=>applyLanguage(btn.dataset.lang));
+  });
+  applyLanguage(detectInitialLanguage());
+}
 
 function setupPreloader(){
   if(reducedMotion.matches){
@@ -2668,20 +2761,23 @@ function setupMobileExperience(){
   });
 
   const deployData={
-    cloud:{
-      title:'Cloud',
-      text:'Hızlı devreye alın, çoklu lokasyonları tek merkezden yönetin.',
-      items:['Fast rollout','Managed updates','Multi-site visibility']
+    tr:{
+      cloud:{title:'Cloud',text:'Hızlı devreye alın, çoklu lokasyonları tek merkezden yönetin.',items:['Hızlı devreye alma','Yönetilen güncellemeler','Çoklu lokasyon görünürlüğü']},
+      prem:{title:'On-Premise',text:'Fabrika ağı içinde çalışın; veri ve altyapı kontrolünü kurumunuzda tutun.',items:['Yerel veri','İç ağ','Müşteri kontrollü altyapı']}
     },
-    prem:{
-      title:'On-Premise',
-      text:'Fabrika ağı içinde çalışın; veri ve altyapı kontrolünü kurumunuzda tutun.',
-      items:['Local data','Internal network','Customer-controlled infrastructure']
+    en:{
+      cloud:{title:'Cloud',text:'Roll out quickly and manage multiple sites from one central platform.',items:['Fast rollout','Managed updates','Multi-site visibility']},
+      prem:{title:'On-Premise',text:'Run inside the factory network and keep data and infrastructure under your control.',items:['Local data','Internal network','Customer-controlled infrastructure']}
+    },
+    fr:{
+      cloud:{title:'Cloud',text:'Déployez rapidement et gérez plusieurs sites depuis une plateforme centrale.',items:['Déploiement rapide','Mises à jour gérées','Visibilité multi-sites']},
+      prem:{title:'On-Premise',text:'Fonctionnez dans le réseau de l’usine et gardez les données et l’infrastructure sous votre contrôle.',items:['Données locales','Réseau interne','Infrastructure contrôlée par le client']}
     }
   };
 
   function renderDeploy(key){
-    const d=deployData[key];
+    const lang=window.__ritimLang || document.documentElement.lang || 'en';
+    const d=(deployData[lang]||deployData.en)[key];
     mobileDeployPanel.innerHTML=
       `<h3>${d.title}</h3><p>${d.text}</p><div class="mobileDeployList">${d.items.map(x=>`<div>• ${x}</div>`).join('')}</div>`;
     const cloud=key==='cloud';
@@ -2691,8 +2787,11 @@ function setupMobileExperience(){
     premTab.setAttribute('aria-selected',String(!cloud));
   }
 
-  cloudTab?.addEventListener('click',()=>renderDeploy('cloud'));
-  premTab?.addEventListener('click',()=>renderDeploy('prem'));
+  let currentDeploy='cloud';
+  window.__renderCurrentDeploy=()=>renderDeploy(currentDeploy);
+  cloudTab?.addEventListener('click',()=>{currentDeploy='cloud';renderDeploy('cloud')});
+  premTab?.addEventListener('click',()=>{currentDeploy='prem';renderDeploy('prem')});
+  renderDeploy(currentDeploy);
 }
 
 menuBtn.addEventListener('click',()=>{
@@ -2756,6 +2855,7 @@ reducedMotion.addEventListener?.('change',()=>{
 addEventListener('scroll',requestRender,{passive:true});
 addEventListener('resize',()=>{pointerDirty=true;cacheLayout();requestRender()},{passive:true});
 addEventListener('load',()=>{cacheLayout();requestRender()});
+setupLanguageSwitcher();
 setupPreloader();
 setupReveals();
 setupMobileExperience();
