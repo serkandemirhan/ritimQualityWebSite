@@ -1,3 +1,2700 @@
+hier 11:22
+site-screenshots-2026-09-16.zip
+Archive zip
+simbu sie ile sattigimiz urunun uygulama ysayfalari asgida simdi sende uygulamnin sayfalarinida gorunusunude bu websayfasi gibi guzle hale getirmek icin bi rplan istiyorum
+once bilgisyar sonra mobile olarka ilerleyelim
+
+Evet. Ekranların tamamına baktım ve bence burada doğru yaklaşım marketing sitesini uygulamanın içine kopyalamak değil, aynı marka dilinden gelen daha ciddi bir “industrial premium application system” kurmak.
+
+Şu an uygulamanın temel yapısı kötü değil: navigasyon anlaşılır, bilgi mimarisi oldukça oturmuş, özellikle ürün → kontrol planı → ölçüm → kayıt → SPC zinciri mantıklı. Fakat görsel dil şu anda tipik bir admin paneli gibi: koyu sidebar + geniş beyaz alan + mavi buton + ince gri kartlar. V12 web sitesi ise çok daha karakterli. Aradaki farkı kapatmamız gerekiyor.
+
+Benim önerdiğim ana tasarım yönü
+
+Ritim Quality App = Dark industrial shell + calm working canvas + signal-based interactions
+
+Yani uygulamanın tamamını siyah yapmayalım. Uzun süre kalite verisi okuyacak kullanıcı için bu yorucu olur.
+
+Katman	Yeni yaklaşım
+Sol navigation	V12’deki #010616 koyu Ritim shell
+Ana çalışma alanı	Çok açık gri / kırık beyaz, saf beyaz değil
+Kartlar	Beyaz / hafif slate, ince border, çok az shadow
+Marka sinyali	Ritim kırmızısı
+Primary action	Koyu navy veya kontrollü brand accent
+Hata / NOK	Kırmızı ama brand red’den ton olarak ayrıştırılmış
+OK / Pass	Kontrollü yeşil
+Warning	Amber
+Sayısal ölçümler	Monospace
+Başlık / açıklama	Modern sans-serif
+Grafikler	V12’nin sakin, teknik chart dili
+
+Burada önemli bir karar var: Ritim kırmızısını her butona vermeyelim. Çünkü kalite uygulamasında kırmızı zaten NOK, hata, alarm anlamına geliyor. Marketing sitesindeki pulse kırmızısı uygulamada daha çok marka çizgisi, selected state, küçük accent ve önemli sinyal olarak kullanılmalı.
+
+Desktop-first dönüşüm planı
+
+Ben bunu tek seferde 28 ekranı “boyayarak” yapmazdım. Önce ortak sistem, sonra ekran aileleri. Böyle yaparsak gerçek uygulamada tekrar tekrar CSS düzeltmek zorunda kalmayız.
+
+Faz	Ekranlar	Ne değişecek
+0. Design System	Tüm uygulama	renk, type scale, spacing, button, input, badge, card, table, modal, drawer, tabs, charts
+1. Application Shell	tüm ekranlar + Genel Bakış	sidebar, topbar, page header, breadcrumb, notifications, account, responsive content grid
+2. Master Data	Organizasyon, Ürünler, Ürün Detayı, Yeni Ürün	liste/detail/form için ortak pattern
+3. Control Planning	Kontrol Planları, Plan Editörü	uygulamanın en güçlü “engineering workspace” görünümü
+4. Shop Floor Execution	Ölçüm Hazırlık, QR, Etiket, Ölçüm Terminali	operatör odaklı ayrı experience
+5. Quality Operations	Görevler, Uygunsuzluklar, Onaylar	workflow/status/action odaklı görünüm
+6. Records & Traceability	Ölçüm Kayıtları, Kayıt Detayı, Kalite Raporu, Dışa Aktar	yoğun veri için güçlü table/detail sistemi
+7. Analytics	SPC	premium analytics görünümü
+8. Administration	Kullanıcılar, Ayarlar, İş Kuralları, Denetim, Veri Yönetimi, Abonelik, Bildirimler	aynı design system içinde daha sakin admin UI
+9. Mobile	önce execution, sonra diğerleri	desktop küçültmesi değil, mobil görev bazlı deneyim
+1. Önce uygulama kabuğunu değiştirelim
+
+Şu anki sidebar iş görüyor ama uygulamayı “template” gibi gösteren ana şeylerden biri bu.
+
+Ben sidebar’ı daha güçlü hale getirirdim:
+
+Ritim Quality
+altında küçük current plant / environment.
+
+Menüleri de düz 12 satır yerine mantıksal gruplara ayırırdım:
+
+Operate
+Genel Bakış
+Görevler
+Uygunsuzluklar
+Onaylar
+
+Quality
+Ürünler
+Kontrol Planları
+Ölçüm İstasyonu
+Ölçüm Kayıtları
+SPC
+
+Administration
+Organizasyon
+Kullanıcılar
+Ayarlar
+
+İkonlar şu ankinden biraz daha büyük, label’lar daha rahat okunur ve selected item mavi bir dikdörtgen olmak yerine:
+
+koyu panel + ince Ritim signal line + hafif glow
+
+gibi olabilir.
+
+Sidebar başlangıçta yaklaşık 240 px, collapse halinde 72 px.
+
+2. Page Header sistemini baştan standardize edelim
+
+Şu anda hemen her ekranda:
+
+başlık → açıklama → beyaz boşluk
+
+var.
+
+Bunu daha güçlü bir component yapalım.
+
+Örneğin Ürünler ekranı:
+
+Products
+Manage product specifications and quality plans
+
+sağda:
+
+Import Export + New Product
+
+altında context row:
+
+143 Products · 126 Active · 17 Draft
+
+Sonra filters.
+
+Bu aynı header bütün liste sayfalarında kullanılabilir.
+
+3. Dashboard'u tamamen yeniden ele alalım
+
+01 Genel Bakış şu anda çalışıyor fakat standart SaaS dashboard.
+
+Yeni dashboard web sitesindeki kalite hikâyesini uygulamaya bağlamalı.
+
+Üst bölüm:
+
+Good morning, Serkan
+Quality status across your production
+
+Sonra dört büyük ama sakin KPI:
+
+Inspections Today
+248
+
+First Pass Quality
+96.8%
+
+Open Nonconformities
+7
+
+Process Alerts
+3
+
+Ama KPI’lar düz kart olmasın. Birinde micro sparkline, birinde pulse, birinde trend.
+
+Altında:
+
+Quality Pulse — Last 8 hours
+
+V12'deki signal fikri burada gerçek veri grafiğine dönüşebilir.
+
+Sonra iki kolon:
+
+Requires Attention
+
+CNC-04 — Cpk below threshold
+AX-450 — measurement outside tolerance
+2 approvals waiting
+
+Recent Inspections
+
+tablo
+
+Bu dashboard marketing sitesinden uygulamaya geçtiğimiz hissini ilk anda verir.
+
+4. Ürünler sayfası büyük fırsat
+
+06 Ürünler şu anda oldukça klasik list view.
+
+Bunu güçlü bir product library haline getirebiliriz.
+
+Üstte:
+
+Search
+Status
+Product Family
+Inspection Plan
+Last Updated
+
+View:
+
+Table | Cards
+
+Table view ana kullanım için kalır.
+
+Her ürün satırında:
+
+ürün thumbnail / teknik resim miniature
+Product Code
+Product Name
+Revision
+Active Control Plan
+Characteristics
+Last Inspection
+Quality status
+
+Product detail (07) ise daha premium olabilir.
+
+Sol:
+
+teknik çizim
+
+Sağ:
+
+AX-450 Valve Body
+
+Product Code
+Revision
+Material
+Status
+
+altında büyük tab sistemi:
+
+Overview | Control Plans | Drawings | Inspections | Quality History
+
+Bu sayfada web sitesindeki premium hissi oldukça rahat kullanabiliriz.
+
+5. Plan Editor uygulamanın “hero product” ekranı olmalı
+
+Bence bütün sistemde görsel olarak en çok yatırım yapmamız gereken sayfa 10-plan-editoru.
+
+Çünkü müşteriye göstereceğimiz ekranlardan biri bu olacak.
+
+Şu andaki editör bilgi olarak güçlü fakat görsel hiyerarşi biraz dağınık.
+
+Ben üç kolonlu engineering workspace yapardım:
+
+Sol panel – Control Plan Structure
+
+REV 07
+└─ Operation 10
+   ├─ Outer Diameter
+   ├─ Surface
+   └─ Thread Depth
+
+Orta – Drawing / Inspection Point Canvas
+
+teknik resim büyük.
+
+Ölçüm noktaları resmin üzerinde işaretli.
+
+01 02 03
+
+Noktaya tıklanınca sağ panel değişir.
+
+Sağ panel – Characteristic Properties
+
+Outer Diameter
+Numeric
+
+Target       25.00
+LSL          24.90
+USL          25.10
+Frequency    5 / batch
+Instrument   Caliper
+
+Üstte:
+
+Revision 07 · Draft
+
+sağda:
+
+Preview
+Save Draft
+Publish Revision
+
+Bu ekranı iyi yaparsak ürün çok profesyonel görünür.
+
+6. Ölçüm Terminali normal admin UI olmamalı
+
+14 Ölçüm Terminali bence ikinci en kritik ekran.
+
+Burada sidebar bile minimuma indirilebilir.
+
+Operatörün işi:
+
+ne ölçüyorum?
+kaç ölçmeliyim?
+değer ne?
+OK mu NOK mu?
+
+Örneğin:
+
+AX-450 Valve Body
+WO-20261 · CNC-04
+
+Sample 4 / 5
+
+Outer Diameter
+Target 25.00 ± 0.10
+
+       25.14
+        mm
+
+       NOK
+
+Altında büyük:
+
+Save Measurement
+
+Secondary:
+
+Retake
+
+Sonra altta:
+
+● ● ● ● ○
+
+Bu ekran marketing sitesindeki 25.14 deneyiminin gerçek ürün karşılığı olmalı.
+
+7. Ölçüm Kayıtları tablosu ciddi upgrade istiyor
+
+16 Ölçüm Kayıtları fonksiyonel ama görsel olarak çok yoğun.
+
+Yeni yapıda filters ayrı bir filter bar:
+
+Date Product Plan Operator Result
+
+üstünde KPI strip:
+
+248 measurements
+96.8% OK
+8 NOK
+5 awaiting approval
+
+Table:
+
+Time	Product	Characteristic	Value	Spec	Result	Machine	Operator
+
+Burada Value monospace olmalı.
+
+NOK:
+
+25.14
+
+yanında:
+
+24.90 — 25.10
+
+ve çok hafif kırmızı background.
+
+Satıra tıklanınca modal değil right-side inspection drawer açılmasını tercih ederim.
+
+8. Record Detail modal olmaktan çıkmalı
+
+17 kayıt detayı şu anda modal.
+
+Bence bu kadar zengin veri modalda yaşamamalı.
+
+Tam bir detail page veya geniş right drawer:
+
+Inspection #INS-260916-0042
+
+üst bölüm:
+
+Product / WO / Machine / Operator / Date
+
+sonra:
+
+Measurements
+
+ve aşağıda tüm karakteristikler.
+
+NOK olan item açıldığında:
+
+spec
+measured value
+image
+comment
+approval
+traceability
+
+görünsün.
+
+Bu, V11’de yaptığımız trace konseptinin gerçek ürün karşılığı olur.
+
+9. SPC ekranı en “premium analytics” sayfası olabilir
+
+20 SPC mevcut hali diğerlerinden zaten biraz daha güçlü.
+
+Ama burayı gerçekten V12 web sitesine yaklaştırabiliriz.
+
+Üstte:
+
+Process Capability
+
+Product / Characteristic / Machine / Date
+
+Sonra büyük:
+
+Cp 1.52
+Cpk 1.41
+Mean 25.02
+σ 0.031
+
+ve kritik değerler monospace.
+
+Ana chart çok daha büyük.
+
+Altında:
+
+Distribution
+Control Chart
+Histogram
+Outliers
+
+Chart çizgileri marketing sitesindeki signal language ile aynı olur.
+
+Bu ekran screenshot olarak satış sunumlarında çok güçlü kullanılabilir.
+
+10. Ayarlar ve admin ekranlarını fazla “tasarlamayalım”
+
+23–28 ekranlarında web sitesindeki dramatik stil gereksiz.
+
+Buralarda hedef:
+
+daha iyi spacing
+daha temiz section grouping
+iyi form hierarchy
+doğru status badges
+düzgün destructive actions
+consistent dialogs
+
+Yani premium ama sakin.
+
+Örneğin Subscription sayfasının şu anki dark pricing alanı zaten markaya en yakın sayfalardan biri. Onu yeniden yazmak yerine design system'e uyarlamak yeterli.
+
+Ortak desktop component seti
+
+Kod tarafında sayfa sayfa özel component üretmek yerine önce şunları oluşturmalıyız:
+
+AppShell
+Sidebar
+Topbar
+
+PageHeader
+PageActions
+MetricCard
+StatusBadge
+
+FilterBar
+DataTable
+EmptyState
+
+FormSection
+Field
+Select
+DatePicker
+Switch
+
+DetailHeader
+DetailTabs
+DetailDrawer
+
+Modal
+ConfirmDialog
+
+MeasurementInput
+ToleranceBand
+SampleProgress
+
+ChartCard
+KpiMetric
+TraceTimeline
+
+Bunlar bitince mevcut 28 ekranın büyük bölümü aynı lego parçalarıyla dönüşür.
+
+Görsel hedef
+
+Ben bunu üç kelimeyle tanımlardım:
+
+Precise. Industrial. Alive.
+
+Marketing sitesi:
+
+cinematic
+
+Uygulama:
+
+precise
+
+Ama pulse, typography, dark navy shell ve data language sayesinde ikisinin aynı ürün ailesinden geldiği tartışmasız belli olmalı.
+
+Benim geliştirme sıram
+
+İlk prototip olarak bütün ekranları birden değiştirmeyelim.
+
+Önce yalnızca şu 5 desktop ekranı yeniden tasarlayalım:
+
+01 Genel Bakış → 06 Ürünler → 10 Plan Editor → 14 Ölçüm Terminali → 20 SPC
+
+Çünkü bu beş ekran bize hemen hemen bütün gerekli component tiplerini verir:
+
+dashboard + list + engineering workspace + operator UI + analytics.
+
+Bu beşi onayladığımızda design system'i dondurur, geri kalan 22 ekranı aynı sisteme taşırız.
+
+Bence özellikle ilk adımda Genel Bakış + Plan Editor + Ölçüm Terminali için gerçek görsel prototype hazırlamamız çok değerli olur. Bunlar Ritim Quality’nin üç yüzünü temsil ediyor:
+
+Management → Engineering → Shop Floor.
+
+Sonra mobile’a geçtiğimizde de tüm desktop uygulamasını küçültmek yerine önce Ölçüm Terminali / QR / Görevler / Onaylar gibi gerçekten sahada kullanılan akışları mobil-first yeniden tasarlarız.
+
+Analysé
+from pathlib import Path
+
+content = r"""# Ritim Quality — Desktop-First UI/UX Revision Master Prompt for Codex
+
+## ROLE
+
+You are revising the existing **Ritim Quality** application.
+
+Your job is **not** to redesign the product from scratch and not to invent new business functionality.
+
+Your job is to:
+
+- preserve the existing application logic,
+- preserve existing workflows and data behavior,
+- preserve existing routes unless a route change is technically necessary,
+- modernize and unify the visual system,
+- make the application feel like the same product family as the Ritim Quality marketing website,
+- create a premium industrial application experience,
+- complete the work in the exact order defined below.
+
+The target design language is:
+
+**Precise. Industrial. Alive.**
+
+The marketing website is cinematic.
+
+The application must be:
+- operational,
+- readable,
+- efficient,
+- professional,
+- premium,
+- industrial,
+- data-focused.
+
+Do not turn the application into a marketing website.
+
+---
+
+# CRITICAL RULES
+
+1. **Desktop first.**
+   Do not start the mobile redesign until the desktop phases below are complete.
+
+2. **Do not break existing functionality.**
+   Existing forms, workflows, API calls, validation, permissions, data retrieval, tables, filters, and actions must continue to work.
+
+3. **Do not remove features.**
+   If an existing page contains functionality that is not explicitly mentioned below, preserve it and visually adapt it.
+
+4. **Do not invent new business features unless clearly marked as optional.**
+
+5. **Use shared components.**
+   Do not create page-specific CSS or page-specific versions of the same button/table/form pattern unless absolutely required.
+
+6. **Create a reusable design system first.**
+
+7. **Do not refactor backend/domain logic just to achieve visual changes.**
+
+8. **Do not introduce unnecessary animation.**
+   Motion must explain state, hierarchy, data flow, selection, validation, progress, or transitions.
+
+9. **Red must be used carefully.**
+   Ritim brand red is also close to a quality NOK/error color. Do not make every primary button red.
+
+10. **Maintain accessibility.**
+    Keyboard focus, semantic labels, contrast, status icons, keyboard navigation, reduced motion, and touch targets must remain usable.
+
+11. **Do not proceed randomly through pages.**
+    Follow the ordered phases below.
+
+12. After each phase:
+    - run the app,
+    - verify affected routes,
+    - check console errors,
+    - check responsive behavior,
+    - check dark shell/light workspace consistency,
+    - confirm no business logic regression,
+    - then continue.
+
+---
+
+# DESIGN FOUNDATION
+
+## Brand / Color System
+
+Use the following direction:
+
+- Main dark navy / application shell: `#010616`
+- Main workspace: very light gray / off-white, not pure white everywhere
+- Cards: white or very light slate
+- Borders: subtle cool gray / blue-gray
+- Text: dark navy/charcoal in light workspace
+- Secondary text: muted blue-gray
+- Brand accent: Ritim red
+- Success / OK: controlled green
+- Warning: amber
+- NOK / error: semantic red distinct enough from decorative brand usage
+- Info: controlled blue
+
+### Important
+Do not make all primary buttons red.
+
+Prefer:
+- dark navy primary action,
+- neutral secondary,
+- red only for selected signal/accent/brand and semantic alert situations.
+
+---
+
+# TYPOGRAPHY
+
+Create a consistent type system.
+
+Use:
+
+- modern sans-serif for interface text,
+- monospace for machine/data values.
+
+Use monospace for values such as:
+
+- `25.14`
+- `WO-20261`
+- `L260916`
+- `CNC-04`
+- Cp / Cpk values
+- timestamps
+- serial numbers
+- measurement values
+- machine IDs
+- batch IDs
+- technical codes
+
+Define shared styles for:
+
+- page title
+- page subtitle
+- section title
+- card title
+- body
+- helper text
+- field label
+- table text
+- technical value
+- KPI value
+
+---
+
+# SPACING / LAYOUT SYSTEM
+
+Use a consistent 4px / 8px based spacing scale.
+
+Standardize:
+
+- page padding,
+- section spacing,
+- card padding,
+- field spacing,
+- table density,
+- header alignment,
+- action alignment.
+
+Avoid random paddings and inconsistent margins.
+
+Desktop layouts must work at:
+
+- 1920px
+- 1440px
+- 1366px
+- 1280px
+
+---
+
+# PHASE 0 — DESIGN SYSTEM
+
+Do this first.
+
+Create or standardize the following shared primitives/components:
+
+- AppShell
+- Sidebar
+- Topbar
+- PageContainer
+- PageHeader
+- PageActions
+- Breadcrumb
+- Button
+- IconButton
+- Badge / StatusBadge
+- Card
+- MetricCard
+- Input
+- NumberInput
+- MeasurementInput
+- Select
+- MultiSelect
+- DatePicker
+- DateRangePicker
+- Switch
+- Checkbox
+- Radio
+- Textarea
+- SearchInput
+- FilterBar
+- DataTable
+- TableToolbar
+- Pagination
+- EmptyState
+- Skeleton
+- Toast
+- Modal
+- ConfirmDialog
+- Drawer
+- DetailDrawer
+- Tabs
+- FormSection
+- ChartCard
+- KpiMetric
+- TraceTimeline
+- SampleProgress
+- ToleranceBand
+
+## Acceptance criteria
+
+- No page should invent its own button style.
+- No page should invent its own input style.
+- No page should invent its own badge colors.
+- Tables must share the same structure.
+- Form fields must share the same sizing and states.
+- Focus-visible states must be present.
+- Loading / disabled / error / success states must be consistent.
+
+---
+
+# PHASE 1 — APPLICATION SHELL
+
+Redesign the global application shell.
+
+## Sidebar
+
+Use a dark Ritim shell based on `#010616`.
+
+Target sizes:
+
+- expanded: approximately 230–250px
+- collapsed: approximately 68–76px
+
+Sidebar must support collapse.
+
+Preserve existing navigation behavior.
+
+Organize navigation visually into logical groups where possible without breaking routes:
+
+### Operate
+- Overview
+- Tasks
+- Nonconformities
+- Approvals
+
+### Quality
+- Products
+- Control Plans
+- Measurement Station
+- Measurement Records
+
+### Analytics
+- SPC
+- Reports
+
+### Administration
+- Organization
+- Users
+- Settings
+- Business Rules
+- Audit
+- Data Management
+- Subscription
+
+If current navigation contains additional entries:
+- keep them,
+- place them in the closest logical group.
+
+## Active state
+
+Do not use a generic bright blue selected rectangle.
+
+Use:
+- dark selected surface,
+- subtle Ritim signal/accent,
+- clear icon/text contrast.
+
+## Topbar
+
+Include existing functionality and visually support:
+
+- current site / plant if available,
+- notifications,
+- language,
+- user/account menu,
+- environment indicator if one already exists.
+
+Do not add fake data if this information does not exist.
+
+## Acceptance criteria
+
+- All routes remain reachable.
+- Sidebar collapse works.
+- Active navigation is clear.
+- Layout works at 1280px and above.
+- Main workspace has consistent page padding.
+- No content is hidden behind shell elements.
+
+---
+
+# PHASE 2 — GLOBAL PAGE HEADER PATTERN
+
+Create one standard PageHeader pattern.
+
+Each page may contain:
+
+- title
+- short description
+- optional breadcrumb
+- optional KPI summary strip
+- primary action
+- secondary actions
+
+Example:
+
+Products  
+Manage product specifications and quality plans
+
+Summary:
+- 143 Products
+- 126 Active
+- 17 Draft
+
+Actions:
+- Import
+- Export
+- New Product
+
+Do not fabricate KPI values.
+Use existing data only.
+
+---
+
+# PHASE 3 — OVERVIEW / DASHBOARD
+
+Redesign the existing Overview page.
+
+Goal:
+Create a true **quality operations dashboard**, not a generic SaaS dashboard.
+
+## Main structure
+
+### Header
+
+Example style:
+`Quality status across your production`
+
+### KPI cards
+
+Use available existing data for:
+
+- inspections today
+- first pass quality
+- open nonconformities
+- process alerts
+
+If one of these is not supported by the current backend:
+- do not fake it,
+- keep the closest existing KPI,
+- visually fit it into the new system.
+
+Each KPI card may contain:
+- main value,
+- trend,
+- micro sparkline,
+- comparison period.
+
+### Quality Pulse
+
+Create a main visual area that can represent:
+- recent quality trend,
+- inspection result trend,
+- process health,
+- or the most relevant current dashboard data.
+
+Use a restrained Ritim pulse visual language.
+
+Do not create meaningless decorative animation.
+
+### Requires Attention
+
+Surface existing actionable items such as:
+- SPC alerts,
+- NOK inspections,
+- overdue tasks,
+- waiting approvals,
+- open nonconformities.
+
+### Recent Inspections
+
+Create a compact table/list using the shared table system.
+
+## Acceptance criteria
+
+- Dashboard is understandable in under 5 seconds.
+- Critical quality conditions visually stand out.
+- It feels operational, not decorative.
+- No invented metrics.
+
+---
+
+# PHASE 4 — PRODUCTS LIST
+
+Redesign the Products page as a professional Product Library.
+
+## Header actions
+
+Use existing functions:
+- Search
+- Import
+- Export
+- New Product
+
+## Filters
+
+Where supported:
+- status
+- product family/category
+- control plan
+- last updated
+
+## Table
+
+Prefer table as the primary view.
+
+Possible columns where current data exists:
+
+- thumbnail / drawing preview
+- product code
+- product name
+- revision
+- active control plan
+- number of characteristics
+- last inspection
+- quality status
+
+Do not invent missing fields.
+
+## Technical values
+
+Use monospace for:
+- product code
+- revision
+- technical identifiers.
+
+## Acceptance criteria
+
+- Dense but readable.
+- Easy to search.
+- Easy to compare products.
+- Row action behavior remains unchanged.
+
+---
+
+# PHASE 5 — PRODUCT DETAIL
+
+Redesign Product Detail.
+
+## Header
+
+Clearly show:
+- product name
+- product code
+- revision
+- material if available
+- status
+
+## Main content
+
+Support the existing data and organize it into tabs where appropriate:
+
+- Overview
+- Control Plans
+- Drawings
+- Inspections
+- Quality History
+
+Do not create empty tabs if the current application does not support the underlying data.
+
+## Overview can contain
+
+- product metadata
+- technical drawing
+- active plan
+- latest inspections
+- current quality status
+- open nonconformities if available
+
+## Acceptance criteria
+
+- Important identity information is visible immediately.
+- Technical drawing has enough space.
+- Existing actions remain available.
+
+---
+
+# PHASE 6 — PRODUCT CREATE / EDIT
+
+Replace long undifferentiated forms with clear sections.
+
+Suggested grouping where existing fields support it:
+
+- Basic Information
+- Classification
+- Manufacturing Information
+- Drawings / Documents
+- Quality Defaults
+
+Actions:
+
+- Save Draft if current logic supports it
+- Save
+- Activate if current logic supports it
+- Cancel
+
+Do not add workflow states that do not exist.
+
+Validation must remain functional.
+
+---
+
+# PHASE 7 — CONTROL PLAN LIST
+
+Redesign the Control Plans list.
+
+Where data exists, display:
+
+- plan code
+- product
+- revision
+- status
+- characteristic count
+- effective date
+- last updated
+- author
+
+Actions may include only currently supported functions:
+
+- open
+- edit
+- create revision
+- duplicate
+- archive
+
+Do not invent unavailable functions.
+
+---
+
+# PHASE 8 — CONTROL PLAN EDITOR
+
+This is one of the three signature screens.
+
+Give this screen the highest visual and UX quality.
+
+Target layout:
+
+## Left panel — Plan Structure
+
+Display the actual hierarchy available in the app.
+
+Example:
+
+Revision 07  
+Operation 10  
+- Outer Diameter
+- Surface
+- Thread Depth
+
+Support current selection/edit behavior.
+
+Use drag/drop only if drag/drop already exists or can be added without changing domain behavior.
+
+## Center — Drawing / Inspection Canvas
+
+Provide the largest workspace.
+
+Support existing:
+- drawing/image display
+- inspection point markers
+- characteristic selection
+- zoom/pan if already present
+
+If zoom/pan is already simple to add without changing the data model, it may be improved.
+
+## Right — Characteristic Properties
+
+For the selected characteristic, show available properties.
+
+For numeric characteristics, if supported:
+
+- Target
+- LSL
+- USL
+- Unit
+- Sampling
+- Instrument
+- Frequency
+
+For other existing types:
+- OK/NOK
+- visual
+- text
+- media
+
+Preserve the actual field schema.
+
+## Header actions
+
+Use current workflow actions.
+
+Examples if currently supported:
+- Preview
+- Save Draft
+- Publish Revision
+
+Show:
+- revision
+- status
+- unsaved changes
+
+## Acceptance criteria
+
+- User can understand plan hierarchy immediately.
+- Drawing is central, not squeezed.
+- Characteristic editing is clear.
+- Revision state is always visible.
+- No existing editing capability is lost.
+- Screen is presentation/demo quality.
+
+---
+
+# PHASE 9 — MEASUREMENT PREPARATION
+
+Redesign the measurement setup/start page.
+
+Prioritize:
+
+- product
+- work order
+- machine
+- lot/serial
+- operator
+- control plan
+- QR/manual selection if already supported.
+
+Primary action:
+`Start Inspection`
+
+The user must clearly understand what they are about to inspect.
+
+---
+
+# PHASE 10 — QR / BARCODE FLOW
+
+Preserve current scan logic.
+
+Improve:
+
+- scan layout
+- camera frame
+- manual entry fallback
+- successful scan state
+- invalid scan state
+- product/work order confirmation.
+
+Do not change QR payload/business logic.
+
+---
+
+# PHASE 11 — LABEL / PRINT PAGE
+
+Improve:
+
+- print preview
+- QR/barcode presentation
+- product
+- lot/serial
+- work order
+- quantity
+- printer
+- copy count
+- existing print actions.
+
+Do not alter printing logic unless needed for presentation.
+
+---
+
+# PHASE 12 — MEASUREMENT TERMINAL
+
+This is the second signature screen.
+
+Do NOT make this look like an admin page.
+
+It should look like a dedicated shop-floor operator workspace.
+
+## Main priority
+
+The operator must instantly understand:
+
+1. what am I measuring?
+2. what is the target?
+3. what value did I enter?
+4. is it OK or NOK?
+5. what do I do next?
+
+## Suggested layout using existing data
+
+Header:
+- Product
+- Work Order
+- Machine
+- Operator
+
+Progress:
+- Sample 4 / 5
+- characteristic progress
+
+Main area:
+- characteristic name
+- target
+- tolerance
+- unit
+- large measurement input
+- current result
+
+Example visual hierarchy:
+
+Outer Diameter  
+Target 25.00 ± 0.10
+
+25.14  
+mm
+
+NOK
+
+## Actions
+
+Use only supported actions:
+- Save Measurement
+- Retake
+- Skip + reason if currently supported
+- Next Characteristic
+- Add Comment
+- Add Photo / Evidence if currently supported
+
+## NOK behavior
+
+When a value is NOK:
+- highlight clearly,
+- show spec,
+- do not rely on red color alone,
+- provide an icon / label,
+- expose any existing nonconformity action.
+
+Do not create an automatic NC workflow if one does not already exist.
+
+## Acceptance criteria
+
+- Large readable measurements.
+- Suitable for factory use.
+- Fast entry.
+- Keyboard friendly.
+- No unnecessary visual clutter.
+- The `25.14` quality story from the marketing site is reflected here as real product UI.
+
+---
+
+# PHASE 13 — TASKS
+
+Redesign tasks using existing data.
+
+Display where available:
+
+- task
+- priority
+- due date
+- status
+- owner
+- product
+- inspection
+- NC relation
+
+Keep current assignment and completion actions.
+
+Use DetailDrawer where appropriate.
+
+---
+
+# PHASE 14 — NONCONFORMITIES
+
+Redesign the Nonconformities area.
+
+Display existing fields such as:
+
+- status
+- severity
+- product
+- lot
+- machine
+- source measurement
+- owner
+- root cause
+- action
+- due date
+
+Use a timeline/detail view for existing NC lifecycle data.
+
+Support existing:
+- comments
+- evidence
+- inspection link
+- action history.
+
+Do not invent a CAPA module unless it already exists.
+
+---
+
+# PHASE 15 — APPROVALS
+
+Create a clear approval queue.
+
+Display existing data:
+
+- approval type
+- product
+- revision
+- requested by
+- request date
+- current status
+
+Preserve:
+- approve
+- reject
+- comment.
+
+If revision diff data exists, show it visually.
+Do not fake revision diffs.
+
+---
+
+# PHASE 16 — MEASUREMENT RECORDS
+
+This is a high-density operational table.
+
+## Summary
+
+Where backend data exists, show:
+
+- total measurements
+- OK
+- NOK
+- waiting approval
+
+## Filters
+
+Use available filters:
+- date
+- product
+- characteristic
+- machine
+- operator
+- result
+- plan
+
+## Table
+
+Where fields exist:
+
+- time
+- product
+- characteristic
+- value
+- specification
+- result
+- machine
+- operator
+
+Use monospace for measurement values.
+
+For NOK:
+- subtle background accent
+- NOK label/icon
+- clear specification.
+
+Clicking a row should preserve current navigation behavior or use the shared DetailDrawer if safe.
+
+---
+
+# PHASE 17 — MEASUREMENT / INSPECTION DETAIL
+
+Avoid a tiny modal for complex information.
+
+If feasible without breaking routing:
+- use a wide right-side DetailDrawer,
+- or existing full detail page.
+
+Organize available data into:
+
+- inspection identity
+- product
+- work order
+- lot/serial
+- machine
+- operator
+- timestamp
+- plan revision
+- measurements
+- spec
+- result
+- instrument
+- comment
+- evidence
+- approval
+- traceability
+- audit information.
+
+Do not display data the API does not provide.
+
+---
+
+# PHASE 18 — QUALITY REPORT
+
+Create a clean printable/report-style design.
+
+Use existing report data:
+
+- product
+- lot
+- inspection
+- result
+- measurements
+- approvals
+- company/plant information
+- signatures if already supported.
+
+Keep it more formal and calm than the marketing site.
+
+Preserve PDF / print behavior.
+
+---
+
+# PHASE 19 — EXPORT
+
+Improve current export experience.
+
+Use currently supported export formats such as:
+- CSV
+- Excel
+- PDF
+
+Where functionality exists:
+- scope
+- filters
+- column selection
+- progress
+- history
+
+Do not implement async export infrastructure unless the backend already supports it or it is separately requested.
+
+---
+
+# PHASE 20 — SPC
+
+This is the third signature screen.
+
+Make this a premium quality analytics workspace.
+
+## Header filters
+
+Use existing:
+- Product
+- Characteristic
+- Machine
+- Date Range
+- Shift
+
+## KPIs
+
+If the current backend provides them:
+- Cp
+- Cpk
+- Mean
+- Sigma
+- Sample Count
+
+Use large monospace numeric values.
+
+## Main Chart
+
+Prioritize:
+- control chart
+- target
+- LSL
+- USL
+- sample points
+- NOK points
+- outliers
+- tooltip.
+
+Use the same restrained signal language as Ritim marketing.
+
+## Secondary analytics
+
+Only if currently supported:
+- histogram
+- distribution
+- trend
+- raw measurement table
+- capability chart
+
+## Acceptance criteria
+
+- Chart is the visual focus.
+- Technical values are easy to read.
+- NOK/outlier states are obvious.
+- Screenshot quality should be suitable for sales demos and presentations.
+- No unnecessary chart decoration.
+
+---
+
+# PHASE 21 — CHART SYSTEM
+
+Standardize chart styling across the app:
+
+- control chart
+- trend
+- histogram
+- sparkline
+- capability
+- Pareto if it already exists.
+
+Standardize:
+
+- tooltip
+- legend
+- axes
+- date formatting
+- target line
+- LSL
+- USL
+- NOK point
+- empty state
+- loading state.
+
+---
+
+# PHASE 22 — TRACEABILITY
+
+Use a consistent visual TraceTimeline or relation view.
+
+Where current data supports it, connect:
+
+- Product
+- Work Order
+- Machine
+- Lot
+- Serial
+- Operator
+- Inspection
+- Measurement
+- Nonconformity
+- Approval
+
+Do not create false relationships.
+
+The visual concept should feel related to the marketing site's traceability story, but remain practical.
+
+---
+
+# PHASE 23 — USERS
+
+Redesign user management.
+
+Use existing fields such as:
+
+- user
+- email
+- role
+- plant access
+- status
+- last login
+
+Preserve existing actions:
+- invite
+- deactivate
+- role assignment
+- access management.
+
+---
+
+# PHASE 24 — ROLES / PERMISSIONS
+
+If this area exists:
+
+Improve visual readability of:
+- roles
+- permission groups
+- plant access
+- action permissions.
+
+Prefer a readable permission matrix.
+
+Do not change authorization logic.
+
+---
+
+# PHASE 25 — SETTINGS
+
+Group settings into clear sections.
+
+Examples where existing fields support them:
+
+- General
+- Quality Defaults
+- Units
+- Language
+- Date / Time
+- Plant Defaults
+- Notifications
+- Integrations
+
+Avoid one huge undifferentiated form.
+
+---
+
+# PHASE 26 — BUSINESS RULES
+
+Preserve current rule engine behavior.
+
+Improve:
+
+- list readability
+- active/inactive states
+- trigger
+- condition
+- action
+- priority
+- edit/duplicate/disable.
+
+Do not turn it into an artificial no-code builder unless the application already works that way.
+
+---
+
+# PHASE 27 — AUDIT LOG
+
+Design a dense but readable audit log.
+
+Use existing fields:
+
+- timestamp
+- user
+- action
+- entity
+- before/after
+- source
+- IP if available.
+
+Support current filters and export.
+
+Audit entries must look immutable/read-only.
+
+---
+
+# PHASE 28 — DATA MANAGEMENT
+
+Improve:
+
+- import
+- export
+- retention
+- archive
+- backup information
+- destructive actions
+
+Use a visually separated Danger Zone.
+
+All destructive actions must use clear confirmation.
+
+Do not change retention/deletion logic.
+
+---
+
+# PHASE 29 — SUBSCRIPTION
+
+Keep current billing/business behavior.
+
+Improve visual presentation of:
+
+- current plan
+- usage
+- users
+- sites
+- storage
+- renewal
+- billing
+- plan comparison
+
+If On-Premise customers should not see SaaS subscription information, preserve whatever current role/deployment logic already controls that.
+
+---
+
+# PHASE 30 — NOTIFICATIONS
+
+Create a clean notification center around existing notification types.
+
+Potential categories if existing:
+
+- quality alerts
+- approvals
+- tasks
+- SPC alerts
+- system notifications
+
+Support:
+- read/unread
+- click to related record
+- filters if already available.
+
+---
+
+# PHASE 31 — LANGUAGE SYSTEM
+
+The application must support:
+
+- Turkish
+- English
+- French
+
+Requirements:
+
+- no random mixed-language interface,
+- shared translation keys,
+- persistent user language,
+- layout must tolerate longer French labels,
+- technical industry terminology may remain in English where appropriate.
+
+Do not hardcode translated strings directly into random components.
+
+Use the project's existing i18n architecture if available.
+
+If none exists:
+- create a minimal maintainable i18n structure,
+- do not over-engineer.
+
+---
+
+# PHASE 32 — ACCESSIBILITY / KEYBOARD
+
+Apply globally.
+
+Requirements:
+
+- visible keyboard focus
+- logical tab order
+- Escape closes drawer/modal
+- Enter activates appropriate forms/actions
+- semantic labels
+- status must not rely only on color
+- accessible dialogs
+- accessible tables
+- reduced motion support.
+
+Measurement terminal should be especially keyboard-friendly.
+
+---
+
+# PHASE 33 — MICROINTERACTION
+
+Keep motion subtle.
+
+Use for:
+
+- hover
+- selection
+- tab change
+- save
+- publish
+- NOK detection
+- chart point appearance
+- drawer
+- sample progress
+- measurement confirmation
+
+Typical duration:
+150–300ms.
+
+Do not bring long marketing-site cinematic transitions into normal application workflows.
+
+---
+
+# PHASE 34 — RITIM PULSE LANGUAGE
+
+Use the Ritim signal/pulse motif only where it has meaning.
+
+Good use cases:
+
+- logo / brand shell
+- Quality Pulse dashboard chart
+- SPC / trend
+- NOK detection
+- loading indicator
+- traceability relation
+- selected/highlight state
+
+Bad use case:
+- decorative pulse lines on every card.
+
+---
+
+# PHASE 35 — DESKTOP VALIDATION
+
+Before starting mobile, verify all desktop pages.
+
+Check:
+
+- 1920px
+- 1440px
+- 1366px
+- 1280px
+
+Check:
+
+- sidebar
+- all major routes
+- tables
+- forms
+- Plan Editor
+- Measurement Terminal
+- SPC
+- drawers
+- dialogs
+- empty states
+- loading
+- errors
+- permissions
+- translation.
+
+Do not start mobile before desktop reaches a stable state.
+
+---
+
+# PHASE 36 — MOBILE STRATEGY
+
+Only after desktop is stable.
+
+Do NOT simply shrink the desktop UI.
+
+Prioritize real mobile/shop-floor workflows.
+
+Mobile priority order:
+
+1. QR Scan
+2. Measurement Terminal
+3. My Tasks
+4. Approvals
+5. Nonconformity Quick Entry
+6. Measurement History
+7. Notifications
+8. Product / plan view-only screens where useful
+
+Do not attempt to make the full Control Plan Editor equally editable on a small phone unless explicitly requested.
+
+---
+
+# PHASE 37 — MOBILE NAVIGATION
+
+Consider a bottom navigation.
+
+Recommended information architecture where current routes allow:
+
+- Home
+- Tasks
+- Scan
+- Records
+- More
+
+The Scan action may be emphasized.
+
+Administration belongs under More.
+
+Do not duplicate every desktop navigation item in the bottom bar.
+
+---
+
+# PHASE 38 — MOBILE MEASUREMENT TERMINAL
+
+Optimize for one-hand use.
+
+Show:
+
+- Product
+- Work Order
+- Sample number
+- Characteristic
+- drawing/image if available
+- Target
+- Tolerance
+- Measurement
+- Unit
+- OK / NOK
+- Save
+- Next
+- Camera
+- Comment
+
+Requirements:
+
+- large touch targets
+- large measurement value
+- sticky primary action
+- minimal typing
+- numeric keyboard where applicable
+- clear NOK state
+- keep current business rules.
+
+---
+
+# PHASE 39 — MOBILE QR
+
+Full-screen scan experience.
+
+Support current behavior:
+
+- camera
+- scan frame
+- manual code entry
+- scan success
+- error
+- product/WO confirmation.
+
+Where technically possible:
+- torch control.
+
+Handle iOS/PWA camera permission errors gracefully.
+
+---
+
+# PHASE 40 — MOBILE TASKS
+
+Create a compact task-oriented view.
+
+Prioritize:
+
+- today's tasks
+- priority
+- due
+- product/context
+- one-tap open
+- complete if current workflow supports it.
+
+Use bottom sheets instead of large desktop drawers.
+
+---
+
+# PHASE 41 — MOBILE APPROVALS
+
+Show:
+
+- approval summary
+- requested by
+- revision / entity
+- important changed values
+- comment
+- approve
+- reject
+
+Use large touch-friendly actions.
+
+---
+
+# PHASE 42 — MOBILE NONCONFORMITY ENTRY
+
+If existing functionality supports creating NC:
+
+Optimize quick entry for:
+
+- source inspection
+- product
+- lot
+- severity
+- reason
+- photo
+- comment
+- submit.
+
+Do not add fields that do not exist in the data model.
+
+---
+
+# PHASE 43 — MOBILE VISUAL LANGUAGE
+
+Keep the desktop brand identity.
+
+Mobile differences:
+
+- bigger touch typography
+- fewer simultaneous columns
+- stacked content
+- bottom sheets
+- sticky primary actions
+- horizontal swipe where natural
+- minimal typing
+- camera-friendly
+- approximately 44px minimum touch targets.
+
+---
+
+# PHASE 44 — PERFORMANCE
+
+Do not sacrifice application speed for visual polish.
+
+Requirements:
+
+- avoid unnecessary re-renders,
+- lazy load heavy charts where useful,
+- avoid large animation libraries unless already present,
+- avoid excessive shadows/blurs,
+- virtualize very large tables only if needed,
+- avoid layout shift,
+- use skeletons for async data.
+
+---
+
+# PHASE 45 — FINAL QUALITY CHECK
+
+Before declaring the redesign complete:
+
+## Visual consistency
+- same buttons everywhere
+- same status colors
+- same form sizing
+- same tables
+- same headers
+- same spacing
+- same chart language
+- same typography
+
+## Functional regression
+Verify:
+- create
+- edit
+- save
+- publish
+- approve
+- reject
+- measurements
+- QR
+- records
+- filters
+- exports
+- printing
+- SPC
+- settings
+- permissions
+- language.
+
+## Signature screens
+Give extra QA attention to:
+
+1. Control Plan Editor
+2. Measurement Terminal
+3. SPC
+
+These are the visual/product signature screens of Ritim Quality.
+
+---
+
+# IMPLEMENTATION PRIORITY SUMMARY
+
+If the full scope cannot be completed in one iteration, use this exact priority:
+
+## Priority A — Foundation
+1. Design System
+2. App Shell
+3. Page Header
+4. Shared table / form / drawer / modal
+
+## Priority B — Core showcase screens
+5. Overview
+6. Products
+7. Product Detail
+8. Control Plans
+9. Control Plan Editor
+10. Measurement Preparation
+11. Measurement Terminal
+12. Measurement Records
+13. SPC
+
+## Priority C — Quality workflow
+14. Tasks
+15. Nonconformities
+16. Approvals
+17. Traceability
+18. Reports
+
+## Priority D — Administration
+19. Users
+20. Settings
+21. Business Rules
+22. Audit
+23. Data Management
+24. Subscription
+25. Notifications
+
+## Priority E — Mobile
+26. Mobile navigation
+27. QR
+28. Measurement Terminal
+29. Tasks
+30. Approvals
+31. Nonconformity quick entry
+32. Records
+
+---
+
+# FINAL INSTRUCTION TO CODEX
+
+Proceed through this revision **sequentially**.
+
+Do not jump to later screens before the shared design primitives are stable.
+
+At every step:
+
+1. inspect the current implementation,
+2. reuse the current business logic,
+3. identify reusable components,
+4. implement the visual/UX revision,
+5. test the affected flows,
+6. remove obsolete duplicated styles only when safe,
+7. keep the code maintainable,
+8. continue to the next phase.
+
+When there is a conflict between visual redesign and existing functionality:
+
+**preserve functionality first.**
+
+When uncertain whether a new feature should be added:
+
+**do not invent it.**
+
+When a page contains additional existing behavior not covered in this prompt:
+
+**keep the behavior and adapt it to the new design system.**
+
+The finished application should feel like:
+
+**Ritim Quality — a serious industrial quality management product, not a generic admin dashboard and not a marketing website.**
+"""
+
+out = Path('/mnt/data/Ritim_Quality_Codex_Revision_Master_Prompt.md')
+out.write_text(content, encoding='utf-8')
+print(out)
+
+STDOUT/STDERR
+/mnt/data/Ritim_Quality_Codex_Revision_Master_Prompt.md
+
+
+Hazırladım. Bunu Codex’e master revision prompt olarak verebilirsin:
+
+Ritim Quality — Codex Revision Master Prompt
+
+Dosyada özellikle şunları netleştirdim:
+
+desktop önce, mobile sonra
+design system kurulmadan ekranlara dağılmaması
+mevcut business logic’i koruması
+yeni özellik uydurmaması
+tüm ekranları belirlediğimiz sıraya göre revize etmesi
+her fazdan sonra test/regression kontrolü yapması
+Plan Editor, Measurement Terminal ve SPC’yi “signature screens” olarak ele alması
+ortak component’ler, table, forms, drawer, modal, chart sistemi
+sonrasında QR, mobile terminal, tasks, approvals ve diğer mobil akışlar
+performans, accessibility ve multilingual yapının korunması
+
+Bu dosyayı tek seferde Codex’e verip, “follow this plan sequentially and do not skip phases” diyebilirsin. 
+
+Ritim_Quality_Codex_Revision_Master_Prompt.md
+Document
+hier 14:46
+satıs web sayfasında sence halen duzelcek bırseyler var mı bır kalp atıs cızgısını ıkonunu baska bır seye mı donustursek 
+
+Evet, bence satış web sayfasında artık büyük yapısal problem kalmadı. Ama marka kimliği açısından bir şeyi hâlâ değiştirirdim: klasik kalp atışı/ECG çizgisini.
+
+Şu anki çizginin avantajı “Ritim” kelimesini çok hızlı anlatması. Dezavantajı ise ilk bakışta health-tech / hastane / fitness çağrışımı yapabilmesi. Ritim Quality’nin konusu üretim ve kalite olduğu için bunu biraz daha özgünleştirebiliriz.
+
+Ben kalp atışını tamamen atmazdım; “Quality Signal” haline dönüştürürdüm.
+
+Önerdiğim form yaklaşık şöyle bir karaktere sahip olsun:
+
+─────╱╲─────●─────╱────
+
+Ama bunun mantığı şu:
+
+başlangıçta düzgün proses / baseline,
+kısa bir sapma,
+tekrar stabil alan,
+kırmızı bir measurement point,
+ardından kontrollü proses trendi.
+
+Yani artık “kalp atışı” değil:
+
+measurement → deviation → decision → controlled process
+
+anlamına gelir.
+
+Bence en güçlü seçenek
+
+Ritim’in R harfi + Quality Signal birleşimi.
+
+Örneğin stilize R’nin sağ bacağı bir çizgi olarak devam eder ve:
+
+önce düz gider,
+küçük bir tolerance deviation yapar,
+bir measurement dot’a bağlanır,
+tekrar stabil hale gelir.
+
+Böylece logoya bakan kişi açıkça ECG görmez ama mevcut “ritim” fikri kaybolmaz.
+
+Bu aynı sembolü:
+
+logoda,
+favicon’da,
+loading animasyonunda,
+hero’da,
+chart highlight’ında,
+app sidebar’da
+
+kullanabiliriz.
+
+Bu çok önemli çünkü şu anda pulse çizgimiz tasarım dili; bunu gerçek bir marka asset’ine dönüştürürsek Ritim daha özgün olur.
+
+Kaçınacağım seçenekler
+
+Kalp şeklini çizginin içine sokmazdım. Fazla consumer/health olur.
+
+Dişli + check işareti de kullanmazdım. Çok klasik endüstriyel yazılım logosu olur.
+
+Checkmark tek başına da fazla generic quality-management hissi verir.
+
+Aynı şekilde ECG çizgisini sadece biraz geometrikleştirmek yeterli değil; yine sağlık çağrışımı kalır.
+
+Satış sayfasında başka neyi değiştirirdim?
+
+Artık efekt eklemek yerine yalnızca birkaç son dokunuş:
+
+1. Hero sinyalini yeni “Quality Signal” sembolüne çevirirdim.
+Sayfanın tamamında aynı motif yaşasın.
+
+2. Gerçek ürün ekranları geldiğinde konsept mockup'ları azaltırdım.
+Özellikle Plan Editor, Measurement Terminal ve SPC gerçek görüntüleri satış gücünü ciddi artırır.
+
+3. Hero'nun ilk 5 saniyesinde ürün ne olduğu biraz daha belirgin olabilir.
+“Quality has a rhythm.” çok güzel marka cümlesi. Hemen altında daha ticari bir cümle bulunmalı:
+
+Digital quality control, SPC and traceability for modern manufacturing.
+
+Bu, ziyaretçinin “güzel site ama ürün ne?” demesini engeller.
+
+4. Son CTA'dan önce küçük bir entegrasyon/trust satırı eklerdim.
+Örneğin:
+
+Cloud · On-Premise · API · ERP/MES Ready
+
+Oldukça sakin şekilde.
+
+Bunun dışında V12’nin hikâyesini tekrar değiştirmezdim.
+
+Ben olsam logo/sinyal için bunu seçerdim
+
+Ritim Quality Signal
+
+Kalp atışı gibi başlayan ama giderek bir SPC/process signal haline gelen özgün bir çizgi.
+
+Bu aslında web sitesindeki hikâyemizi tek sembole indirger:
+
+Ritim → ölçüm → sapma → analiz → kontrol.
+
+Bence klasik ECG ikonundan çok daha güçlü ve sahiplenilebilir bir marka unsuru olur.
+
+buna gore v12 yapabılır mısın
+Analysé
+from pathlib import Path
+import re, json, textwrap
+
+src = Path('/mnt/data/ritim_quality_experience_v12_multilingual.html')
+html = src.read_text(encoding='utf-8')
+
+# ------------------------------------------------------------
+# 1) Branding / Quality Signal CSS
+# ------------------------------------------------------------
+html = html.replace(
+""".logo{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,#121d35,#091122);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo:before{content:"R";font-weight:900}
+.logo:after{content:"";position:absolute;left:4px;right:4px;bottom:8px;height:2px;background:var(--accent);transform:skewX(-25deg);box-shadow:0 0 14px rgba(255,59,78,.8)}""",
+""".logo{width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,#121d35,#091122);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo svg{width:30px;height:30px;overflow:visible}
+.logo .rmark{fill:none;stroke:#f5f8fb;stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}
+.logo .qsignal{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 7px rgba(255,59,78,.52))}
+.logo .qdot{fill:var(--accent);filter:drop-shadow(0 0 6px rgba(255,59,78,.7))}"""
+)
+
+signal_css_add = r'''
+/* V12 Quality Signal — process baseline → deviation → decision → controlled process */
+.signalSculpture .qualityBand{fill:rgba(127,164,255,.035);stroke:none}
+.signalSculpture .limitLine{stroke:rgba(127,164,255,.17);stroke-width:1;stroke-dasharray:5 8}
+.signalSculpture .targetLine{stroke:rgba(255,255,255,.10);stroke-width:1}
+.signalSculpture .processSignal{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.signalSculpture .qualitySignal{fill:none;stroke:rgba(255,59,78,.88);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 11px rgba(255,59,78,.28))}
+.signalSculpture .samplePoint{fill:#879bb8;opacity:.62}
+.signalSculpture .samplePoint.alert{fill:var(--accent);opacity:1;filter:drop-shadow(0 0 10px rgba(255,59,78,.78))}
+.signalSculpture .decisionRing{fill:none;stroke:rgba(255,59,78,.32);stroke-width:1.3;animation:decisionRing 2.1s ease-out infinite;transform-origin:535px 150px}
+@keyframes decisionRing{0%,30%{opacity:.65;transform:scale(.65)}85%,100%{opacity:0;transform:scale(1.7)}}
+
+.heroProof{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin-top:18px;color:#8191a7;font-size:11px;letter-spacing:.08em;text-transform:uppercase
+}
+.heroProof span{display:inline-flex;align-items:center;gap:8px}
+.heroProof span:not(:last-child):after{content:"";width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25);margin-left:2px}
+.heroProof .proofSignal{color:#c7d0de}
+.heroProof .proofSignal:before{content:"";width:26px;height:1px;background:linear-gradient(90deg,#73849b,var(--accent));box-shadow:10px -4px 0 -0.2px var(--accent)}
+
+.heroPulse .qualityBand{fill:rgba(127,164,255,.025)}
+.heroPulse .limit{stroke:rgba(127,164,255,.12);stroke-width:1;stroke-dasharray:6 12}
+.heroPulse .qualityPath{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}
+.heroPulse .qualityDot{fill:var(--accent);filter:drop-shadow(0 0 8px rgba(255,59,78,.68))}
+.heroPulse path:not(.qualityPath){animation:none;stroke-dasharray:none;stroke-dashoffset:0}
+
+.finalPulse .qualityBand{fill:rgba(127,164,255,.022)}
+.finalPulse .limit{stroke:rgba(127,164,255,.10);stroke-width:1;stroke-dasharray:7 13}
+.finalPulse .qualityPath{fill:none;stroke:#ff3b4e;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.finalPulse .qualityDot{fill:#ff3b4e;filter:drop-shadow(0 0 8px rgba(255,59,78,.55))}
+.finalTrustRail{
+  display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;
+  margin:25px auto 0;color:#7f90a7;font-size:10px;letter-spacing:.09em;text-transform:uppercase
+}
+.finalTrustRail span{display:flex;align-items:center;gap:9px}
+.finalTrustRail span:not(:last-child):after{content:"";width:3px;height:3px;border-radius:50%;background:#33445c}
+
+@media(max-width:820px){
+  .heroProof{font-size:9px;gap:7px;max-width:330px}
+  .heroProof span:not(:last-child):after{display:none}
+  .finalTrustRail{font-size:9px;gap:7px;max-width:330px}
+}
+'''
+html = html.replace('@media(max-width:1000px){', signal_css_add + '\n@media(max-width:1000px){', 1)
+
+# Old generic hero pulse animation selector is too broad. Keep it only for our main path.
+html = html.replace(
+    '.heroPulse path{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}',
+    '.heroPulse .qualityPath{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}'
+)
+
+# ------------------------------------------------------------
+# 2) Brand mark + fix desktop language switcher
+# ------------------------------------------------------------
+brand_svg = '''<div class="brand"><div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 32 32">
+        <path class="rmark" d="M8 25V7h8.2c4.3 0 6.8 2.3 6.8 5.7 0 3.1-2.1 5.1-5.6 5.6L24 25"/>
+        <path class="qsignal" d="M5 21.2h7.5l2.8-2.2 3.2 2.1 3-5.4 2.8 5.2H28"/>
+        <circle class="qdot" cx="21.5" cy="15.7" r="1.5"/>
+      </svg>
+    </div>Ritim Quality</div>'''
+html = html.replace('<div class="brand"><div class="logo"></div>Ritim Quality</div>', brand_svg, 1)
+
+# Remove duplicate i18n attrs from previous version.
+html = html.replace('data-i18n="nav_demo" data-i18n="nav_demo"', 'data-i18n="nav_demo"')
+
+# Add desktop language selector if missing.
+nav_block = '''      <a class="navcta magnetic" href="#contact" data-i18n="nav_demo">Demo Talep Et</a>
+    </nav>
+    <button class="mobileMenuBtn"'''
+if nav_block in html:
+    html = html.replace(nav_block, '''      <a class="navcta magnetic" href="#contact" data-i18n="nav_demo">Demo Talep Et</a>
+      <div class="langSwitch desktopLang" aria-label="Language selector">
+        <button type="button" data-lang="tr">TR</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="fr">FR</button>
+      </div>
+    </nav>
+    <button class="mobileMenuBtn"''', 1)
+
+# ------------------------------------------------------------
+# 3) Preloader becomes Quality Signal, not ECG
+# ------------------------------------------------------------
+html = re.sub(
+    r'<svg class="preloaderSignal" viewBox="0 0 520 110" preserveAspectRatio="none">\s*<path d="[^"]+"\s*/>\s*</svg>',
+    '''<svg class="preloaderSignal" viewBox="0 0 520 110" preserveAspectRatio="none">
+      <path d="M0 66 C70 66,110 64,155 62 C205 60,245 58,292 56 C335 54,370 53,400 50 C425 47,438 26,454 20 C468 21,478 47,490 52 C500 55,510 53,520 51"/>
+      <circle cx="454" cy="20" r="4.3" fill="#ff3b4e"/>
+    </svg>''',
+    html, count=1, flags=re.S
+)
+
+# ------------------------------------------------------------
+# 4) Hero signal sculpture: tolerance band + process trend + one deviation
+# ------------------------------------------------------------
+hero_svg_old = re.search(
+    r'<div class="signalSculpture" id="signalSculpture">\s*<svg viewBox="0 0 760 480">.*?</svg>\s*</div>',
+    html, re.S
+)
+hero_svg_new = '''<div class="signalSculpture" id="signalSculpture">
+    <svg viewBox="0 0 760 480">
+      <rect class="qualityBand" x="50" y="165" width="650" height="145" rx="16"/>
+      <line class="limitLine" x1="50" y1="165" x2="700" y2="165"/>
+      <line class="targetLine" x1="50" y1="238" x2="700" y2="238"/>
+      <line class="limitLine" x1="50" y1="310" x2="700" y2="310"/>
+
+      <path class="processSignal" d="M50 258 C105 254 145 252 192 248 S282 242 332 239 S425 235 475 230 S525 224 565 226 S640 232 700 228"/>
+      <path class="qualitySignal" d="M50 263 C108 260 148 258 195 253 C245 248 287 246 333 242 C382 238 426 235 474 231 C505 228 520 208 535 150 C550 191 562 226 592 231 C628 236 662 230 700 228"/>
+
+      <circle class="samplePoint" cx="110" cy="260" r="3"/>
+      <circle class="samplePoint" cx="195" cy="253" r="3"/>
+      <circle class="samplePoint" cx="333" cy="242" r="3"/>
+      <circle class="samplePoint" cx="474" cy="231" r="3"/>
+      <circle class="samplePoint alert" cx="535" cy="150" r="5"/>
+      <circle class="decisionRing" cx="535" cy="150" r="12"/>
+      <circle class="samplePoint" cx="592" cy="231" r="3"/>
+      <circle class="samplePoint" cx="700" cy="228" r="3"/>
+    </svg>
+  </div>'''
+if hero_svg_old:
+    html = html[:hero_svg_old.start()] + hero_svg_new + html[hero_svg_old.end():]
+
+# Add a concise product proof line after hero lead
+hero_lead_line = '<p class="lead" data-i18n="hero_lead">Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.</p>'
+if hero_lead_line in html:
+    html = html.replace(hero_lead_line, hero_lead_line + '''
+    <div class="heroProof" aria-label="Ritim Quality product capabilities">
+      <span class="proofSignal" data-i18n="hero_proof_quality">Dijital Kalite Kontrol</span>
+      <span data-i18n="hero_proof_spc">SPC</span>
+      <span data-i18n="hero_proof_trace">İzlenebilirlik</span>
+      <span data-i18n="hero_proof_deploy">Cloud / On-Premise</span>
+    </div>''', 1)
+
+# Localizable hero deployment tag
+html = html.replace('<div class="heroTag">Cloud / On‑Premise</div>',
+                    '<div class="heroTag" data-i18n="hero_deploy_tag">Cloud / On‑Premise</div>', 1)
+
+# ------------------------------------------------------------
+# 5) Hero full-width signal becomes a process trace with one deviation
+# ------------------------------------------------------------
+hero_pulse_pattern = re.compile(r'<div class="heroPulse">\s*<svg viewBox="0 0 1600 180" preserveAspectRatio="none">.*?</svg>\s*</div>', re.S)
+hero_pulse_new = '''<div class="heroPulse">
+    <svg viewBox="0 0 1600 180" preserveAspectRatio="none">
+      <rect class="qualityBand" x="0" y="61" width="1600" height="78"/>
+      <line class="limit" x1="0" y1="61" x2="1600" y2="61"/>
+      <line class="limit" x1="0" y1="139" x2="1600" y2="139"/>
+      <path class="qualityPath" d="M0 111 C155 111 240 108 350 105 C470 102 570 99 680 96 C785 93 875 91 980 88 C1070 85 1130 82 1195 79 C1240 77 1265 66 1293 34 C1318 58 1335 91 1372 92 C1455 94 1510 87 1600 85"
+        fill="none" stroke="#ff3b4e" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="qualityDot" cx="1293" cy="34" r="4.8"/>
+    </svg>
+  </div>'''
+html = hero_pulse_pattern.sub(hero_pulse_new, html, count=1)
+
+# ------------------------------------------------------------
+# 6) Story signal path + arrays: quality signal → tolerance → chart → controlled
+# ------------------------------------------------------------
+html = html.replace(
+    'd="M0 300 L120 300 L150 300 L176 255 L205 350 L235 285 L270 300 L430 300 L458 300 L485 260 L515 342 L548 300 L700 300"',
+    'd="M0 318 C72 316 124 313 176 309 C236 304 292 301 350 297 C410 293 464 290 515 286 C550 283 570 260 588 224 C608 257 624 287 654 288 C670 288 684 286 700 284"',
+    1
+)
+
+arrays_re = re.compile(
+    r'const pulseA=\[\[.*?const pulseD=\[\[.*?\]\];',
+    re.S
+)
+arrays_new = '''const pulseA=[[0,318],[58,316],[117,313],[175,309],[233,304],[292,301],[350,297],[408,293],[467,290],[525,286],[583,224],[642,288],[700,284]];
+const pulseB=[[0,325],[58,325],[117,325],[175,325],[233,325],[292,325],[350,325],[408,325],[467,325],[525,325],[583,276],[642,325],[700,325]];
+const pulseC=[[0,360],[58,348],[117,352],[175,338],[233,344],[292,329],[350,334],[408,316],[467,321],[525,303],[583,307],[642,296],[700,289]];
+const pulseD=[[0,305],[58,304],[117,302],[175,301],[233,300],[292,298],[350,297],[408,296],[467,295],[525,293],[583,292],[642,291],[700,290]];'''
+html = arrays_re.sub(arrays_new, html, count=1)
+
+html = html.replace(
+    '// One pulse object morphs: ecg -> tolerance band -> chart -> calm signal.',
+    '// One Quality Signal morphs: process trace -> tolerance band -> SPC trend -> controlled process.'
+)
+html = html.replace('// Add a tiny velocity-driven energy to the pulse',
+                    '// Add subtle velocity-driven energy to the Quality Signal')
+
+# ------------------------------------------------------------
+# 7) Mobile quality signal: remove ECG-like paths
+# ------------------------------------------------------------
+html = html.replace(
+    'd="M10 380 L85 380 L105 380 L120 350 L140 415 L165 368 L190 380 L270 380 L292 380 L310 358 L327 407 L348 380 L390 380"',
+    'd="M10 397 C55 394 95 392 130 389 C170 386 205 384 242 381 C276 378 304 375 330 372 C346 370 354 350 362 326 C371 349 380 372 390 371"'
+)
+html = html.replace(
+    'd="M0 40 L80 40 L102 40 L118 21 L136 57 L158 33 L180 40 L300 40 L320 40 L338 25 L354 54 L372 40 L420 40"',
+    'd="M0 45 C72 44 118 42 168 40 C220 38 264 37 306 34 C334 32 350 27 362 16 C374 26 386 34 420 33"'
+)
+html = html.replace(
+    'd="M0 36 L110 36 L132 36 L146 18 L164 54 L182 29 L200 36 L300 36 L322 36 L340 20 L358 53 L376 36 L420 36"',
+    'd="M0 43 C70 42 128 40 184 38 C235 36 278 35 318 32 C342 30 354 21 365 10 C377 21 388 34 420 33"'
+)
+
+# Capture card's ECG-ish visual if present
+html = html.replace(
+    'd="M0 48 L82 48 L101 48 L116 24 L133 68 L151 39 L173 48 L360 48"',
+    'd="M0 57 C68 56 112 54 158 51 C204 48 244 46 278 43 C300 41 314 32 324 18 C334 32 344 43 360 42"'
+)
+
+# Update mobile pulse JS from ECG points to a single process deviation.
+old_pts = """      const y=380;
+      const amp=1-.56*p;
+      const pts=[
+        [10,y],[85,y],[105,y],[120,y-30*amp],[140,y+35*amp],[165,y-12*amp],[190,y],
+        [270,y],[292,y],[310,y-22*amp],[327,y+27*amp],[348,y],[390,y]
+      ];"""
+new_pts = """      const y=397;
+      const amp=1-.56*p;
+      const pts=[
+        [10,y],[45,y-2],[80,y-4],[115,y-6],[150,y-8],[185,y-10],[220,y-12],
+        [255,y-15],[290,y-18],[320,y-21],[345,y-25],[362,y-71*amp],[390,y-26]
+      ];"""
+html = html.replace(old_pts, new_pts, 1)
+
+# ------------------------------------------------------------
+# 8) Final signal + trust rail
+# ------------------------------------------------------------
+final_pulse_pattern = re.compile(r'<div class="finalPulse">\s*<svg viewBox="0 0 1600 170" preserveAspectRatio="none">.*?</svg>\s*</div>', re.S)
+final_pulse_new = '''<div class="finalPulse">
+    <svg viewBox="0 0 1600 170" preserveAspectRatio="none">
+      <rect class="qualityBand" x="0" y="55" width="1600" height="70"/>
+      <line class="limit" x1="0" y1="55" x2="1600" y2="55"/>
+      <line class="limit" x1="0" y1="125" x2="1600" y2="125"/>
+      <path class="qualityPath" d="M0 94 C170 93 300 91 420 90 C560 89 690 88 810 87 C920 86 1010 84 1090 83 C1160 82 1210 81 1250 80 C1288 79 1315 68 1338 51 C1360 70 1384 82 1420 82 C1480 82 1535 80 1600 79"/>
+      <circle class="qualityDot" cx="1338" cy="51" r="4.5"/>
+    </svg>
+  </div>'''
+html = final_pulse_pattern.sub(final_pulse_new, html, count=1)
+
+# Add trust rail before final actions
+final_body = '<p data-i18n="final_body">Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.</p>'
+if final_body in html:
+    html = html.replace(final_body, final_body + '''
+    <div class="finalTrustRail" aria-label="Deployment and integration capabilities">
+      <span data-i18n="trust_cloud">Cloud</span>
+      <span data-i18n="trust_onprem">On-Premise</span>
+      <span data-i18n="trust_api">API</span>
+      <span data-i18n="trust_erp">ERP / MES Ready</span>
+    </div>''', 1)
+
+# ------------------------------------------------------------
+# 9) Update multilingual copy intelligently
+# ------------------------------------------------------------
+m = re.search(r'const I18N=(\{.*?\});\nfunction detectInitialLanguage', html, re.S)
+if not m:
+    raise RuntimeError("Could not locate I18N object")
+i18n = json.loads(m.group(1))
+
+updates = {
+    "tr": {
+        "nav_enterprise": "Kurumsal",
+        "hero_kicker": "RITIM KALİTE YÖNETİM PLATFORMU",
+        "hero_title_1": "Kalitenin bir ritmi var.",
+        "hero_title_2": "Onu görünür kılın.",
+        "hero_lead": "Modern üretim için dijital kalite kontrol, SPC ve uçtan uca izlenebilirlik. Kontrol planından ölçüme kadar kaliteyi üretimin yaşayan bir parçası haline getirin.",
+        "hero_proof_quality": "Dijital Kalite Kontrol",
+        "hero_proof_spc": "SPC",
+        "hero_proof_trace": "İzlenebilirlik",
+        "hero_proof_deploy": "Cloud / On-Premise",
+        "hero_deploy_tag": "Cloud / On-Premise",
+        "trust_cloud": "Cloud",
+        "trust_onprem": "On-Premise",
+        "trust_api": "API",
+        "trust_erp": "ERP / MES Entegrasyonuna Hazır"
+    },
+    "en": {
+        "hero_lead": "Digital quality control, SPC and end-to-end traceability for modern manufacturing. Make quality a living part of production, from control plans to measurement.",
+        "hero_proof_quality": "Digital Quality Control",
+        "hero_proof_spc": "SPC",
+        "hero_proof_trace": "Traceability",
+        "hero_proof_deploy": "Cloud / On-Premise",
+        "hero_deploy_tag": "Cloud / On-Premise",
+        "trust_cloud": "Cloud",
+        "trust_onprem": "On-Premise",
+        "trust_api": "API",
+        "trust_erp": "ERP / MES Ready"
+    },
+    "fr": {
+        "hero_lead": "Contrôle qualité numérique, SPC et traçabilité de bout en bout pour l’industrie moderne. Intégrez la qualité au cœur de la production, du plan de contrôle à la mesure.",
+        "hero_proof_quality": "Contrôle Qualité Numérique",
+        "hero_proof_spc": "SPC",
+        "hero_proof_trace": "Traçabilité",
+        "hero_proof_deploy": "Cloud / On-Premise",
+        "hero_deploy_tag": "Cloud / On-Premise",
+        "trust_cloud": "Cloud",
+        "trust_onprem": "On-Premise",
+        "trust_api": "API",
+        "trust_erp": "Prêt pour ERP / MES"
+    }
+}
+for lang, vals in updates.items():
+    i18n[lang].update(vals)
+
+new_i18n_json = json.dumps(i18n, ensure_ascii=False, separators=(',', ':'))
+html = html[:m.start(1)] + new_i18n_json + html[m.end(1):]
+
+# ------------------------------------------------------------
+# 10) Update metadata title/description subtly
+# ------------------------------------------------------------
+html = html.replace(
+    '<meta property="og:title" content="Ritim Quality — Quality has a rhythm"/>',
+    '<meta property="og:title" content="Ritim Quality — Make Quality Visible"/>'
+)
+html = html.replace(
+    '<meta name="twitter:title" content="Ritim Quality — Quality has a rhythm"/>',
+    '<meta name="twitter:title" content="Ritim Quality — Make Quality Visible"/>'
+)
+
+# ------------------------------------------------------------
+# Save
+# ------------------------------------------------------------
+out = Path('/mnt/data/ritim_quality_v12_quality_signal.html')
+out.write_text(html, encoding='utf-8')
+
+# Basic integrity checks
+checks = {
+    "Quality Signal hero": "class=\"qualitySignal\"" in html,
+    "Tolerance band hero": "class=\"qualityBand\"" in html,
+    "New brand mark": "class=\"qsignal\"" in html,
+    "Desktop language switcher": "langSwitch desktopLang" in html,
+    "TR hero translated": "Kalitenin bir ritmi var." in html,
+    "EN product descriptor": "Digital quality control, SPC and end-to-end traceability" in html,
+    "FR product descriptor": "Contrôle qualité numérique, SPC et traçabilité" in html,
+    "Final trust rail": "finalTrustRail" in html,
+    "Story no ECG comment": "ecg ->" not in html,
+    "V11/V12 mobile features": "mobileTraceInteractive" in html and "mobilePulsePath" in html,
+    "Safari polish": "-webkit-mask-image" in html,
+}
+print(f"Created: {out}")
+for name, ok in checks.items():
+    print(f"{name}: {'OK' if ok else 'MISSING'}")
+
+STDOUT/STDERR
+Created: /mnt/data/ritim_quality_v12_quality_signal.html
+Quality Signal hero: OK
+Tolerance band hero: OK
+New brand mark: OK
+Desktop language switcher: OK
+TR hero translated: OK
+EN product descriptor: OK
+FR product descriptor: OK
+Final trust rail: OK
+Story no ECG comment: OK
+V11/V12 mobile features: OK
+Safari polish: OK
+
+
+Evet. V12’yi bu yeni marka yönüne göre güncelledim:
+
+Ritim Quality — V12 Quality Signal
+
+Bu sürümde klasik kalp atışı/ECG görüntüsünü büyük ölçüde kaldırdım. Yeni sinyal artık şu mantığı anlatıyor:
+
+baseline → proses eğilimi → ölçüm sapması → karar noktası → kontrollü proses
+
+Yaptığım ana değişiklikler:
+
+Hero’daki büyük ECG benzeri çizgi artık Quality Signal.
+Hero sculpture içine gerçek kalite mantığı koydum:
+tolerance band,
+upper/lower limit hissi,
+process trend,
+sample points,
+tek belirgin deviation/measurement point.
+Kırmızı nokta artık “kalp atışı” değil, kritik ölçüm noktası.
+Preloader aynı Quality Signal diline geçti.
+Story içindeki ana pulse çizgisi de artık ECG ile başlamıyor; process trace → tolerance → SPC trend → controlled process olarak morph ediyor.
+Mobildeki pulse çizgileri de aynı mantığa çevrildi.
+Final CTA’daki çizgi de kontrollü bir kalite sinyali haline geldi.
+Logo ikonunda R + Quality Signal birleşimi kullandım.
+Hero mesajını daha ticari ve anlaşılır yaptım.
+İlk ekranda artık ürünün ne olduğu daha açık:
+Digital Quality Control · SPC · Traceability · Cloud / On-Premise
+Final CTA öncesine:
+Cloud · On-Premise · API · ERP/MES Ready
+güven/entegrasyon satırı eklendi.
+TR / EN / FR dil sistemi korundu ve Türkçe hero artık gerçekten Türkçe.
+Desktop dil seçiciyi de düzelttim; artık yalnız mobilde değil desktop’ta da TR / EN / FR görünüyor.
+V11/V12’deki mobil morph, trace interaction, Safari polish ve performance iyileştirmeleri korunuyor.
+JS syntax kontrolünü de yaptım; dosya temiz geçiyor.
+
+Bence bu değişiklik önemli oldu. Artık sembol ilk bakışta “health app” demekten çok ölçüm/proses/kalite sinyali diyor. Bu yönü logo ve uygulama tarafında da aynı şekilde devam ettirebiliriz. 
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -7,10 +2704,10 @@
 <meta name="description" content="Ritim Quality — üretim kalite yönetimi, SPC, izlenebilirlik ve kontrol planları. Cloud veya On-Premise."/>
 <meta name="theme-color" content="#010616"/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="Ritim Quality — Quality has a rhythm"/>
+<meta property="og:title" content="Ritim Quality — Make Quality Visible"/>
 <meta property="og:description" content="Kontrol planından ölçüme, SPC’den izlenebilirliğe. Kaliteyi üretimin yaşayan bir parçası haline getirin."/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Ritim Quality — Quality has a rhythm"/>
+<meta name="twitter:title" content="Ritim Quality — Make Quality Visible"/>
 <meta name="twitter:description" content="Üretim kalite yönetimi, SPC ve izlenebilirlik. Cloud veya On-Premise."/>
 <!-- Add canonical URL and og:image after the final public domain and social preview image are confirmed. -->
 <script type="application/ld+json">
@@ -59,9 +2756,11 @@ button{font:inherit;color:inherit}
 .nav{position:fixed;z-index:300;left:0;right:0;top:0;height:76px;background:linear-gradient(180deg,rgba(1,6,22,.94),rgba(1,6,22,.48),transparent);backdrop-filter:blur(14px)}
 .navin{height:100%;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;gap:11px;align-items:center;font-weight:800}
-.logo{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,#121d35,#091122);display:grid;place-items:center;position:relative;overflow:hidden}
-.logo:before{content:"R";font-weight:900}
-.logo:after{content:"";position:absolute;left:4px;right:4px;bottom:8px;height:2px;background:var(--accent);transform:skewX(-25deg);box-shadow:0 0 14px rgba(255,59,78,.8)}
+.logo{width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,#121d35,#091122);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo svg{width:30px;height:30px;overflow:visible}
+.logo .rmark{fill:none;stroke:#f5f8fb;stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}
+.logo .qsignal{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 7px rgba(255,59,78,.52))}
+.logo .qdot{fill:var(--accent);filter:drop-shadow(0 0 6px rgba(255,59,78,.7))}
 .navlinks{display:flex;gap:25px;align-items:center;color:#c5cedc;font-size:14px}
 .navlinks a{transition:.2s}.navlinks a:hover{color:#fff}
 .navcta{padding:10px 15px;border-radius:999px;background:#f6f8fb;color:#06101e;font-weight:850}
@@ -103,7 +2802,7 @@ h1,h2,h3,p{margin:0}
 @keyframes dotPulse{0%,100%{r:5;opacity:.9}50%{r:8;opacity:1}}
 .heroPulse{position:absolute;left:0;right:0;bottom:7vh;height:180px;z-index:3}
 .heroPulse svg{width:100%;height:100%}
-.heroPulse path{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}
+.heroPulse .qualityPath{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}
 @keyframes heroDraw{to{stroke-dashoffset:0}}
 .scrollHint{position:absolute;left:50%;bottom:2.3vh;transform:translateX(-50%);font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:#8798af;z-index:8}
 .scrollHint:after{content:"";display:block;width:1px;height:35px;margin:9px auto 0;background:linear-gradient(var(--accent),transparent)}
@@ -1464,6 +4163,50 @@ h1,h2,h3,p{margin:0}
   }
 }
 
+
+/* V12 Quality Signal — process baseline → deviation → decision → controlled process */
+.signalSculpture .qualityBand{fill:rgba(127,164,255,.035);stroke:none}
+.signalSculpture .limitLine{stroke:rgba(127,164,255,.17);stroke-width:1;stroke-dasharray:5 8}
+.signalSculpture .targetLine{stroke:rgba(255,255,255,.10);stroke-width:1}
+.signalSculpture .processSignal{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.signalSculpture .qualitySignal{fill:none;stroke:rgba(255,59,78,.88);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 11px rgba(255,59,78,.28))}
+.signalSculpture .samplePoint{fill:#879bb8;opacity:.62}
+.signalSculpture .samplePoint.alert{fill:var(--accent);opacity:1;filter:drop-shadow(0 0 10px rgba(255,59,78,.78))}
+.signalSculpture .decisionRing{fill:none;stroke:rgba(255,59,78,.32);stroke-width:1.3;animation:decisionRing 2.1s ease-out infinite;transform-origin:535px 150px}
+@keyframes decisionRing{0%,30%{opacity:.65;transform:scale(.65)}85%,100%{opacity:0;transform:scale(1.7)}}
+
+.heroProof{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin-top:18px;color:#8191a7;font-size:11px;letter-spacing:.08em;text-transform:uppercase
+}
+.heroProof span{display:inline-flex;align-items:center;gap:8px}
+.heroProof span:not(:last-child):after{content:"";width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25);margin-left:2px}
+.heroProof .proofSignal{color:#c7d0de}
+.heroProof .proofSignal:before{content:"";width:26px;height:1px;background:linear-gradient(90deg,#73849b,var(--accent));box-shadow:10px -4px 0 -0.2px var(--accent)}
+
+.heroPulse .qualityBand{fill:rgba(127,164,255,.025)}
+.heroPulse .limit{stroke:rgba(127,164,255,.12);stroke-width:1;stroke-dasharray:6 12}
+.heroPulse .qualityPath{stroke-dasharray:1900;stroke-dashoffset:1900;animation:heroDraw 2.15s cubic-bezier(.2,.7,.2,1) .35s forwards}
+.heroPulse .qualityDot{fill:var(--accent);filter:drop-shadow(0 0 8px rgba(255,59,78,.68))}
+.heroPulse path:not(.qualityPath){animation:none;stroke-dasharray:none;stroke-dashoffset:0}
+
+.finalPulse .qualityBand{fill:rgba(127,164,255,.022)}
+.finalPulse .limit{stroke:rgba(127,164,255,.10);stroke-width:1;stroke-dasharray:7 13}
+.finalPulse .qualityPath{fill:none;stroke:#ff3b4e;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.finalPulse .qualityDot{fill:#ff3b4e;filter:drop-shadow(0 0 8px rgba(255,59,78,.55))}
+.finalTrustRail{
+  display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;
+  margin:25px auto 0;color:#7f90a7;font-size:10px;letter-spacing:.09em;text-transform:uppercase
+}
+.finalTrustRail span{display:flex;align-items:center;gap:9px}
+.finalTrustRail span:not(:last-child):after{content:"";width:3px;height:3px;border-radius:50%;background:#33445c}
+
+@media(max-width:820px){
+  .heroProof{font-size:9px;gap:7px;max-width:330px}
+  .heroProof span:not(:last-child):after{display:none}
+  .finalTrustRail{font-size:9px;gap:7px;max-width:330px}
+}
+
 @media(max-width:1000px){
   .signalSculpture{opacity:.42;right:-18vw}
   .worldGrid{grid-template-columns:1fr}
@@ -1554,7 +4297,8 @@ h1,h2,h3,p{margin:0}
 <div class="preloader" id="preloader" aria-hidden="true">
   <div class="preloaderInner">
     <svg class="preloaderSignal" viewBox="0 0 520 110" preserveAspectRatio="none">
-      <path d="M0 60 L120 60 L145 60 L165 25 L188 88 L214 46 L240 60 L345 60 L368 60 L390 31 L414 84 L442 60 L520 60"/>
+      <path d="M0 66 C70 66,110 64,155 62 C205 60,245 58,292 56 C335 54,370 53,400 50 C425 47,438 26,454 20 C468 21,478 47,490 52 C500 55,510 53,520 51"/>
+      <circle cx="454" cy="20" r="4.3" fill="#ff3b4e"/>
     </svg>
     <div class="preloaderWord">Ritim Quality</div>
   </div>
@@ -1566,12 +4310,23 @@ h1,h2,h3,p{margin:0}
 
 <header class="nav">
   <div class="wrap navin">
-    <div class="brand"><div class="logo"></div>Ritim Quality</div>
+    <div class="brand"><div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 32 32">
+        <path class="rmark" d="M8 25V7h8.2c4.3 0 6.8 2.3 6.8 5.7 0 3.1-2.1 5.1-5.6 5.6L24 25"/>
+        <path class="qsignal" d="M5 21.2h7.5l2.8-2.2 3.2 2.1 3-5.4 2.8 5.2H28"/>
+        <circle class="qdot" cx="21.5" cy="15.7" r="1.5"/>
+      </svg>
+    </div>Ritim Quality</div>
     <nav class="navlinks" aria-label="Ana navigasyon">
       <a class="magnetic" href="#story"><span data-i18n="nav_product">Ürün</span></a>
       <a class="magnetic" href="#worlds"><span data-i18n="nav_features">Özellikler</span></a>
       <a class="magnetic" href="#enterprise"><span data-i18n="nav_enterprise">Enterprise</span></a>
-      <a class="navcta magnetic" href="#contact" data-i18n="nav_demo" data-i18n="nav_demo">Demo Talep Et</a>
+      <a class="navcta magnetic" href="#contact" data-i18n="nav_demo">Demo Talep Et</a>
+      <div class="langSwitch desktopLang" aria-label="Language selector">
+        <button type="button" data-lang="tr">TR</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="fr">FR</button>
+      </div>
     </nav>
     <button class="mobileMenuBtn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menüyü aç">
       <span></span><span></span><span></span>
@@ -1583,7 +4338,7 @@ h1,h2,h3,p{margin:0}
   <a href="#story"><span data-i18n="nav_product">Ürün</span></a>
   <a href="#worlds"><span data-i18n="nav_features">Özellikler</span></a>
   <a href="#enterprise"><span data-i18n="nav_enterprise">Enterprise</span></a>
-  <a href="#contact" data-i18n="nav_demo" data-i18n="nav_demo">Demo Talep Et</a>
+  <a href="#contact" data-i18n="nav_demo">Demo Talep Et</a>
   <div class="mobileLangWrap">
     <div class="langSwitch" aria-label="Language selector">
       <button type="button" data-lang="tr">TR</button>
@@ -1597,13 +4352,22 @@ h1,h2,h3,p{margin:0}
 <section class="hero">
   <div class="signalSculpture" id="signalSculpture">
     <svg viewBox="0 0 760 480">
-      <line class="scan" x1="50" y1="110" x2="700" y2="110"/>
-      <line class="scan" x1="50" y1="240" x2="700" y2="240"/>
-      <line class="scan" x1="50" y1="370" x2="700" y2="370"/>
-      <path class="wave w3" d="M50 245 C120 110,160 370,230 235 S340 105,420 245 S545 390,700 235"/>
-      <path class="wave w2" d="M50 240 C125 155,175 325,240 242 S340 145,420 240 S555 320,700 238"/>
-      <path class="wave w1" d="M50 240 L140 240 L165 240 L190 190 L218 300 L248 218 L280 240 L430 240 L456 240 L480 198 L507 292 L540 240 L700 240"/>
-      <circle class="dot" cx="507" cy="292" r="5"/>
+      <rect class="qualityBand" x="50" y="165" width="650" height="145" rx="16"/>
+      <line class="limitLine" x1="50" y1="165" x2="700" y2="165"/>
+      <line class="targetLine" x1="50" y1="238" x2="700" y2="238"/>
+      <line class="limitLine" x1="50" y1="310" x2="700" y2="310"/>
+
+      <path class="processSignal" d="M50 258 C105 254 145 252 192 248 S282 242 332 239 S425 235 475 230 S525 224 565 226 S640 232 700 228"/>
+      <path class="qualitySignal" d="M50 263 C108 260 148 258 195 253 C245 248 287 246 333 242 C382 238 426 235 474 231 C505 228 520 208 535 150 C550 191 562 226 592 231 C628 236 662 230 700 228"/>
+
+      <circle class="samplePoint" cx="110" cy="260" r="3"/>
+      <circle class="samplePoint" cx="195" cy="253" r="3"/>
+      <circle class="samplePoint" cx="333" cy="242" r="3"/>
+      <circle class="samplePoint" cx="474" cy="231" r="3"/>
+      <circle class="samplePoint alert" cx="535" cy="150" r="5"/>
+      <circle class="decisionRing" cx="535" cy="150" r="12"/>
+      <circle class="samplePoint" cx="592" cy="231" r="3"/>
+      <circle class="samplePoint" cx="700" cy="228" r="3"/>
     </svg>
   </div>
 
@@ -1614,17 +4378,27 @@ h1,h2,h3,p{margin:0}
       <span class="revealMask"><span class="revealLine soft" data-i18n="hero_title_2">Make it visible.</span></span>
     </h1>
     <p class="lead" data-i18n="hero_lead">Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.</p>
+    <div class="heroProof" aria-label="Ritim Quality product capabilities">
+      <span class="proofSignal" data-i18n="hero_proof_quality">Dijital Kalite Kontrol</span>
+      <span data-i18n="hero_proof_spc">SPC</span>
+      <span data-i18n="hero_proof_trace">İzlenebilirlik</span>
+      <span data-i18n="hero_proof_deploy">Cloud / On-Premise</span>
+    </div>
     <div class="heroActions">
       <a class="btn primary magnetic" href="#story"><span data-i18n="hero_start">Deneyimi Başlat</span></a>
       <a class="btn magnetic" href="#worlds"><span data-i18n="hero_explore">Ürünü İncele</span></a>
     </div>
   </div>
 
-  <div class="heroTag">Cloud / On‑Premise</div>
+  <div class="heroTag" data-i18n="hero_deploy_tag">Cloud / On‑Premise</div>
   <div class="heroPulse">
     <svg viewBox="0 0 1600 180" preserveAspectRatio="none">
-      <path d="M0 100 L240 100 L290 100 L330 38 L375 164 L420 70 L465 100 L760 100 L805 100 L850 54 L895 150 L940 100 L1195 100 L1245 100 L1290 32 L1340 168 L1390 100 L1600 100"
-      fill="none" stroke="#ff3b4e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect class="qualityBand" x="0" y="61" width="1600" height="78"/>
+      <line class="limit" x1="0" y1="61" x2="1600" y2="61"/>
+      <line class="limit" x1="0" y1="139" x2="1600" y2="139"/>
+      <path class="qualityPath" d="M0 111 C155 111 240 108 350 105 C470 102 570 99 680 96 C785 93 875 91 980 88 C1070 85 1130 82 1195 79 C1240 77 1265 66 1293 34 C1318 58 1335 91 1372 92 C1455 94 1510 87 1600 85"
+        fill="none" stroke="#ff3b4e" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="qualityDot" cx="1293" cy="34" r="4.8"/>
     </svg>
   </div>
   <div class="scrollHint"><span data-i18n="hero_scroll">scroll to enter</span></div>
@@ -1711,7 +4485,7 @@ h1,h2,h3,p{margin:0}
             <div class="pulseGlowBand" id="pulseGlowBand"></div>
             <div class="pulseThread">
               <svg viewBox="0 0 700 560" preserveAspectRatio="none">
-                <path id="threadPath" d="M0 300 L120 300 L150 300 L176 255 L205 350 L235 285 L270 300 L430 300 L458 300 L485 260 L515 342 L548 300 L700 300"
+                <path id="threadPath" d="M0 318 C72 316 124 313 176 309 C236 304 292 301 350 297 C410 293 464 290 515 286 C550 283 570 260 588 224 C608 257 624 287 654 288 C670 288 684 286 700 284"
                   fill="none" stroke="#ff3b4e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle id="threadCursor" class="threadCursor" cx="176" cy="255" r="4"/>
               </svg>
@@ -1970,7 +4744,7 @@ h1,h2,h3,p{margin:0}
 <section class="mobileExperience" id="mobileExperience">
   <div class="mobilePulseRail" aria-hidden="true">
     <svg viewBox="0 0 400 760" preserveAspectRatio="none">
-      <path id="mobilePulsePath" d="M10 380 L85 380 L105 380 L120 350 L140 415 L165 368 L190 380 L270 380 L292 380 L310 358 L327 407 L348 380 L390 380"/>
+      <path id="mobilePulsePath" d="M10 397 C55 394 95 392 130 389 C170 386 205 384 242 381 C276 378 304 375 330 372 C346 370 354 350 362 326 C371 349 380 372 390 371"/>
       <circle id="mobilePulseCursor" cx="120" cy="350" r="4"/>
     </svg>
   </div>
@@ -1983,7 +4757,7 @@ h1,h2,h3,p{margin:0}
         <p data-i18n="m1_body">Mobilde hikâyeyi doğrudan operatörün gördüğü değerle başlatıyoruz. Bir ekran, bir fikir.</p>
         <div class="mobileActSignal" aria-hidden="true">
           <svg viewBox="0 0 420 72" preserveAspectRatio="none">
-            <path d="M0 40 L80 40 L102 40 L118 21 L136 57 L158 33 L180 40 L300 40 L320 40 L338 25 L354 54 L372 40 L420 40"/>
+            <path d="M0 45 C72 44 118 42 168 40 C220 38 264 37 306 34 C334 32 350 27 362 16 C374 26 386 34 420 33"/>
           </svg>
         </div>
         <div class="mobileStage mobileMeasureStage">
@@ -2028,7 +4802,7 @@ h1,h2,h3,p{margin:0}
           <div class="mobileDetectValue">25.14</div>
           <div class="mobileDetectPulse" aria-hidden="true">
             <svg viewBox="0 0 420 64" preserveAspectRatio="none">
-              <path d="M0 36 L110 36 L132 36 L146 18 L164 54 L182 29 L200 36 L300 36 L322 36 L340 20 L358 53 L376 36 L420 36"/>
+              <path d="M0 43 C70 42 128 40 184 38 C235 36 278 35 318 32 C342 30 354 21 365 10 C377 21 388 34 420 33"/>
             </svg>
           </div>
           <div class="mobileTolerance">
@@ -2120,7 +4894,7 @@ h1,h2,h3,p{margin:0}
         <p>Doğru kontrolü doğru anda üretim noktasına taşıyın.</p>
         <div class="mobileWorldCardVisual" aria-hidden="true">
           <svg viewBox="0 0 360 88" preserveAspectRatio="none">
-            <path d="M0 48 L82 48 L101 48 L116 24 L133 68 L151 39 L173 48 L360 48" fill="none" stroke="#ff3b4e" stroke-width="2.4"/>
+            <path d="M0 57 C68 56 112 54 158 51 C204 48 244 46 278 43 C300 41 314 32 324 18 C334 32 344 43 360 42" fill="none" stroke="#ff3b4e" stroke-width="2.4"/>
           </svg>
         </div>
         <div class="mobileWorldList">
@@ -2195,6 +4969,12 @@ h1,h2,h3,p{margin:0}
       <span class="revealMask"><span class="revealLine" data-i18n="final_title_2">Neither should your visibility.</span></span>
     </h2>
     <p data-i18n="final_body">Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.</p>
+    <div class="finalTrustRail" aria-label="Deployment and integration capabilities">
+      <span data-i18n="trust_cloud">Cloud</span>
+      <span data-i18n="trust_onprem">On-Premise</span>
+      <span data-i18n="trust_api">API</span>
+      <span data-i18n="trust_erp">ERP / MES Ready</span>
+    </div>
     <div class="endActions">
       <a class="btn primary magnetic" href="#" data-i18n="final_demo">30 dakikalık demo talep et</a>
       <a class="btn magnetic" href="#" data-i18n="final_deploy">Deployment seçeneklerini konuşalım</a>
@@ -2202,8 +4982,11 @@ h1,h2,h3,p{margin:0}
   </div>
   <div class="finalPulse">
     <svg viewBox="0 0 1600 170" preserveAspectRatio="none">
-      <path d="M0 92 L260 92 L310 92 L350 65 L390 119 L430 92 L730 92 L775 92 L815 66 L855 118 L895 92 L1195 92 L1240 92 L1280 66 L1320 118 L1360 92 L1600 92"
-      fill="none" stroke="#ff3b4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect class="qualityBand" x="0" y="55" width="1600" height="70"/>
+      <line class="limit" x1="0" y1="55" x2="1600" y2="55"/>
+      <line class="limit" x1="0" y1="125" x2="1600" y2="125"/>
+      <path class="qualityPath" d="M0 94 C170 93 300 91 420 90 C560 89 690 88 810 87 C920 86 1010 84 1090 83 C1160 82 1210 81 1250 80 C1288 79 1315 68 1338 51 C1360 70 1384 82 1420 82 C1480 82 1535 80 1600 79"/>
+      <circle class="qualityDot" cx="1338" cy="51" r="4.5"/>
     </svg>
   </div>
 </section>
@@ -2282,14 +5065,14 @@ let resizeObserver;
 let mouseNX=0, mouseNY=0;
 let lastScroll=window.scrollY || 0, lastTs=performance.now(), velocity=0;
 
-const pulseA=[[0,300],[120,300],[150,300],[176,255],[205,350],[235,285],[270,300],[430,300],[458,300],[485,260],[515,342],[548,300],[700,300]];
-const pulseB=[[0,325],[120,325],[150,325],[176,325],[205,325],[235,325],[270,325],[430,325],[458,325],[485,325],[515,276],[548,325],[700,325]];
-const pulseC=[[0,360],[58,333],[117,352],[175,320],[233,345],[292,314],[350,330],[408,296],[467,322],[525,284],[583,304],[642,294],[700,278]];
-const pulseD=[[0,300],[120,300],[150,300],[176,285],[205,315],[235,295],[270,300],[430,300],[458,300],[485,286],[515,313],[548,300],[700,300]];
+const pulseA=[[0,318],[58,316],[117,313],[175,309],[233,304],[292,301],[350,297],[408,293],[467,290],[525,286],[583,224],[642,288],[700,284]];
+const pulseB=[[0,325],[58,325],[117,325],[175,325],[233,325],[292,325],[350,325],[408,325],[467,325],[525,325],[583,276],[642,325],[700,325]];
+const pulseC=[[0,360],[58,348],[117,352],[175,338],[233,344],[292,329],[350,334],[408,316],[467,321],[525,303],[583,307],[642,296],[700,289]];
+const pulseD=[[0,305],[58,304],[117,302],[175,301],[233,300],[292,298],[350,297],[408,296],[467,295],[525,293],[583,292],[642,291],[700,290]];
 
 
 
-const I18N={"tr": {"nav_product": "Ürün", "nav_features": "Özellikler", "nav_enterprise": "Enterprise", "nav_demo": "Demo Talep Et", "hero_kicker": "RITIM QUALITY MANAGEMENT PLATFORM", "hero_title_1": "Quality has a rhythm.", "hero_title_2": "Make it visible.", "hero_lead": "Kontrol planından ölçüme, ölçümden SPC’ye, SPC’den izlenebilirliğe kadar kaliteyi üretimin yaşayan bir parçası haline getirin.", "hero_start": "Deneyimi Başlat", "hero_explore": "Ürünü İncele", "hero_scroll": "kaydır ve keşfet", "desktop_1_num": "01 — DİJİTALLEŞTİR", "desktop_1_title": "Kağıdı değil,<br>veriyi yönetin.", "desktop_1_body": "Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.", "desktop_2_num": "02 — PLANLA", "desktop_2_title": "Doğru kontrol.<br>Doğru anda.", "desktop_2_body": "Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.", "desktop_3_num": "03 — ÖLÇ", "desktop_3_title": "Bir ölçüm<br>sadece sayı değildir.", "desktop_3_body": "<strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.", "desktop_4_num": "04 — ANALİZ ET", "desktop_4_title": "25.14, bir veri<br>noktasına dönüşür.", "desktop_4_body": "Sayı küçülür, ilk grafik noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.", "desktop_5_num": "05 — İZLE", "desktop_5_title": "Her ürünün<br>dijital kalite izi.", "desktop_5_body": "Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.", "desktop_6_num": "06 — DEVREYE AL", "desktop_6_title": "Aynı Ritim Quality.<br>Sizin altyapınız.", "desktop_6_body": "<strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.", "quiet_title_1": "Tek bir kötü ölçüm.", "quiet_title_2": "Arkasındaki tüm hikâye.", "quiet_body": "Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.", "worlds_title": "Ritim Quality’yi üç basit fikirle anlatın.", "worlds_body": "Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.", "world_capture": "Yakalama", "world_understand": "Anlama", "world_connect": "Bağlama", "enterprise_title": "Üretim ortamına uygun güven ve kontrol.", "enterprise_body": "Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.", "final_title_1": "Kalite durmaz.", "final_title_2": "Görünürlüğünüz de durmamalı.", "final_body": "Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.", "final_demo": "30 dakikalık demo talep et", "final_deploy": "Deployment seçeneklerini konuşalım", "m1_num": "01 — ÖLÇ", "m1_title": "Ölçümü gir.<br>Kaliteyi başlat.", "m1_body": "Mobil deneyim doğrudan operatörün gördüğü değerle başlar. Bir ekran, bir fikir.", "m2_num": "02 — TESPİT ET", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Tolerans dışında.</span>", "m2_body": "Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.", "m3_num": "03 — ANLA", "m3_title": "Bir sayıdan<br>proses davranışına.", "m3_body": "25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.", "m4_num": "04 — İZLE", "m4_title": "Kararın arkasındaki<br>tüm hikâye.", "m4_body": "Ürün, iş emri, makine, lot, ölçüm ve operatör tek kalite hikâyesinde birleşir.", "mquiet_num": "KALİTE SİNYALİ", "mquiet_body": "Ritim Quality’nin mobil deneyimi burada sakinleşir ve ürünün değerini tek cümlede özetler.", "mworlds_num": "ÜÇ ÜRÜN DÜNYASI", "mworlds_title": "Yakala.<br>Anla.<br>Bağla.", "mworlds_body": "Mobilde uzun grid yerine yatay kaydırmayla üç temel ürün dünyası.", "mworlds_swipe": "Keşfetmek için kaydır →", "mdeploy_num": "DEVREYE ALMA", "mdeploy_title": "Tek ürün.<br>İki deployment modeli.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Tekrar Ölç", "save_result": "Sonucu Kaydet", "trace_revision": "Revizyon", "trace_status": "Durum", "trace_operation": "Operasyon", "trace_qty": "Miktar", "trace_program": "Program", "trace_state": "Durum", "trace_batch": "Batch", "trace_shift": "Vardiya", "trace_spec": "Spesifikasyon", "trace_time": "Zaman", "trace_image": "Görsel", "trace_decision": "Karar", "trace_station": "İstasyon", "trace_method": "Metot", "trace_investigate": "İncele"}, "en": {"nav_product": "Product", "nav_features": "Features", "nav_enterprise": "Enterprise", "nav_demo": "Request a Demo", "hero_kicker": "RITIM QUALITY MANAGEMENT PLATFORM", "hero_title_1": "Quality has a rhythm.", "hero_title_2": "Make it visible.", "hero_lead": "Turn quality into a living part of production—from control plans to measurement, from SPC to full traceability.", "hero_start": "Start the Experience", "hero_explore": "Explore the Product", "hero_scroll": "scroll to explore", "desktop_1_num": "01 — DIGITIZE", "desktop_1_title": "Manage data,<br>not paper.", "desktop_1_body": "The quality form does not disappear; <strong>it becomes a digital flow.</strong> Information from paper becomes a living part of the control plan.", "desktop_2_num": "02 — PLAN", "desktop_2_title": "The right check.<br>At the right time.", "desktop_2_body": "Revision-controlled plans, characteristics and sampling logic connect directly to production.", "desktop_3_num": "03 — MEASURE", "desktop_3_title": "A measurement<br>is more than a number.", "desktop_3_body": "<strong>25.14</strong> appears first on its own. Then specification and context reveal themselves, turning a number into a decision signal.", "desktop_4_num": "04 — ANALYZE", "desktop_4_title": "25.14 becomes<br>a data point.", "desktop_4_body": "The value shrinks into the first chart point. Other samples appear around it and the process behavior draws itself.", "desktop_5_num": "05 — TRACE", "desktop_5_title": "A digital quality trail<br>for every product.", "desktop_5_body": "Product, lot, work order, machine, operator and measurement results come together in one context.", "desktop_6_num": "06 — DEPLOY", "desktop_6_title": "One Ritim Quality.<br>Your infrastructure.", "desktop_6_body": "Scale quickly with <strong>Cloud</strong>. Keep infrastructure and data under your control with <strong>On-Premise</strong>.", "quiet_title_1": "One bad number.", "quiet_title_2": "The whole story behind it.", "quiet_body": "The motion slows down here. A measurement is no longer just a value—it has context, behavior and history.", "worlds_title": "Explain Ritim Quality with three simple ideas.", "worlds_body": "Instead of a long feature list, give customers three ideas they can remember: capture the data, understand the process, connect the system.", "world_capture": "Capture", "world_understand": "Understand", "world_connect": "Connect", "enterprise_title": "Security and control built for production.", "enterprise_body": "For On-Premise customers in particular, ownership, access and integration models are part of the buying decision.", "final_title_1": "Quality doesn’t stop.", "final_title_2": "Neither should your visibility.", "final_body": "Make quality a living, managed process across production—not just a result inspected at the end.", "final_demo": "Request a 30-minute demo", "final_deploy": "Discuss deployment options", "m1_num": "01 — MEASURE", "m1_title": "Enter the measurement.<br>Start the quality flow.", "m1_body": "The mobile experience starts directly with the value seen by the operator. One screen, one idea.", "m2_num": "02 — DETECT", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Out of tolerance.</span>", "m2_body": "First the number, then the limits and production context. We never force everything onto the screen at once.", "m3_num": "03 — UNDERSTAND", "m3_title": "From one number<br>to process behavior.", "m3_body": "25.14 is no longer alone. Other samples appear, the points connect and the process becomes visible.", "m4_num": "04 — TRACE", "m4_title": "See the full story<br>behind the decision.", "m4_body": "Product, work order, machine, lot, measurement and operator come together in one quality story.", "mquiet_num": "THE QUALITY SIGNAL", "mquiet_body": "The mobile experience slows down here and summarizes the value of Ritim Quality in one sentence.", "mworlds_num": "THREE PRODUCT WORLDS", "mworlds_title": "Capture.<br>Understand.<br>Connect.", "mworlds_body": "On mobile, three product worlds are explored through a horizontal swipe instead of a long grid.", "mworlds_swipe": "Swipe to explore →", "mdeploy_num": "DEPLOYMENT", "mdeploy_title": "One product.<br>Two deployment models.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Retake", "save_result": "Save Result", "trace_revision": "Revision", "trace_status": "Status", "trace_operation": "Operation", "trace_qty": "Qty", "trace_program": "Program", "trace_state": "State", "trace_batch": "Batch", "trace_shift": "Shift", "trace_spec": "Spec", "trace_time": "Time", "trace_image": "Image", "trace_decision": "Decision", "trace_station": "Station", "trace_method": "Method", "trace_investigate": "Investigate"}, "fr": {"nav_product": "Produit", "nav_features": "Fonctionnalités", "nav_enterprise": "Entreprise", "nav_demo": "Demander une démo", "hero_kicker": "PLATEFORME DE GESTION DE LA QUALITÉ RITIM", "hero_title_1": "La qualité a un rythme.", "hero_title_2": "Rendez-le visible.", "hero_lead": "Faites de la qualité une partie vivante de la production — du plan de contrôle à la mesure, du SPC à la traçabilité complète.", "hero_start": "Découvrir l’expérience", "hero_explore": "Explorer le produit", "hero_scroll": "faites défiler pour explorer", "desktop_1_num": "01 — NUMÉRISER", "desktop_1_title": "Gérez les données,<br>pas le papier.", "desktop_1_body": "Le formulaire qualité ne disparaît pas : <strong>il devient un flux numérique.</strong> L’information issue du papier devient une partie vivante du plan de contrôle.", "desktop_2_num": "02 — PLANIFIER", "desktop_2_title": "Le bon contrôle.<br>Au bon moment.", "desktop_2_body": "Plans contrôlés par révision, caractéristiques et logique d’échantillonnage sont directement reliés à la production.", "desktop_3_num": "03 — MESURER", "desktop_3_title": "Une mesure<br>est plus qu’un chiffre.", "desktop_3_body": "<strong>25.14</strong> apparaît d’abord seul. Puis la spécification et le contexte se révèlent, transformant un chiffre en signal de décision.", "desktop_4_num": "04 — ANALYSER", "desktop_4_title": "25.14 devient<br>un point de données.", "desktop_4_body": "La valeur se réduit pour devenir le premier point du graphique. Les autres échantillons apparaissent et le comportement du procédé se dessine.", "desktop_5_num": "05 — TRACER", "desktop_5_title": "Une trace qualité numérique<br>pour chaque produit.", "desktop_5_body": "Produit, lot, ordre de fabrication, machine, opérateur et résultats de mesure sont réunis dans un même contexte.", "desktop_6_num": "06 — DÉPLOYER", "desktop_6_title": "Un seul Ritim Quality.<br>Votre infrastructure.", "desktop_6_body": "Évoluez rapidement avec le <strong>Cloud</strong>. Gardez l’infrastructure et les données sous votre contrôle avec <strong>On-Premise</strong>.", "quiet_title_1": "Une mauvaise mesure.", "quiet_title_2": "Toute l’histoire derrière elle.", "quiet_body": "Le mouvement ralentit ici. Une mesure n’est plus seulement une valeur : elle possède un contexte, un comportement et un historique.", "worlds_title": "Présentez Ritim Quality en trois idées simples.", "worlds_body": "Au lieu d’une longue liste de fonctions, donnez trois idées mémorables : capturer les données, comprendre le procédé, connecter le système.", "world_capture": "Capturer", "world_understand": "Comprendre", "world_connect": "Connecter", "enterprise_title": "Sécurité et contrôle adaptés à la production.", "enterprise_body": "Pour les clients On-Premise, la propriété, les accès et le modèle d’intégration font partie intégrante de la décision d’achat.", "final_title_1": "La qualité ne s’arrête pas.", "final_title_2": "Votre visibilité non plus.", "final_body": "Faites de la qualité un processus vivant et piloté tout au long de la production, et non un simple résultat contrôlé à la fin.", "final_demo": "Demander une démo de 30 minutes", "final_deploy": "Discuter des options de déploiement", "m1_num": "01 — MESURER", "m1_title": "Saisissez la mesure.<br>Lancez le flux qualité.", "m1_body": "L’expérience mobile commence directement par la valeur vue par l’opérateur. Un écran, une idée.", "m2_num": "02 — DÉTECTER", "m2_title": "25.14.<br><span style=\"color:#ff3b4e\">Hors tolérance.</span>", "m2_body": "D’abord le chiffre, puis les limites et le contexte de production. Nous n’affichons jamais tout en même temps.", "m3_num": "03 — COMPRENDRE", "m3_title": "D’un seul chiffre<br>au comportement du procédé.", "m3_body": "25.14 n’est plus isolé. Les autres échantillons apparaissent, les points se relient et le procédé devient visible.", "m4_num": "04 — TRACER", "m4_title": "Voyez toute l’histoire<br>derrière la décision.", "m4_body": "Produit, ordre de fabrication, machine, lot, mesure et opérateur sont réunis dans une même histoire qualité.", "mquiet_num": "LE SIGNAL QUALITÉ", "mquiet_body": "L’expérience mobile ralentit ici et résume la valeur de Ritim Quality en une seule phrase.", "mworlds_num": "TROIS UNIVERS PRODUIT", "mworlds_title": "Capturer.<br>Comprendre.<br>Connecter.", "mworlds_body": "Sur mobile, trois univers produit se découvrent par balayage horizontal plutôt que dans une longue grille.", "mworlds_swipe": "Balayez pour explorer →", "mdeploy_num": "DÉPLOIEMENT", "mdeploy_title": "Un produit.<br>Deux modèles de déploiement.", "deploy_cloud": "Cloud", "deploy_onprem": "On-Premise", "retake": "Reprendre", "save_result": "Enregistrer", "trace_revision": "Révision", "trace_status": "Statut", "trace_operation": "Opération", "trace_qty": "Qté", "trace_program": "Programme", "trace_state": "État", "trace_batch": "Lot", "trace_shift": "Équipe", "trace_spec": "Spécification", "trace_time": "Heure", "trace_image": "Image", "trace_decision": "Décision", "trace_station": "Poste", "trace_method": "Méthode", "trace_investigate": "Analyser"}};
+const I18N={"tr":{"nav_product":"Ürün","nav_features":"Özellikler","nav_enterprise":"Kurumsal","nav_demo":"Demo Talep Et","hero_kicker":"RITIM KALİTE YÖNETİM PLATFORMU","hero_title_1":"Kalitenin bir ritmi var.","hero_title_2":"Onu görünür kılın.","hero_lead":"Modern üretim için dijital kalite kontrol, SPC ve uçtan uca izlenebilirlik. Kontrol planından ölçüme kadar kaliteyi üretimin yaşayan bir parçası haline getirin.","hero_start":"Deneyimi Başlat","hero_explore":"Ürünü İncele","hero_scroll":"kaydır ve keşfet","desktop_1_num":"01 — DİJİTALLEŞTİR","desktop_1_title":"Kağıdı değil,<br>veriyi yönetin.","desktop_1_body":"Kalite formu kaybolmuyor; <strong>dijital bir akışa dönüşüyor.</strong> Kağıttaki bilgi, kontrol planının yaşayan parçası haline geliyor.","desktop_2_num":"02 — PLANLA","desktop_2_title":"Doğru kontrol.<br>Doğru anda.","desktop_2_body":"Revizyon kontrollü planlar, karakteristikler ve örnekleme mantığı doğrudan üretime bağlanır.","desktop_3_num":"03 — ÖLÇ","desktop_3_title":"Bir ölçüm<br>sadece sayı değildir.","desktop_3_body":"<strong>25.14</strong> önce tek başına görünür. Sonra spesifikasyon ve bağlam ortaya çıkar. Böylece sayı karar sinyaline dönüşür.","desktop_4_num":"04 — ANALİZ ET","desktop_4_title":"25.14, bir veri<br>noktasına dönüşür.","desktop_4_body":"Sayı küçülür, ilk grafik noktasına dönüşür. Diğer ölçümler etrafına gelir ve grafik kendini çizer.","desktop_5_num":"05 — İZLE","desktop_5_title":"Her ürünün<br>dijital kalite izi.","desktop_5_body":"Ürün, lot, iş emri, makine, operatör ve ölçüm sonuçları tek bağlamda birleşir.","desktop_6_num":"06 — DEVREYE AL","desktop_6_title":"Aynı Ritim Quality.<br>Sizin altyapınız.","desktop_6_body":"<strong>Cloud</strong> ile hızlı ölçeklenin. <strong>On‑Premise</strong> ile fabrika altyapısını ve veriyi siz yönetin.","quiet_title_1":"Tek bir kötü ölçüm.","quiet_title_2":"Arkasındaki tüm hikâye.","quiet_body":"Hareket burada yavaşlar. Ziyaretçi, bir ölçümün artık yalnızca değer değil; bağlam, davranış ve geçmiş olduğunu hisseder.","worlds_title":"Ritim Quality’yi üç basit fikirle anlatın.","worlds_body":"Uzun özellik listesi yerine müşterinin aklında kalacak üç net kavram: veriyi yakala, prosesi anla, sistemi bağla.","world_capture":"Yakalama","world_understand":"Anlama","world_connect":"Bağlama","enterprise_title":"Üretim ortamına uygun güven ve kontrol.","enterprise_body":"Özellikle On‑Premise müşteriler için sahiplik, erişim ve entegrasyon modeli satın alma kararının temel parçasıdır.","final_title_1":"Kalite durmaz.","final_title_2":"Görünürlüğünüz de durmamalı.","final_body":"Kaliteyi kontrol edilen bir sonuç değil, üretim boyunca yaşayan ve yönetilen bir süreç haline getirin.","final_demo":"30 dakikalık demo talep et","final_deploy":"Deployment seçeneklerini konuşalım","m1_num":"01 — ÖLÇ","m1_title":"Ölçümü gir.<br>Kaliteyi başlat.","m1_body":"Mobil deneyim doğrudan operatörün gördüğü değerle başlar. Bir ekran, bir fikir.","m2_num":"02 — TESPİT ET","m2_title":"25.14.<br><span style=\"color:#ff3b4e\">Tolerans dışında.</span>","m2_body":"Önce sayı, ardından limitler ve üretim bağlamı. Kullanıcıya aynı anda her şeyi göstermiyoruz.","m3_num":"03 — ANLA","m3_title":"Bir sayıdan<br>proses davranışına.","m3_body":"25.14 artık tek başına değil. Diğer örnekler gelir, noktalar birleşir ve davranış görünür hale gelir.","m4_num":"04 — İZLE","m4_title":"Kararın arkasındaki<br>tüm hikâye.","m4_body":"Ürün, iş emri, makine, lot, ölçüm ve operatör tek kalite hikâyesinde birleşir.","mquiet_num":"KALİTE SİNYALİ","mquiet_body":"Ritim Quality’nin mobil deneyimi burada sakinleşir ve ürünün değerini tek cümlede özetler.","mworlds_num":"ÜÇ ÜRÜN DÜNYASI","mworlds_title":"Yakala.<br>Anla.<br>Bağla.","mworlds_body":"Mobilde uzun grid yerine yatay kaydırmayla üç temel ürün dünyası.","mworlds_swipe":"Keşfetmek için kaydır →","mdeploy_num":"DEVREYE ALMA","mdeploy_title":"Tek ürün.<br>İki deployment modeli.","deploy_cloud":"Cloud","deploy_onprem":"On-Premise","retake":"Tekrar Ölç","save_result":"Sonucu Kaydet","trace_revision":"Revizyon","trace_status":"Durum","trace_operation":"Operasyon","trace_qty":"Miktar","trace_program":"Program","trace_state":"Durum","trace_batch":"Batch","trace_shift":"Vardiya","trace_spec":"Spesifikasyon","trace_time":"Zaman","trace_image":"Görsel","trace_decision":"Karar","trace_station":"İstasyon","trace_method":"Metot","trace_investigate":"İncele","hero_proof_quality":"Dijital Kalite Kontrol","hero_proof_spc":"SPC","hero_proof_trace":"İzlenebilirlik","hero_proof_deploy":"Cloud / On-Premise","hero_deploy_tag":"Cloud / On-Premise","trust_cloud":"Cloud","trust_onprem":"On-Premise","trust_api":"API","trust_erp":"ERP / MES Entegrasyonuna Hazır"},"en":{"nav_product":"Product","nav_features":"Features","nav_enterprise":"Enterprise","nav_demo":"Request a Demo","hero_kicker":"RITIM QUALITY MANAGEMENT PLATFORM","hero_title_1":"Quality has a rhythm.","hero_title_2":"Make it visible.","hero_lead":"Digital quality control, SPC and end-to-end traceability for modern manufacturing. Make quality a living part of production, from control plans to measurement.","hero_start":"Start the Experience","hero_explore":"Explore the Product","hero_scroll":"scroll to explore","desktop_1_num":"01 — DIGITIZE","desktop_1_title":"Manage data,<br>not paper.","desktop_1_body":"The quality form does not disappear; <strong>it becomes a digital flow.</strong> Information from paper becomes a living part of the control plan.","desktop_2_num":"02 — PLAN","desktop_2_title":"The right check.<br>At the right time.","desktop_2_body":"Revision-controlled plans, characteristics and sampling logic connect directly to production.","desktop_3_num":"03 — MEASURE","desktop_3_title":"A measurement<br>is more than a number.","desktop_3_body":"<strong>25.14</strong> appears first on its own. Then specification and context reveal themselves, turning a number into a decision signal.","desktop_4_num":"04 — ANALYZE","desktop_4_title":"25.14 becomes<br>a data point.","desktop_4_body":"The value shrinks into the first chart point. Other samples appear around it and the process behavior draws itself.","desktop_5_num":"05 — TRACE","desktop_5_title":"A digital quality trail<br>for every product.","desktop_5_body":"Product, lot, work order, machine, operator and measurement results come together in one context.","desktop_6_num":"06 — DEPLOY","desktop_6_title":"One Ritim Quality.<br>Your infrastructure.","desktop_6_body":"Scale quickly with <strong>Cloud</strong>. Keep infrastructure and data under your control with <strong>On-Premise</strong>.","quiet_title_1":"One bad number.","quiet_title_2":"The whole story behind it.","quiet_body":"The motion slows down here. A measurement is no longer just a value—it has context, behavior and history.","worlds_title":"Explain Ritim Quality with three simple ideas.","worlds_body":"Instead of a long feature list, give customers three ideas they can remember: capture the data, understand the process, connect the system.","world_capture":"Capture","world_understand":"Understand","world_connect":"Connect","enterprise_title":"Security and control built for production.","enterprise_body":"For On-Premise customers in particular, ownership, access and integration models are part of the buying decision.","final_title_1":"Quality doesn’t stop.","final_title_2":"Neither should your visibility.","final_body":"Make quality a living, managed process across production—not just a result inspected at the end.","final_demo":"Request a 30-minute demo","final_deploy":"Discuss deployment options","m1_num":"01 — MEASURE","m1_title":"Enter the measurement.<br>Start the quality flow.","m1_body":"The mobile experience starts directly with the value seen by the operator. One screen, one idea.","m2_num":"02 — DETECT","m2_title":"25.14.<br><span style=\"color:#ff3b4e\">Out of tolerance.</span>","m2_body":"First the number, then the limits and production context. We never force everything onto the screen at once.","m3_num":"03 — UNDERSTAND","m3_title":"From one number<br>to process behavior.","m3_body":"25.14 is no longer alone. Other samples appear, the points connect and the process becomes visible.","m4_num":"04 — TRACE","m4_title":"See the full story<br>behind the decision.","m4_body":"Product, work order, machine, lot, measurement and operator come together in one quality story.","mquiet_num":"THE QUALITY SIGNAL","mquiet_body":"The mobile experience slows down here and summarizes the value of Ritim Quality in one sentence.","mworlds_num":"THREE PRODUCT WORLDS","mworlds_title":"Capture.<br>Understand.<br>Connect.","mworlds_body":"On mobile, three product worlds are explored through a horizontal swipe instead of a long grid.","mworlds_swipe":"Swipe to explore →","mdeploy_num":"DEPLOYMENT","mdeploy_title":"One product.<br>Two deployment models.","deploy_cloud":"Cloud","deploy_onprem":"On-Premise","retake":"Retake","save_result":"Save Result","trace_revision":"Revision","trace_status":"Status","trace_operation":"Operation","trace_qty":"Qty","trace_program":"Program","trace_state":"State","trace_batch":"Batch","trace_shift":"Shift","trace_spec":"Spec","trace_time":"Time","trace_image":"Image","trace_decision":"Decision","trace_station":"Station","trace_method":"Method","trace_investigate":"Investigate","hero_proof_quality":"Digital Quality Control","hero_proof_spc":"SPC","hero_proof_trace":"Traceability","hero_proof_deploy":"Cloud / On-Premise","hero_deploy_tag":"Cloud / On-Premise","trust_cloud":"Cloud","trust_onprem":"On-Premise","trust_api":"API","trust_erp":"ERP / MES Ready"},"fr":{"nav_product":"Produit","nav_features":"Fonctionnalités","nav_enterprise":"Entreprise","nav_demo":"Demander une démo","hero_kicker":"PLATEFORME DE GESTION DE LA QUALITÉ RITIM","hero_title_1":"La qualité a un rythme.","hero_title_2":"Rendez-le visible.","hero_lead":"Contrôle qualité numérique, SPC et traçabilité de bout en bout pour l’industrie moderne. Intégrez la qualité au cœur de la production, du plan de contrôle à la mesure.","hero_start":"Découvrir l’expérience","hero_explore":"Explorer le produit","hero_scroll":"faites défiler pour explorer","desktop_1_num":"01 — NUMÉRISER","desktop_1_title":"Gérez les données,<br>pas le papier.","desktop_1_body":"Le formulaire qualité ne disparaît pas : <strong>il devient un flux numérique.</strong> L’information issue du papier devient une partie vivante du plan de contrôle.","desktop_2_num":"02 — PLANIFIER","desktop_2_title":"Le bon contrôle.<br>Au bon moment.","desktop_2_body":"Plans contrôlés par révision, caractéristiques et logique d’échantillonnage sont directement reliés à la production.","desktop_3_num":"03 — MESURER","desktop_3_title":"Une mesure<br>est plus qu’un chiffre.","desktop_3_body":"<strong>25.14</strong> apparaît d’abord seul. Puis la spécification et le contexte se révèlent, transformant un chiffre en signal de décision.","desktop_4_num":"04 — ANALYSER","desktop_4_title":"25.14 devient<br>un point de données.","desktop_4_body":"La valeur se réduit pour devenir le premier point du graphique. Les autres échantillons apparaissent et le comportement du procédé se dessine.","desktop_5_num":"05 — TRACER","desktop_5_title":"Une trace qualité numérique<br>pour chaque produit.","desktop_5_body":"Produit, lot, ordre de fabrication, machine, opérateur et résultats de mesure sont réunis dans un même contexte.","desktop_6_num":"06 — DÉPLOYER","desktop_6_title":"Un seul Ritim Quality.<br>Votre infrastructure.","desktop_6_body":"Évoluez rapidement avec le <strong>Cloud</strong>. Gardez l’infrastructure et les données sous votre contrôle avec <strong>On-Premise</strong>.","quiet_title_1":"Une mauvaise mesure.","quiet_title_2":"Toute l’histoire derrière elle.","quiet_body":"Le mouvement ralentit ici. Une mesure n’est plus seulement une valeur : elle possède un contexte, un comportement et un historique.","worlds_title":"Présentez Ritim Quality en trois idées simples.","worlds_body":"Au lieu d’une longue liste de fonctions, donnez trois idées mémorables : capturer les données, comprendre le procédé, connecter le système.","world_capture":"Capturer","world_understand":"Comprendre","world_connect":"Connecter","enterprise_title":"Sécurité et contrôle adaptés à la production.","enterprise_body":"Pour les clients On-Premise, la propriété, les accès et le modèle d’intégration font partie intégrante de la décision d’achat.","final_title_1":"La qualité ne s’arrête pas.","final_title_2":"Votre visibilité non plus.","final_body":"Faites de la qualité un processus vivant et piloté tout au long de la production, et non un simple résultat contrôlé à la fin.","final_demo":"Demander une démo de 30 minutes","final_deploy":"Discuter des options de déploiement","m1_num":"01 — MESURER","m1_title":"Saisissez la mesure.<br>Lancez le flux qualité.","m1_body":"L’expérience mobile commence directement par la valeur vue par l’opérateur. Un écran, une idée.","m2_num":"02 — DÉTECTER","m2_title":"25.14.<br><span style=\"color:#ff3b4e\">Hors tolérance.</span>","m2_body":"D’abord le chiffre, puis les limites et le contexte de production. Nous n’affichons jamais tout en même temps.","m3_num":"03 — COMPRENDRE","m3_title":"D’un seul chiffre<br>au comportement du procédé.","m3_body":"25.14 n’est plus isolé. Les autres échantillons apparaissent, les points se relient et le procédé devient visible.","m4_num":"04 — TRACER","m4_title":"Voyez toute l’histoire<br>derrière la décision.","m4_body":"Produit, ordre de fabrication, machine, lot, mesure et opérateur sont réunis dans une même histoire qualité.","mquiet_num":"LE SIGNAL QUALITÉ","mquiet_body":"L’expérience mobile ralentit ici et résume la valeur de Ritim Quality en une seule phrase.","mworlds_num":"TROIS UNIVERS PRODUIT","mworlds_title":"Capturer.<br>Comprendre.<br>Connecter.","mworlds_body":"Sur mobile, trois univers produit se découvrent par balayage horizontal plutôt que dans une longue grille.","mworlds_swipe":"Balayez pour explorer →","mdeploy_num":"DÉPLOIEMENT","mdeploy_title":"Un produit.<br>Deux modèles de déploiement.","deploy_cloud":"Cloud","deploy_onprem":"On-Premise","retake":"Reprendre","save_result":"Enregistrer","trace_revision":"Révision","trace_status":"Statut","trace_operation":"Opération","trace_qty":"Qté","trace_program":"Programme","trace_state":"État","trace_batch":"Lot","trace_shift":"Équipe","trace_spec":"Spécification","trace_time":"Heure","trace_image":"Image","trace_decision":"Décision","trace_station":"Poste","trace_method":"Méthode","trace_investigate":"Analyser","hero_proof_quality":"Contrôle Qualité Numérique","hero_proof_spc":"SPC","hero_proof_trace":"Traçabilité","hero_proof_deploy":"Cloud / On-Premise","hero_deploy_tag":"Cloud / On-Premise","trust_cloud":"Cloud","trust_onprem":"On-Premise","trust_api":"API","trust_erp":"Prêt pour ERP / MES"}};
 function detectInitialLanguage(){
   const saved=localStorage.getItem('ritim-quality-lang');
   if(saved && I18N[saved]) return saved;
@@ -2571,7 +5354,7 @@ function render(){
   deploy.style.opacity=fDep;
   deploy.style.transform=`scale(${(.98+.02*fDep).toFixed(3)})`;
 
-  // One pulse object morphs: ecg -> tolerance band -> chart -> calm signal.
+  // One Quality Signal morphs: process trace -> tolerance band -> SPC trend -> controlled process.
   let pulsePts=pulseA;
   if(mobileMode){
     if(p<.20) pulsePts=pulseA;
@@ -2584,7 +5367,7 @@ function render(){
     else if(p<.66) pulsePts=mixPts(pulseB,pulseC,seg(p,.49,.60));
     else pulsePts=mixPts(pulseC,pulseD,seg(p,.72,.82));
   }
-  // Add a tiny velocity-driven energy to the pulse
+  // Add subtle velocity-driven energy to the Quality Signal
   const energeticPts=pulsePts.map((pt,i)=>{
     if(i===3||i===4||i===9||i===10){
       return [pt[0], pt[1] + (i%2===0?-1:1) * vAbs * 10 * vDir];
@@ -2725,11 +5508,11 @@ function setupMobileExperience(){
       const r=exp.getBoundingClientRect();
       const travel=Math.max(1,exp.offsetHeight-innerHeight);
       const p=clamp(-r.top/travel);
-      const y=380;
+      const y=397;
       const amp=1-.56*p;
       const pts=[
-        [10,y],[85,y],[105,y],[120,y-30*amp],[140,y+35*amp],[165,y-12*amp],[190,y],
-        [270,y],[292,y],[310,y-22*amp],[327,y+27*amp],[348,y],[390,y]
+        [10,y],[45,y-2],[80,y-4],[115,y-6],[150,y-8],[185,y-10],[220,y-12],
+        [255,y-15],[290,y-18],[320,y-21],[345,y-25],[362,y-71*amp],[390,y-26]
       ];
       mobilePulsePath.setAttribute('d',ptsToPath(pts));
       const idx=Math.min(pts.length-1,Math.max(0,Math.floor(p*(pts.length-1))));
@@ -2875,3 +5658,5 @@ requestRender();
 </script>
 </body>
 </html>
+ritim_quality_v12_quality_signal.html
+HTML
