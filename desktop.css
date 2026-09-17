@@ -1,0 +1,9 @@
+/* Ritim Quality V15.2 — generated production split */
+/* Desktop-only adaptive rules */
+@media(min-width:821px){
+  .mobileProductSwipeHint,
+  .mobileScreenLightbox,
+  .mobileAfterProductCta{
+    display:none!important;
+  }
+}

@@ -1,0 +1,10 @@
+/* Ritim Quality V15.2 — generated production split */
+/* Design tokens */
+:root{
+  --bg:#010616; --panel:#081426; --panel2:#0d1a31; --text:#f8fbff; --muted:#9aa8bc;
+  --muted2:#7b8da5; --line:#1a2b44; --line2:#28405f; --accent:#ff3b4e; --accentSoft:#ff8d98;
+  --good:#76dfa7; --warn:#ffd166; --blue:#82a7ff; --max:1240px;
+}:root{
+  --mx:0px;
+  --my:0px;
+}
