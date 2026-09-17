@@ -865,3 +865,22 @@
 
 
 /* Touch devices: keep the cinematic story, drop pointer-only polish */
+
+/* Numeric typography hardening */
+.measureNo,
+.mobileMeasureValue,
+.morphNumber,
+.morphParticle,
+.streamInner {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
