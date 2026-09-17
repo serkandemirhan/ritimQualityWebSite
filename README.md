@@ -1,4 +1,4 @@
-# Ritim Quality Marketing Site — V15.2 Production Split
+# Ritim Quality Marketing Site — V15.3 Device QA
 
 ## Structure
 
@@ -31,3 +31,12 @@ Then open:
 ## Before public deployment
 
 Add the real canonical URL and real social preview (`og:image`) once the final public domain is confirmed.
+
+
+## V15.3 device breakpoints
+
+- `≤ 820px`: adaptive mobile experience (compact hero, swipe product screens, lightbox)
+- `821–1100px`: tablet mode (hamburger navigation + desktop cinematic story with tablet proportions)
+- `> 1100px`: full desktop experience
+
+V15.3 also makes the mobile hero single-CTA and normalizes older responsive rules so they cannot override the current mobile design.

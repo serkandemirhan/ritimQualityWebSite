@@ -1404,3 +1404,273 @@
 }@media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
+
+/* ============================================================
+   V15.3 DEVICE QA — CANONICAL BREAKPOINTS
+   This block is intentionally last. It normalizes historical
+   mobile rules and adds a dedicated tablet composition.
+   ============================================================ */
+
+/* PHONE / MOBILE EXPERIENCE */
+@media (max-width:820px){
+  html,body{max-width:100%;overflow-x:hidden}
+
+  /* Compact hero */
+  .hero{
+    min-height:82svh;
+    height:auto;
+    padding:104px 0 66px;
+    align-items:flex-start;
+  }
+  .heroCore{max-width:none}
+  .hero h1{
+    font-size:clamp(46px,13.5vw,66px);
+    line-height:.92;
+    max-width:92%;
+  }
+  .hero .lead{
+    max-width:90%;
+    font-size:15px;
+    line-height:1.5;
+    margin-top:18px;
+  }
+  .heroProof{
+    margin-top:14px;
+    gap:6px 10px;
+    max-width:310px;
+  }
+  .heroActions{
+    margin-top:23px;
+    max-width:300px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .heroActions .secondary{display:none!important}
+  .hero .btn{width:100%}
+  .heroTag,.scrollHint{display:none}
+  .signalSculpture{
+    width:118vw;
+    right:-50vw;
+    top:33vh;
+    height:330px;
+    opacity:.18;
+  }
+  .heroPulse{
+    height:92px;
+    bottom:0;
+    opacity:.6;
+  }
+
+  /* Product screen swipe: keep V15 spacing/crops authoritative */
+  .productScreens{
+    padding:70px 0 84px;
+    content-visibility:visible;
+  }
+  .productScreensHead{
+    margin-bottom:30px;
+    padding:0 20px;
+  }
+  .productScreensHead h2{font-size:clamp(42px,12vw,58px)}
+  .productScreensHead p{
+    font-size:15px;
+    max-width:92%;
+  }
+  .productScreens .wrap{
+    width:100%;
+    max-width:none;
+    padding:0;
+  }
+  .productScreenList{
+    display:flex;
+    gap:12px!important;
+    overflow-x:auto;
+    padding:0 20px 18px;
+    scroll-snap-type:x mandatory;
+    scroll-padding-left:20px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .productScreenList::-webkit-scrollbar{display:none}
+  .productScreen,
+  .productScreen:nth-child(even){
+    flex:0 0 88%;
+    min-width:0;
+    display:flex!important;
+    flex-direction:column;
+    grid-template-columns:none;
+    gap:14px!important;
+    scroll-snap-align:start;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    background:linear-gradient(180deg,rgba(8,18,35,.86),rgba(5,11,22,.94));
+    padding:10px;
+    box-shadow:0 18px 46px rgba(0,0,0,.25);
+  }
+  .productScreen:nth-child(even) .productScreenCopy,
+  .productScreen:nth-child(even) .productScreenFrame{order:initial!important}
+  .productScreenCopy{
+    order:2;
+    padding:12px 10px 8px;
+  }
+  .productScreenCopy h3{
+    font-size:31px!important;
+    margin-bottom:10px;
+  }
+  .productScreenCopy p{
+    font-size:13px!important;
+    line-height:1.52;
+    max-width:100%;
+  }
+  .productScreenFacts{margin-top:15px;gap:6px}
+  .productScreenFact{font-size:10px}
+  .productScreenFrame{
+    order:1;
+    width:100%;
+    margin:0!important;
+    border-radius:16px!important;
+    padding:5px!important;
+    cursor:zoom-in;
+  }
+  .productScreenChrome{height:27px;font-size:8px}
+  .productScreenViewport,
+  .productScreenFrame.terminal .productScreenViewport{
+    height:57vw!important;
+    min-height:230px!important;
+    max-height:330px!important;
+    border-radius:14px;
+  }
+  .productScreenFrame.plan .productScreenViewport img{
+    width:147%;
+    height:147%;
+    object-fit:cover;
+    object-position:61% 54%!important;
+    transform:translate(-11%,-10%);
+  }
+  .productScreenFrame.terminal .productScreenViewport img{
+    width:145%;
+    height:145%;
+    object-fit:cover;
+    object-position:61% 47%!important;
+    transform:translate(-11%,-8%);
+  }
+  .productScreenFrame.spc .productScreenViewport img{
+    width:148%;
+    height:148%;
+    object-fit:cover;
+    object-position:62% 31%!important;
+    transform:translate(-12%,-6%);
+  }
+}
+
+/* TABLET EXPERIENCE — desktop story, compact navigation/layout */
+@media (min-width:821px) and (max-width:1100px){
+  .wrap{width:min(var(--max),calc(100% - 36px))}
+  .stage{width:min(var(--max),calc(100% - 36px))}
+
+  /* Hamburger navigation prevents 834–1024px crowding while
+     preserving the full desktop/cinematic content underneath. */
+  .navlinks{display:none}
+  .mobileMenuBtn{display:flex}
+  .mobileLangWrap{
+    display:block;
+    padding:6px 8px 10px;
+    border-top:1px solid #17243b;
+    margin-top:4px;
+  }
+
+  .hero{
+    min-height:720px;
+    height:100svh;
+    padding-top:76px;
+  }
+  .heroCore{max-width:67%}
+  .hero h1{
+    font-size:clamp(58px,7.4vw,78px);
+    line-height:.91;
+  }
+  .hero .lead{
+    max-width:620px;
+    font-size:17px;
+    line-height:1.5;
+    margin-top:22px;
+  }
+  .heroActions{margin-top:27px}
+  .signalSculpture{
+    width:min(58vw,590px);
+    right:-15vw;
+    top:21vh;
+    height:420px;
+    opacity:.30;
+  }
+  .heroBrandCaption,.heroTag{display:none}
+  .heroPulse{
+    height:135px;
+    bottom:3.5vh;
+    opacity:.68;
+  }
+
+  /* Desktop story remains, but proportions are tuned for portrait tablets. */
+  .chapter{
+    width:40%;
+  }
+  .chapter h2{
+    font-size:clamp(36px,5vw,54px);
+  }
+  .chapter p{
+    font-size:15px;
+    line-height:1.52;
+    margin-top:17px;
+  }
+  .scene{
+    width:57%;
+    height:62vh;
+    min-height:470px;
+  }
+  .browserbar{height:50px;padding:0 14px}
+  .canvas{top:50px}
+  .browserTitle{font-size:10px}
+
+  /* Product presentation becomes a generous single-column composition
+     through tablet widths instead of an in-between desktop layout. */
+  .productScreens{padding:86px 0 94px}
+  .productScreensHead{
+    grid-template-columns:1fr;
+    gap:18px;
+    margin-bottom:38px;
+  }
+  .productScreen,
+  .productScreen:nth-child(even){
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+  .productScreen:nth-child(even) .productScreenCopy,
+  .productScreen:nth-child(even) .productScreenFrame{order:initial}
+  .productScreenCopy{max-width:720px}
+  .productScreenCopy p{max-width:650px}
+  .productScreenList{gap:48px}
+  .productScreenViewport,
+  .productScreenFrame.terminal .productScreenViewport{
+    height:clamp(420px,55vw,600px);
+  }
+}
+
+/* Short landscape tablets / small laptops */
+@media (min-width:821px) and (max-width:1100px) and (max-height:760px){
+  .hero{
+    min-height:650px;
+    height:auto;
+    padding:112px 0 72px;
+  }
+  .hero h1{font-size:clamp(54px,7vw,70px)}
+  .signalSculpture{
+    top:20vh;
+    height:350px;
+    opacity:.25;
+  }
+  .scene{
+    height:68vh;
+    min-height:430px;
+  }
+}
+
